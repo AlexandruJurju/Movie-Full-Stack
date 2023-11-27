@@ -1,5 +1,6 @@
 package com.example.backend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.LinkedHashSet;
@@ -16,10 +17,8 @@ public class Genre {
     @Column(name = "name")
     private String name;
 
-    @ManyToMany
-    @JoinTable(name = "genre_movies",
-            joinColumns = @JoinColumn(name = "genre_id"),
-            inverseJoinColumns = @JoinColumn(name = "movie_id"))
+    @JsonIgnore
+    @ManyToMany(mappedBy = "genres")
     private Set<Movie> movies = new LinkedHashSet<>();
 
     public Set<Movie> getMovies() {
@@ -31,12 +30,6 @@ public class Genre {
     }
 
     public Genre() {
-    }
-
-    public Genre(Long id, String name, Set<Movie> movies) {
-        this.id = id;
-        this.name = name;
-        this.movies = movies;
     }
 
     public String getName() {

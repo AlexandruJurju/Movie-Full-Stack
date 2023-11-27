@@ -42,23 +42,13 @@ public class Movie {
     @Column(name = "votes_average")
     private Double votes_average;
 
-    public Movie(Long id, String title, String tagline, String overview, Integer runtime, Integer revenue, Integer budget, ReleaseStatus releaseStatus, Integer votes, Double votes_average, Set<Genre> genres) {
-        this.id = id;
-        this.title = title;
-        this.tagline = tagline;
-        this.overview = overview;
-        this.runtime = runtime;
-        this.revenue = revenue;
-        this.budget = budget;
-        this.releaseStatus = releaseStatus;
-        this.votes = votes;
-        this.votes_average = votes_average;
-        this.genres = genres;
-    }
-
-    // a recursive problem when displaying the movies, use @JsonIgnore to not show the genres when getting the movies
-    @JsonIgnore
-    @ManyToMany(mappedBy = "movies")
+    // owning side of the many-to-many relationship
+    // the owning side is responsible for updating the table
+    // often add genres to movie, not movies to genres
+    @ManyToMany
+    @JoinTable(name = "movie_genres",
+            joinColumns = @JoinColumn(name = "movie_id"),
+            inverseJoinColumns = @JoinColumn(name = "genre_id"))
     private Set<Genre> genres = new LinkedHashSet<>();
 
     public Set<Genre> getGenres() {
@@ -68,6 +58,7 @@ public class Movie {
     public void setGenres(Set<Genre> genres) {
         this.genres = genres;
     }
+
 
     public String getOverview() {
         return overview;
