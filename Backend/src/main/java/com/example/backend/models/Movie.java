@@ -1,5 +1,6 @@
 package com.example.backend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.LinkedHashSet;
@@ -55,6 +56,8 @@ public class Movie {
         this.genres = genres;
     }
 
+    // a recursive problem when displaying the movies, use @JsonIgnore to not show the genres when getting the movies
+    @JsonIgnore
     @ManyToMany(mappedBy = "movies")
     private Set<Genre> genres = new LinkedHashSet<>();
 

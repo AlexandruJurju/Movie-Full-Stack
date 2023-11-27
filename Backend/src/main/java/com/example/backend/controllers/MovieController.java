@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/movie")
+@RequestMapping("api/movie")
 public class MovieController {
 
     private final MovieService service;
