@@ -2,6 +2,9 @@ package com.example.backend.models;
 
 import jakarta.persistence.*;
 
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "genre")
 public class Genre {
@@ -12,6 +15,20 @@ public class Genre {
 
     @Column(name = "name")
     private String name;
+
+    @ManyToMany
+    @JoinTable(name = "genre_movies",
+            joinColumns = @JoinColumn(name = "genre_id"),
+            inverseJoinColumns = @JoinColumn(name = "movies_id"))
+    private Set<Movie> movies = new LinkedHashSet<>();
+
+    public Set<Movie> getMovies() {
+        return movies;
+    }
+
+    public void setMovies(Set<Movie> movies) {
+        this.movies = movies;
+    }
 
     public Genre() {
     }
