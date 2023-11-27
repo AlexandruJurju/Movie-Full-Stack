@@ -16,6 +16,9 @@ public class Movie {
     @Column(name = "tagline")
     private String tagline;
 
+    @Column(name = "overview")
+    private String overview;
+
     @Column(name = "runtime")
     private Integer runtime;
 
@@ -29,6 +32,35 @@ public class Movie {
     @Column(name = "release_status")
     private ReleaseStatus releaseStatus;
 
+    @Column(name = "votes")
+    private Integer votes;
+
+    @Column(name = "votes_average")
+    private Double votes_average;
+
+    public String getOverview() {
+        return overview;
+    }
+
+    public void setOverview(String overview) {
+        this.overview = overview;
+    }
+
+    public Double getVotes_average() {
+        return votes_average;
+    }
+
+    public void setVotes_average(Double votes_average) {
+        this.votes_average = votes_average;
+    }
+
+    public Integer getVotes() {
+        return votes;
+    }
+
+    public void setVotes(Integer votes) {
+        this.votes = votes;
+    }
 
     public Movie() {
 
