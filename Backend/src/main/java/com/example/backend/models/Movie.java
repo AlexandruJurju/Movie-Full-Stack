@@ -38,6 +38,19 @@ public class Movie {
     @Column(name = "votes_average")
     private Double votes_average;
 
+    public Movie(Long id, String title, String tagline, String overview, Integer runtime, Integer revenue, Integer budget, ReleaseStatus releaseStatus, Integer votes, Double votes_average) {
+        this.id = id;
+        this.title = title;
+        this.tagline = tagline;
+        this.overview = overview;
+        this.runtime = runtime;
+        this.revenue = revenue;
+        this.budget = budget;
+        this.releaseStatus = releaseStatus;
+        this.votes = votes;
+        this.votes_average = votes_average;
+    }
+
     public String getOverview() {
         return overview;
     }

@@ -1,8 +1,7 @@
-package com.example.backend.services.MovieServices;
+package com.example.backend.services.movieService;
 
 import com.example.backend.models.Movie;
 import com.example.backend.models.ReleaseStatus;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;

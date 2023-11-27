@@ -1,7 +1,7 @@
 package com.example.backend.controllers;
 
 import com.example.backend.models.Movie;
-import com.example.backend.services.MovieServices.MovieService;
+import com.example.backend.services.movieService.MovieService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

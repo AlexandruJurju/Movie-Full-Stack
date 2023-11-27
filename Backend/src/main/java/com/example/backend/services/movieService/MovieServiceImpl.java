@@ -1,4 +1,4 @@
-package com.example.backend.services.MovieServices;
+package com.example.backend.services.movieService;
 
 import com.example.backend.models.Movie;
 import com.example.backend.models.ReleaseStatus;
