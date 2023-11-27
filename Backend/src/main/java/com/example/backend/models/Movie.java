@@ -25,6 +25,11 @@ public class Movie {
     @Column(name = "budget")
     private Integer budget;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "release_status")
+    private ReleaseStatus releaseStatus;
+
+
     public Movie() {
 
     }
