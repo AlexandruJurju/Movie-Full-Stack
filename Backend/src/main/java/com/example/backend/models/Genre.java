@@ -19,7 +19,7 @@ public class Genre {
     @ManyToMany
     @JoinTable(name = "genre_movies",
             joinColumns = @JoinColumn(name = "genre_id"),
-            inverseJoinColumns = @JoinColumn(name = "movies_id"))
+            inverseJoinColumns = @JoinColumn(name = "movie_id"))
     private Set<Movie> movies = new LinkedHashSet<>();
 
     public Set<Movie> getMovies() {
