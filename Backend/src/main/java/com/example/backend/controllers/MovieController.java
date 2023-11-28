@@ -18,6 +18,17 @@ public class MovieController {
         this.service = service;
     }
 
+    @GetMapping("/test")
+    public void initMovies() {
+        Movie movie = new Movie();
+        movie.setBudget(1000);
+        movie.setOverview("THE BEST");
+        movie.setRuntime(1230);
+        movie.setTitle("AVATAR");
+        movie.setReleaseStatus(ReleaseStatus.RELEASED);
+        service.saveMovie(movie);
+    }
+
     @GetMapping("")
     public List<Movie> findAllMovies() {
         return service.findAllMovies();

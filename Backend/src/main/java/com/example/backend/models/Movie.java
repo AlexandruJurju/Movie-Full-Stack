@@ -1,6 +1,7 @@
 package com.example.backend.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 
 import java.util.LinkedHashSet;
@@ -34,6 +35,7 @@ public class Movie {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "release_status")
+    @Schema(implementation = ReleaseStatus.class)
     private ReleaseStatus releaseStatus;
 
     @Column(name = "votes")
@@ -84,9 +86,6 @@ public class Movie {
         this.votes = votes;
     }
 
-    public Movie() {
-
-    }
 
     public String getTagline() {
         return tagline;
@@ -136,4 +135,29 @@ public class Movie {
         this.id = id;
     }
 
+    public Movie() {
+
+    }
+
+    public ReleaseStatus getReleaseStatus() {
+        return releaseStatus;
+    }
+
+    public void setReleaseStatus(ReleaseStatus releaseStatus) {
+        this.releaseStatus = releaseStatus;
+    }
+
+    public Movie(Long id, String title, String tagline, String overview, Integer runtime, Integer revenue, Integer budget, ReleaseStatus releaseStatus, Integer votes, Double votes_average, Set<Genre> genres) {
+        this.id = id;
+        this.title = title;
+        this.tagline = tagline;
+        this.overview = overview;
+        this.runtime = runtime;
+        this.revenue = revenue;
+        this.budget = budget;
+        this.releaseStatus = releaseStatus;
+        this.votes = votes;
+        this.votes_average = votes_average;
+        this.genres = genres;
+    }
 }

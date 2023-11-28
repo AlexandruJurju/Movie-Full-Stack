@@ -29,8 +29,6 @@ public class Genre {
         this.movies = movies;
     }
 
-    public Genre() {
-    }
 
     public String getName() {
         return name;
@@ -46,5 +44,14 @@ public class Genre {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Genre() {
+    }
+
+    public Genre(Long id, String name, Set<Movie> movies) {
+        this.id = id;
+        this.name = name;
+        this.movies = movies;
     }
 }
