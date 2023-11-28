@@ -1,7 +1,5 @@
 package com.example.backend.models;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-
 // TODO: fix enum for release status
 public enum ReleaseStatus {
     RELEASED("released"),

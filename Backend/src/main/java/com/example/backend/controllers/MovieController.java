@@ -1,12 +1,15 @@
 package com.example.backend.controllers;
 
+import com.example.backend.models.Genre;
 import com.example.backend.models.Movie;
 import com.example.backend.models.ReleaseStatus;
 import com.example.backend.services.movieService.MovieService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @RequestMapping("api/movie")
@@ -16,17 +19,6 @@ public class MovieController {
 
     public MovieController(MovieService service) {
         this.service = service;
-    }
-
-    @GetMapping("/test")
-    public void initMovies() {
-        Movie movie = new Movie();
-        movie.setBudget(1000);
-        movie.setOverview("THE BEST");
-        movie.setRuntime(1230);
-        movie.setTitle("AVATAR");
-        movie.setReleaseStatus(ReleaseStatus.RELEASED);
-        service.saveMovie(movie);
     }
 
     @GetMapping("")
