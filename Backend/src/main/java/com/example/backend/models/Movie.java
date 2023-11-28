@@ -3,12 +3,17 @@ package com.example.backend.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "movie")
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,111 +58,4 @@ public class Movie {
             inverseJoinColumns = @JoinColumn(name = "genre_id"))
     private Set<Genre> genres = new LinkedHashSet<>();
 
-    public Set<Genre> getGenres() {
-        return genres;
-    }
-
-    public void setGenres(Set<Genre> genres) {
-        this.genres = genres;
-    }
-
-
-    public String getOverview() {
-        return overview;
-    }
-
-    public void setOverview(String overview) {
-        this.overview = overview;
-    }
-
-    public Double getVotes_average() {
-        return votes_average;
-    }
-
-    public void setVotes_average(Double votes_average) {
-        this.votes_average = votes_average;
-    }
-
-    public Integer getVotes() {
-        return votes;
-    }
-
-    public void setVotes(Integer votes) {
-        this.votes = votes;
-    }
-
-
-    public String getTagline() {
-        return tagline;
-    }
-
-    public void setTagline(String tagline) {
-        this.tagline = tagline;
-    }
-
-    public Integer getBudget() {
-        return budget;
-    }
-
-    public void setBudget(Integer budget) {
-        this.budget = budget;
-    }
-
-    public Integer getRevenue() {
-        return revenue;
-    }
-
-    public void setRevenue(Integer revenue) {
-        this.revenue = revenue;
-    }
-
-    public Integer getRuntime() {
-        return runtime;
-    }
-
-    public void setRuntime(Integer runtime) {
-        this.runtime = runtime;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Movie() {
-
-    }
-
-    public ReleaseStatus getReleaseStatus() {
-        return releaseStatus;
-    }
-
-    public void setReleaseStatus(ReleaseStatus releaseStatus) {
-        this.releaseStatus = releaseStatus;
-    }
-
-    public Movie(Long id, String title, String tagline, String overview, Integer runtime, Integer revenue, Integer budget, ReleaseStatus releaseStatus, Integer votes, Double votes_average, Set<Genre> genres) {
-        this.id = id;
-        this.title = title;
-        this.tagline = tagline;
-        this.overview = overview;
-        this.runtime = runtime;
-        this.revenue = revenue;
-        this.budget = budget;
-        this.releaseStatus = releaseStatus;
-        this.votes = votes;
-        this.votes_average = votes_average;
-        this.genres = genres;
-    }
 }
