@@ -1,15 +1,12 @@
 package com.example.backend.controllers;
 
-import com.example.backend.models.Genre;
 import com.example.backend.models.Movie;
 import com.example.backend.models.ReleaseStatus;
 import com.example.backend.services.movieService.MovieService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @RestController
 @RequestMapping("api/movie")

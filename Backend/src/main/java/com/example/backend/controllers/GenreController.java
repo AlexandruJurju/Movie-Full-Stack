@@ -2,6 +2,7 @@ package com.example.backend.controllers;
 
 import com.example.backend.models.Genre;
 import com.example.backend.services.genreService.GenreService;
+import com.example.backend.services.genreService.GenreServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,8 +33,13 @@ public class GenreController {
         return service.saveGenre(genre);
     }
 
+    @PutMapping("")
+    public Genre updateGenre(Genre genre) {
+        return service.saveGenre(genre);
+    }
+
     @DeleteMapping("/{id}")
-    public void deleteGenreById(Long id) {
+    public void deleteGenreById(@PathVariable("id") Long id) {
         service.deleteGenre(id);
     }
 
