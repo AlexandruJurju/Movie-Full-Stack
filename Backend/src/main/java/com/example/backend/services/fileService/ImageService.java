@@ -8,6 +8,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 
@@ -25,6 +28,17 @@ public class ImageService {
         image.setType(file.getContentType());
         imageRepository.save(image);
     }
+
+    public byte[] downloadImage(Long id) throws IOException {
+        Optional<Image> image = imageRepository.findById(id);
+        String fullPath = image.get().getImagePath();
+        return Files.readAllBytes(new File(fullPath).toPath());
+    }
+
+    public List<Image> findAllImages() {
+        return imageRepository.findAll();
+    }
+
 }
 
 
