@@ -43,7 +43,7 @@ public class MovieController {
         service.deleteMovieById(id);
     }
 
-    @GetMapping("/{release_status}")
+    @GetMapping("status/{release_status}")
     public List<Movie> findMoviesByReleaseStatus(@PathVariable("release_status") ReleaseStatus status) {
         return service.findMovieByReleaseStatus(status);
     }

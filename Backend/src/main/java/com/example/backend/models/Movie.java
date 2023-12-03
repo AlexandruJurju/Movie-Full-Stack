@@ -42,7 +42,6 @@ public class Movie {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "release_status")
-    @Schema(implementation = ReleaseStatus.class)
     private ReleaseStatus releaseStatus;
 
     @Column(name = "votes")
