@@ -1,7 +1,7 @@
 package com.example.backend.services.movieService;
 
-import com.example.backend.models.Movie;
-import com.example.backend.models.ReleaseStatus;
+import com.example.backend.entities.Movie;
+import com.example.backend.entities.ReleaseStatus;
 
 import java.util.List;
 import java.util.Optional;

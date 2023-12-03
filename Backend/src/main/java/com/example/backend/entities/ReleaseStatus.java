@@ -1,4 +1,4 @@
-package com.example.backend.models;
+package com.example.backend.entities;
 
 // TODO: fix enum for release status
 

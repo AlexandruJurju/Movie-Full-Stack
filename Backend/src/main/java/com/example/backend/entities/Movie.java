@@ -1,4 +1,4 @@
-package com.example.backend.models;
+package com.example.backend.entities;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
