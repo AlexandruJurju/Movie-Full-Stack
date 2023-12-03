@@ -59,4 +59,14 @@ public class Movie {
             inverseJoinColumns = @JoinColumn(name = "genre_id"))
     private Set<Genre> genres = new LinkedHashSet<>();
 
+    public void addGenre(Genre genre) {
+        genres.add(genre);
+        genre.getMovies().add(this);
+    }
+
+    public void removeGenre(Genre genre) {
+        genres.remove(genre);
+        genre.getMovies().remove(this);
+    }
+
 }
