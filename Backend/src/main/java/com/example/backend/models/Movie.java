@@ -28,7 +28,7 @@ public class Movie {
     @Column(name = "tagline")
     private String tagline;
 
-    @Column(name = "overview")
+    @Column(name = "overview", columnDefinition = "TEXT") // Use appropriate database-specific type or length
     private String overview;
 
     @Column(name = "runtime")
