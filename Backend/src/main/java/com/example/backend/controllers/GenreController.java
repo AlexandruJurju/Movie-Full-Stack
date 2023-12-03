@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("api/genre")
+@RequestMapping("api/v1/genre")
 public class GenreController {
 
     private final GenreService service;
@@ -18,7 +18,7 @@ public class GenreController {
         this.service = service;
     }
 
-    @GetMapping("")
+    @GetMapping
     public List<Genre> getAllGenres() {
         return service.findAllGenres();
     }
@@ -28,13 +28,13 @@ public class GenreController {
         return service.findGenreById(id);
     }
 
-    @PostMapping("")
-    public Genre saveGenre(Genre genre) {
+    @PostMapping
+    public Genre saveGenre(@RequestBody Genre genre) {
         return service.saveGenre(genre);
     }
 
-    @PutMapping("")
-    public Genre updateGenre(Genre genre) {
+    @PutMapping
+    public Genre updateGenre(@RequestBody Genre genre) {
         return service.saveGenre(genre);
     }
 
