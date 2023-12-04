@@ -1,6 +1,6 @@
 package com.example.backend.services.genreService;
 
-import com.example.backend.models.Genre;
+import com.example.backend.model.Genre;
 import com.example.backend.repositories.GenreRepository;
 import org.springframework.stereotype.Service;
 

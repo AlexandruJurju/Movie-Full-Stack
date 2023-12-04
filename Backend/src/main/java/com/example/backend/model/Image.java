@@ -1,31 +1,23 @@
-package com.example.backend.models;
+package com.example.backend.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
-
 @Entity
-@Table(name = "genre")
+@Table(name = "image")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Genre {
+public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
-
-    @Column(name = "name")
     private String name;
-
-    @JsonIgnore
-    @ManyToMany(mappedBy = "genres")
-    private Set<Movie> movies = new LinkedHashSet<>();
+    private String type;
+    private String imagePath;
 }

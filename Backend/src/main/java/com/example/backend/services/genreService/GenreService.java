@@ -1,6 +1,6 @@
 package com.example.backend.services.genreService;
 
-import com.example.backend.models.Genre;
+import com.example.backend.model.Genre;
 
 import java.util.List;
 import java.util.Optional;

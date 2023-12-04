@@ -1,8 +1,8 @@
 package com.example.backend.controllers;
 
-import com.example.backend.models.Genre;
-import com.example.backend.models.Movie;
-import com.example.backend.models.ReleaseStatus;
+import com.example.backend.model.Genre;
+import com.example.backend.model.Movie;
+import com.example.backend.model.ReleaseStatus;
 import com.example.backend.services.genreService.GenreService;
 import com.example.backend.services.movieService.MovieService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,7 +12,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 
 @RestController
 @RequestMapping("api/v1/movie")

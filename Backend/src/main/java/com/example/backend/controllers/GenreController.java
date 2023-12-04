@@ -1,16 +1,15 @@
 package com.example.backend.controllers;
 
-import com.example.backend.models.Genre;
+import com.example.backend.model.Genre;
 import com.example.backend.services.genreService.GenreService;
-import com.example.backend.services.genreService.GenreServiceImpl;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 
 @RestController
 @RequestMapping("api/v1/genre")
