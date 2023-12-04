@@ -2,6 +2,9 @@ package com.example.backend.controllers;
 
 import com.example.backend.model.Image;
 import com.example.backend.services.fileService.ImageService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,9 +24,12 @@ public class ImageController {
     private final ImageService imageService;
 
 
-    @PostMapping("/upload")
+    @PostMapping(value = "/upload", consumes = {"multipart/form-data"})
     @ResponseStatus(HttpStatus.CREATED)
-    public void uploadImage(@RequestParam("file") MultipartFile file) {
+    @Operation(summary = "Upload an image")
+    public void uploadImage(
+            @Parameter(description = "Image to upload") @RequestParam("file") MultipartFile file
+    ) {
         try {
             imageService.uploadImage(file);
         } catch (IOException e) {

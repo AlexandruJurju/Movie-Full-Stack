@@ -58,11 +58,24 @@ public class Movie {
     @Column(name = "votes")
     private Integer votes;
 
+    @Column(name = "youtube_link")
+    private String youtube_link;
+
+    @Column(name = "imdb_link")
+    private String imdb_link;
+
+    @Column(name = "facebook_link")
+    private String facebook_link;
+
+    @Column(name = "twitter_link")
+    private String twitter_link;
+
     @Column(name = "votes_average")
     @Schema(description = "Average score received by the movies, stored as float", example = "7.8")
     private Double votes_average;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "image_id", referencedColumnName = "id")
     private Image image;
 
     // owning side of the many-to-many relationship
