@@ -1,6 +1,6 @@
 package com.example.backend.controllers;
 
-import com.example.backend.entities.Image;
+import com.example.backend.model.Image;
 import com.example.backend.services.fileService.ImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

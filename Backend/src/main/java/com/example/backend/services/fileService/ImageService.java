@@ -1,6 +1,6 @@
 package com.example.backend.services.fileService;
 
-import com.example.backend.entities.Image;
+import com.example.backend.model.Image;
 import com.example.backend.repositories.ImageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -1,8 +1,8 @@
 package com.example.backend.controllers;
 
-import com.example.backend.entities.Genre;
-import com.example.backend.entities.Movie;
-import com.example.backend.entities.ReleaseStatus;
+import com.example.backend.model.Genre;
+import com.example.backend.model.Movie;
+import com.example.backend.model.ReleaseStatus;
 import com.example.backend.services.genreService.GenreService;
 import com.example.backend.services.movieService.MovieService;
 import io.swagger.v3.oas.annotations.Operation;

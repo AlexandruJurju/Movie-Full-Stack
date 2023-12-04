@@ -1,7 +1,7 @@
 package com.example.backend.services.movieService;
 
-import com.example.backend.entities.Movie;
-import com.example.backend.entities.ReleaseStatus;
+import com.example.backend.model.Movie;
+import com.example.backend.model.ReleaseStatus;
 import com.example.backend.repositories.MovieRepository;
 import org.springframework.stereotype.Service;
 

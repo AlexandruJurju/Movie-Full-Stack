@@ -1,6 +1,6 @@
 package com.example.backend.controllers;
 
-import com.example.backend.entities.Genre;
+import com.example.backend.model.Genre;
 import com.example.backend.services.genreService.GenreService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

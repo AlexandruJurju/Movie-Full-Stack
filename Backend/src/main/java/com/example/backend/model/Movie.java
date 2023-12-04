@@ -1,4 +1,4 @@
-package com.example.backend.entities;
+package com.example.backend.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
@@ -61,6 +61,9 @@ public class Movie {
     @Column(name = "votes_average")
     @Schema(description = "Average score received by the movies, stored as float", example = "7.8")
     private Double votes_average;
+
+    @OneToOne
+    private Image image;
 
     // owning side of the many-to-many relationship
     // the owning side is responsible for updating the table
