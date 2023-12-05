@@ -51,7 +51,7 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public String uploadPoster(Long movieID, MultipartFile file) {
-        Movie movie = movieRepository.findById(movieID).get();
+        Movie movie = findMovieById(movieID).orElseThrow(() -> new IllegalArgumentException("Cannot find video by id - " + movieID));
         String posterURL = localFileService.upload(file);
         movie.setPosterURL(posterURL);
         movieRepository.save(movie);

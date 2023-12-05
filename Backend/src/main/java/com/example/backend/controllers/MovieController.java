@@ -87,7 +87,7 @@ public class MovieController {
         return new ResponseEntity<>(aux, HttpStatus.CREATED);
     }
 
-    @PostMapping(value = "/poster", consumes = {"multipart/form-data"})
+    @PutMapping(value = "/poster", consumes = {"multipart/form-data"})
     public String uploadPoster(@RequestParam("file") MultipartFile file, @RequestParam("movieID") Long movieID) {
         return movieService.uploadPoster(movieID, file);
     }
@@ -185,4 +185,6 @@ public class MovieController {
         movie.removeGenre(genre);
         return new ResponseEntity<>(movieService.saveMovie(movie), HttpStatus.OK);
     }
+
+    // TODO: add vote
 }
