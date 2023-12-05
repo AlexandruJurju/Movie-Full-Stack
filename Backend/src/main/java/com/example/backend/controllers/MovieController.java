@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -84,6 +85,11 @@ public class MovieController {
     public ResponseEntity<Movie> saveMovie(@RequestBody Movie movie) {
         Movie aux = movieService.saveMovie(movie);
         return new ResponseEntity<>(aux, HttpStatus.CREATED);
+    }
+
+    @PostMapping(value = "/poster", consumes = {"multipart/form-data"})
+    public String uploadPoster(@RequestParam("file") MultipartFile file, @RequestParam("movieID") Long movieID) {
+        return movieService.uploadPoster(movieID, file);
     }
 
     @PutMapping

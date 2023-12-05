@@ -3,19 +3,21 @@ package com.example.backend.services.movieService;
 import com.example.backend.model.Movie;
 import com.example.backend.model.ReleaseStatus;
 import com.example.backend.repositories.MovieRepository;
+import com.example.backend.services.fileService.LocalFileService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
+
+@RequiredArgsConstructor
 
 @Service
 public class MovieServiceImpl implements MovieService {
 
     private final MovieRepository movieRepository;
-
-    public MovieServiceImpl(MovieRepository movieRepository) {
-        this.movieRepository = movieRepository;
-    }
+    private final LocalFileService localFileService;
 
     @Override
     public List<Movie> findAllMovies() {
@@ -45,5 +47,14 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public List<Movie> findMovieByReleaseStatus(ReleaseStatus status) {
         return movieRepository.findMovieByReleaseStatus(status);
+    }
+
+    @Override
+    public String uploadPoster(Long movieID, MultipartFile file) {
+        Movie movie = movieRepository.findById(movieID).get();
+        String posterURL = localFileService.upload(file);
+        movie.setPosterURL(posterURL);
+        movieRepository.save(movie);
+        return posterURL;
     }
 }

@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.awt.*;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -31,24 +32,27 @@ public class Movie {
 
     @NotEmpty(message = "Movie title cannot be empty")
     @Column(name = "title")
+    @Schema(example = "Alien")
     private String title;
 
     @Column(name = "tagline")
+    @Schema(example = "In space no one can hear you scream.")
     private String tagline;
 
     @Column(name = "overview", columnDefinition = "TEXT") // Use appropriate database-specific type or length
+    @Schema(example = "During its return to the earth, commercial spaceship Nostromo intercepts a distress signal from a distant planet. When a three-member team of the crew discovers a chamber containing thousands of eggs on the planet, a creature inside one of the eggs attacks an explorer. The entire crew is unaware of the impending nightmare set to descend upon them when the alien parasite planted inside its unfortunate host is birthed.")
     private String overview;
 
     @Column(name = "runtime")
-    @Schema(description = "Runtime of the movie in minutes")
+    @Schema(description = "Runtime of the movie in minutes", example = "117")
     private Integer runtime;
 
     @Column(name = "revenue")
-    @Schema(description = "Revenue of the movie in millions of dollars")
+    @Schema(description = "Revenue of the movie in millions of dollars", example = "104")
     private Integer revenue;
 
     @Column(name = "budget")
-    @Schema(description = "Budget of the movie in millions of dollars")
+    @Schema(description = "Budget of the movie in millions of dollars", example = "11")
     private Integer budget;
 
     @Enumerated(EnumType.STRING)
@@ -58,25 +62,12 @@ public class Movie {
     @Column(name = "votes")
     private Integer votes;
 
-    @Column(name = "youtube_link")
-    private String youtube_link;
-
-    @Column(name = "imdb_link")
-    private String imdb_link;
-
-    @Column(name = "facebook_link")
-    private String facebook_link;
-
-    @Column(name = "twitter_link")
-    private String twitter_link;
-
     @Column(name = "votes_average")
     @Schema(description = "Average score received by the movies, stored as float", example = "7.8")
     private Double votes_average;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "image_id", referencedColumnName = "id")
-    private Image image;
+    @Column(name = "poster_url")
+    private String posterURL;
 
     // owning side of the many-to-many relationship
     // the owning side is responsible for updating the table
