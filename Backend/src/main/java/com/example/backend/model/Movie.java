@@ -59,13 +59,6 @@ public class Movie {
     @Column(name = "release_status")
     private ReleaseStatus releaseStatus;
 
-    @Column(name = "votes")
-    private Integer votes;
-
-    @Column(name = "votes_average")
-    @Schema(description = "Average score received by the movies, stored as float", example = "7.8")
-    private Double votes_average;
-
     @Column(name = "poster_url")
     private String posterURL;
 

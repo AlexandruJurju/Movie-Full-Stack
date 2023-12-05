@@ -26,9 +26,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("api/v1/movie")
 
-@Tag(
-        name = "Movie Controller",
-        description = "CRUD REST APIs for managing movies")
+@Tag(name = "Movie Controller", description = "CRUD REST APIs for managing movies")
 public class MovieController {
 
     private final MovieService movieService;
@@ -36,10 +34,7 @@ public class MovieController {
 
 
     @GetMapping
-    @Operation(
-            summary = "Get all movies",
-            description = "Retrieve a list of all movies"
-    )
+    @Operation(summary = "Get all movies", description = "Retrieve a list of all movies")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Movie List", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Movie.class))}),
             @ApiResponse(responseCode = "404", description = "HTTP Status Internal Server Error", content = @Content)
@@ -53,9 +48,7 @@ public class MovieController {
     }
 
     @GetMapping("/{id}")
-    @Operation(
-            summary = "Get a single movie using id",
-            description = "Retrieve a single movie using an ID passed as a variable"
+    @Operation(summary = "Get a single movie using id", description = "Retrieve a single movie using an ID passed as a variable"
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "HTTP Status OK", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Movie.class))}),
@@ -74,10 +67,7 @@ public class MovieController {
     }
 
     @PostMapping
-    @Operation(
-            summary = "Save a movie",
-            description = "REST API to save a movie based using RequestBody"
-    )
+    @Operation(summary = "Save a movie", description = "REST API to save a movie based using RequestBody")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "HTTP Status OK"),
             @ApiResponse(responseCode = "404", description = "HTTP Status Internal Server Error")
@@ -93,10 +83,7 @@ public class MovieController {
     }
 
     @PutMapping
-    @Operation(
-            summary = "Update a Movie",
-            description = "REST API to update a Movie based using RequestBody"
-    )
+    @Operation(summary = "Update a Movie", description = "REST API to update a Movie based using RequestBody")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "HTTP Status OK"),
             @ApiResponse(responseCode = "404", description = "HTTP Status Internal Server Error")
@@ -107,10 +94,7 @@ public class MovieController {
     }
 
     @DeleteMapping("/{id}")
-    @Operation(
-            summary = "Delete a Movie",
-            description = "REST API to delete a Movie using an id passed as a variable"
-    )
+    @Operation(summary = "Delete a Movie", description = "REST API to delete a Movie using an id passed as a variable")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "HTTP Status OK"),
             @ApiResponse(responseCode = "404", description = "HTTP Status Internal Server Error")
@@ -120,9 +104,7 @@ public class MovieController {
     }
 
     @GetMapping("status/{release_status}")
-    @Operation(
-            summary = "Find movies by release status"
-    )
+    @Operation(summary = "Find movies by release status")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "HTTP Status OK"),
             @ApiResponse(responseCode = "404", description = "HTTP Status Internal Server Error")
@@ -136,9 +118,7 @@ public class MovieController {
     }
 
     @PutMapping("/{movieID}/addGenre/{genreID}")
-    @Operation(
-            summary = "Add a genre to a movie"
-    )
+    @Operation(summary = "Add a genre to a movie")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "HTTP Status OK"),
             @ApiResponse(responseCode = "404", description = "HTTP Status Internal Server Error")
@@ -161,9 +141,7 @@ public class MovieController {
     }
 
     @PutMapping("/{movieID}/removeGenre/{genreID}")
-    @Operation(
-            summary = "Remove a genre from a movie"
-    )
+    @Operation(summary = "Remove a genre from a movie")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "HTTP Status OK"),
             @ApiResponse(responseCode = "404", description = "HTTP Status Internal Server Error")
@@ -186,5 +164,4 @@ public class MovieController {
         return new ResponseEntity<>(movieService.saveMovie(movie), HttpStatus.OK);
     }
 
-    // TODO: add vote
 }
