@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -25,8 +26,9 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public Optional<Movie> findMovieById(Long id) {
-        return movieRepository.findById(id);
+    public Movie findMovieById(Long id) {
+        return movieRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Cannot find movie with id - " + id));
     }
 
     @Override
@@ -51,7 +53,7 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public String uploadPoster(Long movieID, MultipartFile file) {
-        Movie movie = findMovieById(movieID).orElseThrow(() -> new IllegalArgumentException("Cannot find video by id - " + movieID));
+        Movie movie = findMovieById(movieID);
         String posterURL = localFileService.upload(file);
         movie.setPosterURL(posterURL);
         movieRepository.save(movie);

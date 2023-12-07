@@ -5,6 +5,7 @@ import com.example.backend.repositories.GenreRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -22,8 +23,9 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
-    public Optional<Genre> findGenreById(Long id) {
-        return genreRepository.findById(id);
+    public Genre findGenreById(Long id) {
+        return genreRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Cannot find genre with id " + id));
     }
 
     @Override

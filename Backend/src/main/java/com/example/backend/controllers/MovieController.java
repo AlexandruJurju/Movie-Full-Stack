@@ -37,7 +37,7 @@ public class MovieController {
     @Operation(summary = "Get all movies", description = "Retrieve a list of all movies")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Movie List", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Movie.class))}),
-            @ApiResponse(responseCode = "404", description = "HTTP Status Internal Server Error", content = @Content)
+            @ApiResponse(responseCode = "404", description = "HTTP Not Found", content = @Content)
     })
     public ResponseEntity<List<Movie>> findAllMovies() {
         List<Movie> movies = movieService.findAllMovies();
@@ -53,24 +53,19 @@ public class MovieController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "HTTP Status OK", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Movie.class))}),
             @ApiResponse(responseCode = "400", description = "Invalid id supplied", content = @Content),
-            @ApiResponse(responseCode = "404", description = "HTTP Status Internal Server Error", content = @Content)
+            @ApiResponse(responseCode = "404", description = "HTTP Not Found", content = @Content)
     })
     public ResponseEntity<Movie> findMovieById(
             @Parameter(description = "id of movie to be searched") @PathVariable(value = "id") Long id
     ) {
-        Optional<Movie> movie = movieService.findMovieById(id);
-        if (movie.isPresent()) {
-            return new ResponseEntity<>(movie.get(), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(movieService.findMovieById(id), HttpStatus.OK);
     }
 
     @PostMapping
     @Operation(summary = "Save a movie", description = "REST API to save a movie based using RequestBody")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "HTTP Status OK"),
-            @ApiResponse(responseCode = "404", description = "HTTP Status Internal Server Error")
+            @ApiResponse(responseCode = "404", description = "HTTP Not Found")
     })
     public ResponseEntity<Movie> saveMovie(@RequestBody Movie movie) {
         Movie aux = movieService.saveMovie(movie);
@@ -86,7 +81,7 @@ public class MovieController {
     @Operation(summary = "Update a Movie", description = "REST API to update a Movie based using RequestBody")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "HTTP Status OK"),
-            @ApiResponse(responseCode = "404", description = "HTTP Status Internal Server Error")
+            @ApiResponse(responseCode = "404", description = "HTTP Not Found")
     })
     public ResponseEntity<Movie> updateMovie(@RequestBody Movie movie) {
         Movie aux = movieService.saveMovie(movie);
@@ -97,7 +92,7 @@ public class MovieController {
     @Operation(summary = "Delete a Movie", description = "REST API to delete a Movie using an id passed as a variable")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "HTTP Status OK"),
-            @ApiResponse(responseCode = "404", description = "HTTP Status Internal Server Error")
+            @ApiResponse(responseCode = "404", description = "HTTP Not Found")
     })
     public void deleteMovie(@PathVariable("id") Long id) {
         movieService.deleteMovieById(id);
@@ -106,14 +101,10 @@ public class MovieController {
     @GetMapping("status/{release_status}")
     @Operation(summary = "Find movies by release status")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "HTTP Status OK"),
-            @ApiResponse(responseCode = "404", description = "HTTP Status Internal Server Error")
+            @ApiResponse(responseCode = "200", description = "HTTP Status OK")
     })
     public ResponseEntity<List<Movie>> findMoviesByReleaseStatus(@PathVariable("release_status") ReleaseStatus status) {
         List<Movie> movies = movieService.findMovieByReleaseStatus(status);
-        if (movies.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
         return new ResponseEntity<>(movies, HttpStatus.OK);
     }
 
@@ -121,22 +112,14 @@ public class MovieController {
     @Operation(summary = "Add a genre to a movie")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "HTTP Status OK"),
-            @ApiResponse(responseCode = "404", description = "HTTP Status Internal Server Error")
+            @ApiResponse(responseCode = "404", description = "HTTP Not Found")
     })
     public ResponseEntity<Movie> addGenreToMovie(
             @Parameter(description = "id of movie that the genre will be added to") @PathVariable("movieID") Long movieID,
             @Parameter(description = "id of the genre that will be added to the movie") @PathVariable("genreID") Long genreID) {
-        Genre genre = genreService.findGenreById(genreID).orElse(null);
-        if (genre == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        Movie movie = movieService.findMovieById(movieID).orElse(null);
-        if (movie == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        Genre genre = genreService.findGenreById(genreID);
+        Movie movie = movieService.findMovieById(movieID);
         movie.addGenre(genre);
-
         return new ResponseEntity<>(movieService.saveMovie(movie), HttpStatus.OK);
     }
 
@@ -144,22 +127,22 @@ public class MovieController {
     @Operation(summary = "Remove a genre from a movie")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "HTTP Status OK"),
-            @ApiResponse(responseCode = "404", description = "HTTP Status Internal Server Error")
+            @ApiResponse(responseCode = "404", description = "HTTP Not Found")
     })
     public ResponseEntity<Movie> removeGenreFromMovie(
             @Parameter(description = "id of movie that the genre will be removed from") @PathVariable("movieID") Long movieID,
             @Parameter(description = "id of genre that will be removed from the movie") @PathVariable("genreID") Long genreID) {
-        Genre genre = genreService.findGenreById(genreID).orElse(null);
+        Genre genre = genreService.findGenreById(genreID);
         if (genre == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        Movie movie = movieService.findMovieById(movieID).orElse(null);
+        Movie movie = movieService.findMovieById(movieID);
         if (movie == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        // TODO: what happens if we try to remove a genre that doesnt exist
+        // TODO: what happens if we try to remove a genre that doesn't exist
         movie.removeGenre(genre);
         return new ResponseEntity<>(movieService.saveMovie(movie), HttpStatus.OK);
     }
