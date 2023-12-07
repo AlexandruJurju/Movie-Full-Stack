@@ -12,21 +12,29 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import java.util.NoSuchElementException;
 
-@ControllerAdvice
-@Order(Ordered.HIGHEST_PRECEDENCE)
+//@ControllerAdvice
+//@Order(Ordered.HIGHEST_PRECEDENCE)
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
-
-    @ExceptionHandler(NoSuchElementException.class)
-    public ResponseEntity<Object> handleNoSuchElementException(HttpServletRequest req, NoSuchElementException ex) {
-        ErrorResponse response = new ErrorResponse(HttpStatus.NOT_FOUND,
-                "The row for address is not existent: " + req.getRequestURI());
-        return new ResponseEntity<>(response, response.getStatus());
-    }
-
-    @ExceptionHandler(HttpServerErrorException.InternalServerError.class)
-    public ResponseEntity<Object> handleInternalServerError(HttpServletRequest req, HttpServerErrorException.InternalServerError ex) {
-        ErrorResponse response = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR,
-                "Internal server error for: " + req.getRequestURI());
-        return new ResponseEntity<>(response, response.getStatus());
-    }
+//
+//    // TODO: remove HttpServletRequest, use jest exception
+//    @ExceptionHandler(MovieInvalidIdException.class)
+//    public ResponseEntity<Object> handleMovieInvalidIdException(HttpServletRequest request, MovieInvalidIdException e) {
+//        ErrorResponse response = new ErrorResponse(HttpStatus.NOT_FOUND,
+//                "The row for address is not existent: " + request.getRequestURI());
+//        return new ResponseEntity<>(response, response.getStatus());
+//    }
+//
+//    @ExceptionHandler(NoSuchElementException.class)
+//    public ResponseEntity<Object> handleNoSuchElementException(HttpServletRequest request, NoSuchElementException e) {
+//        ErrorResponse response = new ErrorResponse(HttpStatus.NOT_FOUND,
+//                "The row for address is not existent: " + request.getRequestURI());
+//        return new ResponseEntity<>(response, response.getStatus());
+//    }
+//
+//    @ExceptionHandler(HttpServerErrorException.InternalServerError.class)
+//    public ResponseEntity<Object> handleInternalServerError(HttpServletRequest request, HttpServerErrorException.InternalServerError e) {
+//        ErrorResponse response = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR,
+//                "Internal server error for: " + request.getRequestURI());
+//        return new ResponseEntity<>(response, response.getStatus());
+//    }
 }

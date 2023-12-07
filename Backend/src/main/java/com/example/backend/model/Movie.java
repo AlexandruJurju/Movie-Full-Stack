@@ -1,14 +1,12 @@
 package com.example.backend.model;
 
+import com.example.backend.enums.ReleaseStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-import java.awt.*;
+import java.time.LocalDate;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -59,6 +57,9 @@ public class Movie {
     @Column(name = "release_status")
     private ReleaseStatus releaseStatus;
 
+    @Column(name = "release_date")
+    private LocalDate releaseDate;
+
     @Column(name = "poster_url")
     private String posterURL;
 
@@ -70,6 +71,7 @@ public class Movie {
             joinColumns = @JoinColumn(name = "movie_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id"))
     private Set<Genre> genres = new LinkedHashSet<>();
+
 
     public void addGenre(Genre genre) {
         genres.add(genre);

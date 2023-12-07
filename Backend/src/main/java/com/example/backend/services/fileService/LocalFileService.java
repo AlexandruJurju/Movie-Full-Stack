@@ -14,7 +14,7 @@ import java.util.UUID;
 public class LocalFileService implements FileService {
 
     // TODO: use absolute paths
-    private static final String FOLDER_PATH = "X:\\Private Repos\\Movie Full-Stack\\Backend\\src\\main\\images";
+    private static final String FOLDER_PATH = "X:\\Private Repos\\Movie Full-Stack\\upload-dir";
 
     @Override
     public String upload(MultipartFile file) {
@@ -24,7 +24,7 @@ public class LocalFileService implements FileService {
         try {
             file.transferTo(new File(fullPath));
         } catch (IOException e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "An Exception occured while uploading the file");
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "An Exception occurred while uploading the file");
         }
         return fullPath;
     }
