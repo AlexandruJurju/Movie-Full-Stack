@@ -18,17 +18,15 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(NoSuchElementException.class)
     public ResponseEntity<Object> handleNoSuchElementException(HttpServletRequest req, NoSuchElementException ex) {
-        ErrorResponse response = new ErrorResponse();
-        response.setStatus(HttpStatus.NOT_FOUND);
-        response.setMessage("The row for address is not existent: " + req.getRequestURI());
+        ErrorResponse response = new ErrorResponse(HttpStatus.NOT_FOUND,
+                "The row for address is not existent: " + req.getRequestURI());
         return new ResponseEntity<>(response, response.getStatus());
     }
 
     @ExceptionHandler(HttpServerErrorException.InternalServerError.class)
     public ResponseEntity<Object> handleInternalServerError(HttpServletRequest req, HttpServerErrorException.InternalServerError ex) {
-        ErrorResponse response = new ErrorResponse();
-        response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
-        response.setMessage("Internal server error for: " + req.getRequestURI());
+        ErrorResponse response = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR,
+                "Internal server error for: " + req.getRequestURI());
         return new ResponseEntity<>(response, response.getStatus());
     }
 }
