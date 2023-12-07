@@ -11,7 +11,7 @@ public interface MovieService {
 
     List<Movie> findAllMovies();
 
-    Optional<Movie> findMovieById(Long id);
+    Movie findMovieById(Long id);
 
     Movie saveMovie(Movie movie);
 

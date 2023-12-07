@@ -39,7 +39,7 @@ public class GenreController {
             @ApiResponse(responseCode = "404", description = "HTTP Not Found", content = @Content)
     })
     public ResponseEntity<Genre> findGenreById(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(service.findGenreById(id).get(), HttpStatus.OK);
+        return new ResponseEntity<>(service.findGenreById(id), HttpStatus.OK);
     }
 
     @PostMapping

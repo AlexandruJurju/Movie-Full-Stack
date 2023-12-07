@@ -58,7 +58,7 @@ public class MovieController {
     public ResponseEntity<Movie> findMovieById(
             @Parameter(description = "id of movie to be searched") @PathVariable(value = "id") Long id
     ) {
-        return new ResponseEntity<>(movieService.findMovieById(id).get(), HttpStatus.OK);
+        return new ResponseEntity<>(movieService.findMovieById(id), HttpStatus.OK);
     }
 
     @PostMapping
@@ -117,8 +117,8 @@ public class MovieController {
     public ResponseEntity<Movie> addGenreToMovie(
             @Parameter(description = "id of movie that the genre will be added to") @PathVariable("movieID") Long movieID,
             @Parameter(description = "id of the genre that will be added to the movie") @PathVariable("genreID") Long genreID) {
-        Genre genre = genreService.findGenreById(genreID).get();
-        Movie movie = movieService.findMovieById(movieID).get();
+        Genre genre = genreService.findGenreById(genreID);
+        Movie movie = movieService.findMovieById(movieID);
         movie.addGenre(genre);
         return new ResponseEntity<>(movieService.saveMovie(movie), HttpStatus.OK);
     }
@@ -132,17 +132,17 @@ public class MovieController {
     public ResponseEntity<Movie> removeGenreFromMovie(
             @Parameter(description = "id of movie that the genre will be removed from") @PathVariable("movieID") Long movieID,
             @Parameter(description = "id of genre that will be removed from the movie") @PathVariable("genreID") Long genreID) {
-        Genre genre = genreService.findGenreById(genreID).orElse(null);
+        Genre genre = genreService.findGenreById(genreID);
         if (genre == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        Movie movie = movieService.findMovieById(movieID).orElse(null);
+        Movie movie = movieService.findMovieById(movieID);
         if (movie == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        // TODO: what happens if we try to remove a genre that doesnt exist
+        // TODO: what happens if we try to remove a genre that doesn't exist
         movie.removeGenre(genre);
         return new ResponseEntity<>(movieService.saveMovie(movie), HttpStatus.OK);
     }
