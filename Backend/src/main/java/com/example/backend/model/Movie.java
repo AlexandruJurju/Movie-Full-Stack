@@ -60,8 +60,7 @@ public class Movie {
     @Column(name = "release_date")
     private LocalDate releaseDate;
 
-    @Column(name = "poster_url")
-    private String posterURL;
+
 
     // owning side of the many-to-many relationship
     // the owning side is responsible for updating the table

@@ -20,7 +20,7 @@ public interface MovieService {
 
     List<Movie> findMovieByReleaseStatus(ReleaseStatus status);
 
-    String uploadPoster(Long movieID, MultipartFile file);
+    List<Movie> findMoviesByYear(int year);
 
-    public List<Movie> findMoviesByYear(int year);
+    String uploadPoster(Long movieID, MultipartFile file);
 }

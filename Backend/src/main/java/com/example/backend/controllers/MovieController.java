@@ -70,11 +70,6 @@ public class MovieController {
         return new ResponseEntity<>(aux, HttpStatus.CREATED);
     }
 
-    @PutMapping(value = "/poster", consumes = {"multipart/form-data"})
-    public String uploadPoster(@RequestParam("file") MultipartFile file, @RequestParam("movieID") Long movieID) {
-        return movieService.uploadPoster(movieID, file);
-    }
-
     @PutMapping
     @Operation(summary = "Update a Movie", description = "REST API to update a Movie based using RequestBody")
 //    @ApiResponses(value = {
@@ -141,6 +136,11 @@ public class MovieController {
         // TODO: what happens if we try to remove a genre that doesn't exist
         movie.removeGenre(genre);
         return new ResponseEntity<>(movieService.saveMovie(movie), HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/poster", consumes = {"multipart/form-data"})
+    public String uploadPoster(@RequestParam("movieID") Long movieID, @RequestParam("file") MultipartFile file) {
+        return movieService.uploadPoster(movieID, file);
     }
 
     @GetMapping("/year/{year}")

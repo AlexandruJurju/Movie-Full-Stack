@@ -18,7 +18,6 @@ import java.util.NoSuchElementException;
 public class MovieServiceImpl implements MovieService {
 
     private final MovieRepository movieRepository;
-    private final LocalFileService localFileService;
 
     @Override
     public List<Movie> findAllMovies() {
@@ -51,16 +50,12 @@ public class MovieServiceImpl implements MovieService {
         return movieRepository.findMovieByReleaseStatus(status);
     }
 
+    public List<Movie> findMoviesByYear(int year) {
+        return movieRepository.findMoviesByYear(year);
+    }
+
     @Override
     public String uploadPoster(Long movieID, MultipartFile file) {
         Movie movie = findMovieById(movieID);
-        String posterURL = localFileService.upload(file);
-        movie.setPosterURL(posterURL);
-        movieRepository.save(movie);
-        return posterURL;
-    }
-
-    public List<Movie> findMoviesByYear(int year) {
-        return movieRepository.findMoviesByYear(year);
     }
 }
