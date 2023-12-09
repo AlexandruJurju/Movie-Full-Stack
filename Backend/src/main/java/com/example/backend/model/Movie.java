@@ -1,10 +1,13 @@
 package com.example.backend.model;
 
-import com.example.backend.enums.ReleaseStatus;
+import com.example.backend.utility.enums.ReleaseStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.LinkedHashSet;
@@ -60,7 +63,8 @@ public class Movie {
     @Column(name = "release_date")
     private LocalDate releaseDate;
 
-
+    @Column(name = "image_url")
+    private String imageURL;
 
     // owning side of the many-to-many relationship
     // the owning side is responsible for updating the table

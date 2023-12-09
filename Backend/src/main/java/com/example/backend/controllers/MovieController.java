@@ -2,22 +2,20 @@ package com.example.backend.controllers;
 
 import com.example.backend.model.Genre;
 import com.example.backend.model.Movie;
-import com.example.backend.enums.ReleaseStatus;
-import com.example.backend.services.genreService.GenreService;
-import com.example.backend.services.movieService.MovieService;
+import com.example.backend.services.GenreService;
+import com.example.backend.services.MovieService;
+import com.example.backend.utility.enums.ReleaseStatus;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -46,7 +44,7 @@ public class MovieController {
         return new ResponseEntity<>(movies, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{movieId}")
     @Operation(summary = "Get a single movie using id", description = "Retrieve a single movie using an ID passed as a variable")
 //    @ApiResponses(value = {
 //            @ApiResponse(responseCode = "200", description = "HTTP Status OK", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Movie.class))}),
@@ -54,9 +52,9 @@ public class MovieController {
 //            @ApiResponse(responseCode = "404", description = "HTTP Not Found", content = @Content)
 //    })
     public ResponseEntity<Movie> findMovieById(
-            @Parameter(description = "id of movie to be searched") @PathVariable(value = "id") Long id
+            @Parameter(description = "id of movie to be searched") @PathVariable(value = "movieId") Long movieId
     ) {
-        return new ResponseEntity<>(movieService.findMovieById(id), HttpStatus.OK);
+        return new ResponseEntity<>(movieService.findMovieById(movieId), HttpStatus.OK);
     }
 
     @PostMapping
@@ -81,14 +79,14 @@ public class MovieController {
         return new ResponseEntity<>(aux, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{movieId}")
     @Operation(summary = "Delete a Movie", description = "REST API to delete a Movie using an id passed as a variable")
 //    @ApiResponses(value = {
 //            @ApiResponse(responseCode = "200", description = "HTTP Status OK"),
 //            @ApiResponse(responseCode = "404", description = "HTTP Not Found")
 //    })
-    public void deleteMovie(@PathVariable("id") Long id) {
-        movieService.deleteMovieById(id);
+    public void deleteMovie(@PathVariable("movieId") Long movieId) {
+        movieService.deleteMovieById(movieId);
     }
 
     @GetMapping("status/{release_status}")
@@ -101,46 +99,68 @@ public class MovieController {
         return new ResponseEntity<>(movies, HttpStatus.OK);
     }
 
-    @PutMapping("/{movieID}/addGenre/{genreID}")
+    @PutMapping("/{movieId}/addGenre/{genreId}")
     @Operation(summary = "Add a genre to a movie")
 //    @ApiResponses(value = {
 //            @ApiResponse(responseCode = "200", description = "HTTP Status OK"),
 //            @ApiResponse(responseCode = "404", description = "HTTP Not Found")
 //    })
     public ResponseEntity<Movie> addGenreToMovie(
-            @Parameter(description = "id of movie that the genre will be added to") @PathVariable("movieID") Long movieID,
-            @Parameter(description = "id of the genre that will be added to the movie") @PathVariable("genreID") Long genreID) {
-        Genre genre = genreService.findGenreById(genreID);
-        Movie movie = movieService.findMovieById(movieID);
+            @Parameter(description = "id of movie that the genre will be added to") @PathVariable("movieId") Long movieId,
+            @Parameter(description = "id of the genre that will be added to the movie") @PathVariable("genreId") Long genreId) {
+        Genre genre = genreService.findGenreById(genreId);
+        Movie movie = movieService.findMovieById(movieId);
         movie.addGenre(genre);
         return new ResponseEntity<>(movieService.saveMovie(movie), HttpStatus.OK);
     }
 
-    @PutMapping("/{movieID}/removeGenre/{genreID}")
+    @PutMapping("/{movieId}/removeGenre/{genreId}")
     @Operation(summary = "Remove a genre from a movie")
 //    @ApiResponses(value = {
 //            @ApiResponse(responseCode = "200", description = "HTTP Status OK"),
 //            @ApiResponse(responseCode = "404", description = "HTTP Not Found")
 //    })
-    public ResponseEntity<Movie> removeGenreFromMovie(@PathVariable("movieID") Long movieID, @PathVariable("genreID") Long genreID) {
-        Genre genre = genreService.findGenreById(genreID);
+    public ResponseEntity<Movie> removeGenreFromMovie(@PathVariable("movieId") Long movieId, @PathVariable("genreId") Long genreId) {
+        Genre genre = genreService.findGenreById(genreId);
         if (genre == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        Movie movie = movieService.findMovieById(movieID);
+        Movie movie = movieService.findMovieById(movieId);
         if (movie == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        // TODO: what happens if we try to remove a genre that doesn't exist
         movie.removeGenre(genre);
         return new ResponseEntity<>(movieService.saveMovie(movie), HttpStatus.OK);
     }
 
-    @PutMapping(value = "/poster", consumes = {"multipart/form-data"})
-    public String uploadPoster(@RequestParam("movieID") Long movieID, @RequestParam("file") MultipartFile file) {
-        return movieService.uploadPoster(movieID, file);
+    @PutMapping(value = "/{movieId}/poster/upload", consumes = {"multipart/form-data"})
+    public String uploadPoster(@PathVariable("movieId") Long movieId, @RequestParam("file") MultipartFile file) {
+        try {
+            return movieService.uploadPoster(movieId, file);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @PutMapping("/{movieId}/poster/delete")
+    public void deletePoster(@PathVariable("movieId") Long movieId) {
+        try {
+            movieService.deletePoster(movieId);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @GetMapping("/{movieId}/poster")
+    public ResponseEntity<byte[]> getMoviePoster(@PathVariable("movieId") Long movieId) {
+        try {
+            byte[] image = movieService.downloadPoster(movieId);
+            return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.valueOf("image/png")).body(image);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @GetMapping("/year/{year}")

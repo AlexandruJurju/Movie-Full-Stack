@@ -1,9 +1,10 @@
-package com.example.backend.services.movieService;
+package com.example.backend.services;
 
 import com.example.backend.model.Movie;
-import com.example.backend.enums.ReleaseStatus;
+import com.example.backend.utility.enums.ReleaseStatus;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface MovieService {
@@ -22,5 +23,9 @@ public interface MovieService {
 
     List<Movie> findMoviesByYear(int year);
 
-    String uploadPoster(Long movieID, MultipartFile file);
+    String uploadPoster(Long movieID, MultipartFile file) throws IOException;
+
+    byte[] downloadPoster(Long movieID) throws IOException;
+
+    void deletePoster(Long movieID) throws IOException;
 }

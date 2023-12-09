@@ -1,4 +1,4 @@
-package com.example.backend.services.fileService;
+package com.example.backend.services;
 
 import org.springframework.web.multipart.MultipartFile;
 

@@ -1,5 +1,6 @@
-package com.example.backend.services.fileService;
+package com.example.backend.services.implementation;
 
+import com.example.backend.services.FileService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -19,7 +20,7 @@ public class LocalFileService implements FileService {
     @Override
     public String upload(MultipartFile file) {
         String filenameExtension = StringUtils.getFilenameExtension(file.getOriginalFilename());
-        String key = UUID.randomUUID().toString() + "." + filenameExtension;
+        String key = UUID.randomUUID() + "." + filenameExtension;
         String fullPath = FOLDER_PATH + "\\" + key;
         try {
             file.transferTo(new File(fullPath));

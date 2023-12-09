@@ -1,4 +1,4 @@
-package com.example.backend.services.genreService;
+package com.example.backend.services;
 
 import com.example.backend.model.Genre;
 

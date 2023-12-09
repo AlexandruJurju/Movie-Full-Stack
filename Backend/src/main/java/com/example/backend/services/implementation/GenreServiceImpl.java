@@ -1,12 +1,12 @@
-package com.example.backend.services.genreService;
+package com.example.backend.services.implementation;
 
 import com.example.backend.model.Genre;
 import com.example.backend.repositories.GenreRepository;
+import com.example.backend.services.GenreService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 public class GenreServiceImpl implements GenreService {
