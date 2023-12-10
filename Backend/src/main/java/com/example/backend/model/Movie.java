@@ -8,8 +8,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -21,10 +22,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 
-@Schema(
-        name = "Movie",
-        description = "Schema to hold Movie information"
-)
+@Schema(name = "Movie", description = "Schema to hold Movie information")
 public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,7 +38,7 @@ public class Movie {
     @Schema(example = "In space no one can hear you scream.")
     private String tagline;
 
-    @Column(name = "overview", columnDefinition = "TEXT") // Use appropriate database-specific type or length
+    @Column(name = "overview", columnDefinition = "TEXT")
     @Schema(example = "During its return to the earth, commercial spaceship Nostromo intercepts a distress signal from a distant planet. When a three-member team of the crew discovers a chamber containing thousands of eggs on the planet, a creature inside one of the eggs attacks an explorer. The entire crew is unaware of the impending nightmare set to descend upon them when the alien parasite planted inside its unfortunate host is birthed.")
     private String overview;
 
@@ -60,11 +58,19 @@ public class Movie {
     @Column(name = "release_status")
     private ReleaseStatus releaseStatus;
 
-    @Column(name = "release_date")
-    private LocalDate releaseDate;
-
     @Column(name = "image_url")
     private String imageURL;
+
+    @Column(name = "ratings")
+    private Integer ratings;
+
+    @Column(name = "ratings_average_score")
+    private Double ratingsAverageScore;
+
+    @Column(name = "release_date")
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-mm-dd") // default html date type input date pattern "yyyy-mm-dd"
+    private Date releaseDate;
 
     // owning side of the many-to-many relationship
     // the owning side is responsible for updating the table
@@ -74,7 +80,6 @@ public class Movie {
             joinColumns = @JoinColumn(name = "movie_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id"))
     private Set<Genre> genres = new LinkedHashSet<>();
-
 
     public void addGenre(Genre genre) {
         genres.add(genre);
