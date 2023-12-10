@@ -1,15 +1,11 @@
 package com.example.backend.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "genre")
@@ -27,11 +23,7 @@ public class Genre {
     @Schema(example = "Action")
     private String name;
 
-    @JsonIgnore
-    @ManyToMany(mappedBy = "genres")
-    private Set<Movie> movies = new LinkedHashSet<>();
-
-    public Genre(String name){
+    public Genre(String name) {
         this.name = name;
     }
 }

@@ -1,11 +1,11 @@
 package com.example.backend.controllers;
 
+import com.example.backend.enums.ReleaseStatus;
 import com.example.backend.model.Genre;
 import com.example.backend.model.Movie;
 import com.example.backend.services.GenreService;
 import com.example.backend.services.MovieService;
 import com.example.backend.services.implementation.LocalImageService;
-import com.example.backend.enums.ReleaseStatus;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -110,7 +110,6 @@ public class MovieController {
     @Operation(summary = "Delete a poster from a movie")
     public ResponseEntity<Movie> deletePoster(@PathVariable("movieId") Long movieId) throws IOException {
         Movie movie = movieService.findMovieById(movieId);
-        // todo: check if image url is null before deleting it
         String moviePosterURL = movie.getPosterURL();
         if (moviePosterURL != null) {
             localImageService.deleteImage(moviePosterURL);

@@ -1,7 +1,7 @@
 package com.example.backend.services.implementation;
 
-import com.example.backend.services.FileService;
 import com.example.backend.enums.ImageType;
+import com.example.backend.services.FileService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;

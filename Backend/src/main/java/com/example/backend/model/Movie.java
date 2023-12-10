@@ -4,7 +4,10 @@ import com.example.backend.enums.ReleaseStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
@@ -66,7 +69,6 @@ public class Movie {
     // owning side of the many-to-many relationship
     // the owning side is responsible for updating the table
     // often add genres to movie, not movies to genres
-    // TODO: consider using UNIDIRECTIONAL ManyToMany
     @ManyToMany
     @JoinTable(name = "movie_genres",
             joinColumns = @JoinColumn(name = "movie_id"),
@@ -75,11 +77,10 @@ public class Movie {
 
     public void addGenre(Genre genre) {
         genres.add(genre);
-        genre.getMovies().add(this);
     }
 
     public void removeGenre(Genre genre) {
         genres.remove(genre);
-        genre.getMovies().remove(this);
     }
+
 }
