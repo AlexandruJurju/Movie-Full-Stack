@@ -71,11 +71,17 @@ public class MovieController {
         movieService.deleteMovieById(movieId);
     }
 
-    @GetMapping("status/{release_status}")
+    @GetMapping("status/{releaseStatus}")
     @Operation(summary = "Find movies by release status")
-    public ResponseEntity<List<Movie>> findMoviesByReleaseStatus(@PathVariable("release_status") ReleaseStatus status) {
+    public ResponseEntity<List<Movie>> findMoviesByReleaseStatus(@PathVariable("releaseStatus") ReleaseStatus status) {
         List<Movie> movies = movieService.findMovieByReleaseStatus(status);
         return new ResponseEntity<>(movies, HttpStatus.OK);
+    }
+
+    @GetMapping("/{movieId}/genre")
+    @Operation(summary = "Find all genres of a movie")
+    public ResponseEntity<List<Genre>> findAllGenresOfAMovie(@PathVariable("movieId") Long movieId) {
+        return new ResponseEntity<>(movieService.findAllGenresOfAMovie(movieId), HttpStatus.OK);
     }
 
     @PutMapping("/{movieId}/addGenre/{genreId}")
@@ -98,10 +104,6 @@ public class MovieController {
         }
 
         Movie movie = movieService.findMovieById(movieId);
-        if (movie == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
         movie.removeGenre(genre);
         return new ResponseEntity<>(movieService.saveMovie(movie), HttpStatus.OK);
     }
@@ -139,7 +141,7 @@ public class MovieController {
         return new ResponseEntity<>(movieService.saveMovie(movie), HttpStatus.OK);
     }
 
-    @GetMapping("/{year}")
+    @GetMapping("year/{year}")
     @Operation(summary = "Get all movies that were released in a year")
     public ResponseEntity<List<Movie>> getMoviesInYear(@PathVariable("year") int year) {
         return new ResponseEntity<>(movieService.findMoviesByYear(year), HttpStatus.OK);

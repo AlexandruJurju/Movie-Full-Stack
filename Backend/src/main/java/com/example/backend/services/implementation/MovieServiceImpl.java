@@ -2,6 +2,7 @@ package com.example.backend.services.implementation;
 
 import com.example.backend.enums.ReleaseStatus;
 import com.example.backend.exception.MovieInvalidIdException;
+import com.example.backend.model.Genre;
 import com.example.backend.model.Movie;
 import com.example.backend.repositories.MovieRepository;
 import com.example.backend.services.MovieService;
@@ -51,5 +52,9 @@ public class MovieServiceImpl implements MovieService {
 
     public List<Movie> findMoviesByYear(int year) {
         return movieRepository.findMoviesByYear(year);
+    }
+
+    public List<Genre> findAllGenresOfAMovie(Long movieId) {
+        return movieRepository.findGenresByMovieId(movieId);
     }
 }
