@@ -4,10 +4,8 @@ import com.example.backend.utility.enums.ReleaseStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jdk.jfr.Description;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
@@ -31,15 +29,15 @@ public class Movie {
 
     @NotEmpty(message = "Movie title cannot be empty")
     @Column(name = "title")
-    @Schema(example = "Alien")
+    @Schema(description = "Title of the movie")
     private String title;
 
     @Column(name = "tagline")
-    @Schema(example = "In space no one can hear you scream.")
+    @Schema(description = "Punch-line of the movie")
     private String tagline;
 
     @Column(name = "overview", columnDefinition = "TEXT")
-    @Schema(example = "During its return to the earth, commercial spaceship Nostromo intercepts a distress signal from a distant planet. When a three-member team of the crew discovers a chamber containing thousands of eggs on the planet, a creature inside one of the eggs attacks an explorer. The entire crew is unaware of the impending nightmare set to descend upon them when the alien parasite planted inside its unfortunate host is birthed.")
+    @Schema(description = "Small description of the movie")
     private String overview;
 
     @Column(name = "runtime")
@@ -61,12 +59,6 @@ public class Movie {
     @Column(name = "image_url")
     private String imageURL;
 
-    @Column(name = "ratings")
-    private Integer ratings;
-
-    @Column(name = "ratings_average_score")
-    private Double ratingsAverageScore;
-
     @Column(name = "release_date")
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-mm-dd") // default html date type input date pattern "yyyy-mm-dd"
@@ -75,6 +67,7 @@ public class Movie {
     // owning side of the many-to-many relationship
     // the owning side is responsible for updating the table
     // often add genres to movie, not movies to genres
+    // TODO: consider using UNIDIRECTIONAL ManyToMany
     @ManyToMany
     @JoinTable(name = "movie_genres",
             joinColumns = @JoinColumn(name = "movie_id"),
@@ -90,5 +83,4 @@ public class Movie {
         genres.remove(genre);
         genre.getMovies().remove(this);
     }
-
 }

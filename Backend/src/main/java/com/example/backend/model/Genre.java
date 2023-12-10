@@ -30,4 +30,8 @@ public class Genre {
     @JsonIgnore
     @ManyToMany(mappedBy = "genres")
     private Set<Movie> movies = new LinkedHashSet<>();
+
+    public Genre(String name){
+        this.name = name;
+    }
 }
