@@ -4,6 +4,7 @@ import com.example.backend.model.Genre;
 import com.example.backend.model.Movie;
 import com.example.backend.services.GenreService;
 import com.example.backend.services.MovieService;
+import com.example.backend.services.implementation.LocalImageService;
 import com.example.backend.utility.enums.ReleaseStatus;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -28,14 +29,11 @@ public class MovieController {
 
     private final MovieService movieService;
     private final GenreService genreService;
+    private final LocalImageService localImageService;
 
 
     @GetMapping
     @Operation(summary = "Get all movies", description = "Retrieve a list of all movies")
-//    @ApiResponses(value = {
-//            @ApiResponse(responseCode = "200", description = "Movie List", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Movie.class))}),
-//            @ApiResponse(responseCode = "404", description = "HTTP Not Found", content = @Content)
-//    })
     public ResponseEntity<List<Movie>> findAllMovies() {
         List<Movie> movies = movieService.findAllMovies();
         if (movies.isEmpty()) {
@@ -46,34 +44,22 @@ public class MovieController {
 
     @GetMapping("/{movieId}")
     @Operation(summary = "Get a single movie using id", description = "Retrieve a single movie using an ID passed as a variable")
-//    @ApiResponses(value = {
-//            @ApiResponse(responseCode = "200", description = "HTTP Status OK", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Movie.class))}),
-//            @ApiResponse(responseCode = "400", description = "Invalid id supplied", content = @Content),
-//            @ApiResponse(responseCode = "404", description = "HTTP Not Found", content = @Content)
-//    })
     public ResponseEntity<Movie> findMovieById(
             @Parameter(description = "id of movie to be searched") @PathVariable(value = "movieId") Long movieId
     ) {
         return new ResponseEntity<>(movieService.findMovieById(movieId), HttpStatus.OK);
     }
 
-    @PostMapping
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "Save a movie", description = "REST API to save a movie based using RequestBody")
-//    @ApiResponses(value = {
-//            @ApiResponse(responseCode = "200", description = "HTTP Status OK"),
-//            @ApiResponse(responseCode = "404", description = "HTTP Not Found", content = @Content)
-//    })
-    public ResponseEntity<Movie> saveMovie(@RequestBody Movie movie) {
-        Movie aux = movieService.saveMovie(movie);
-        return new ResponseEntity<>(aux, HttpStatus.CREATED);
+    public ResponseEntity<Movie> saveMovie(Movie movie, @RequestParam(value = "file") MultipartFile file) throws IOException {
+        String path = localImageService.uploadImage(file);
+        movie.setImageURL(path);
+        return new ResponseEntity<>(movieService.saveMovie(movie), HttpStatus.CREATED);
     }
 
     @PutMapping
     @Operation(summary = "Update a Movie", description = "REST API to update a Movie based using RequestBody")
-//    @ApiResponses(value = {
-//            @ApiResponse(responseCode = "200", description = "HTTP Status OK"),
-//            @ApiResponse(responseCode = "404", description = "HTTP Not Found")
-//    })
     public ResponseEntity<Movie> updateMovie(@RequestBody Movie movie) {
         Movie aux = movieService.saveMovie(movie);
         return new ResponseEntity<>(aux, HttpStatus.OK);
@@ -81,19 +67,12 @@ public class MovieController {
 
     @DeleteMapping("/{movieId}")
     @Operation(summary = "Delete a Movie", description = "REST API to delete a Movie using an id passed as a variable")
-//    @ApiResponses(value = {
-//            @ApiResponse(responseCode = "200", description = "HTTP Status OK"),
-//            @ApiResponse(responseCode = "404", description = "HTTP Not Found")
-//    })
     public void deleteMovie(@PathVariable("movieId") Long movieId) {
         movieService.deleteMovieById(movieId);
     }
 
     @GetMapping("status/{release_status}")
     @Operation(summary = "Find movies by release status")
-//    @ApiResponses(value = {
-//            @ApiResponse(responseCode = "200", description = "HTTP Status OK")
-//    })
     public ResponseEntity<List<Movie>> findMoviesByReleaseStatus(@PathVariable("release_status") ReleaseStatus status) {
         List<Movie> movies = movieService.findMovieByReleaseStatus(status);
         return new ResponseEntity<>(movies, HttpStatus.OK);
@@ -101,10 +80,6 @@ public class MovieController {
 
     @PutMapping("/{movieId}/addGenre/{genreId}")
     @Operation(summary = "Add a genre to a movie")
-//    @ApiResponses(value = {
-//            @ApiResponse(responseCode = "200", description = "HTTP Status OK"),
-//            @ApiResponse(responseCode = "404", description = "HTTP Not Found")
-//    })
     public ResponseEntity<Movie> addGenreToMovie(
             @Parameter(description = "id of movie that the genre will be added to") @PathVariable("movieId") Long movieId,
             @Parameter(description = "id of the genre that will be added to the movie") @PathVariable("genreId") Long genreId) {
@@ -116,10 +91,6 @@ public class MovieController {
 
     @PutMapping("/{movieId}/removeGenre/{genreId}")
     @Operation(summary = "Remove a genre from a movie")
-//    @ApiResponses(value = {
-//            @ApiResponse(responseCode = "200", description = "HTTP Status OK"),
-//            @ApiResponse(responseCode = "404", description = "HTTP Not Found")
-//    })
     public ResponseEntity<Movie> removeGenreFromMovie(@PathVariable("movieId") Long movieId, @PathVariable("genreId") Long genreId) {
         Genre genre = genreService.findGenreById(genreId);
         if (genre == null) {
@@ -135,35 +106,25 @@ public class MovieController {
         return new ResponseEntity<>(movieService.saveMovie(movie), HttpStatus.OK);
     }
 
-    @PutMapping(value = "/{movieId}/poster/upload", consumes = {"multipart/form-data"})
-    public String uploadPoster(@PathVariable("movieId") Long movieId, @RequestParam("file") MultipartFile file) {
-        try {
-            return movieService.uploadPoster(movieId, file);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     @PutMapping("/{movieId}/poster/delete")
-    public void deletePoster(@PathVariable("movieId") Long movieId) {
-        try {
-            movieService.deletePoster(movieId);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    @Operation(summary = "Delete a poster from a movie")
+    public ResponseEntity<Movie> deletePoster(@PathVariable("movieId") Long movieId) throws IOException {
+        Movie movie = movieService.findMovieById(movieId);
+        localImageService.deleteImage(movie.getImageURL());
+        movie.setImageURL(null);
+        return new ResponseEntity<>(movieService.saveMovie(movie), HttpStatus.OK);
     }
 
-    @GetMapping("/{movieId}/poster")
-    public ResponseEntity<byte[]> getMoviePoster(@PathVariable("movieId") Long movieId) {
-        try {
-            byte[] image = movieService.downloadPoster(movieId);
-            return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.valueOf("image/png")).body(image);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    @GetMapping("/{movieId}/poster/")
+    @Operation(summary = "Get the poster image from a movie")
+    public ResponseEntity<byte[]> getMoviePoster(@PathVariable("movieId") Long movieId) throws IOException {
+        Movie movie = movieService.findMovieById(movieId);
+        byte[] image = localImageService.downloadImage(movie.getImageURL());
+        return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.valueOf("image/png")).body(image);
     }
 
-    @GetMapping("/year/{year}")
+    @GetMapping("/{year}")
+    @Operation(summary = "Get all movies that were released in a year")
     public ResponseEntity<List<Movie>> getMoviesInYear(@PathVariable("year") int year) {
         return new ResponseEntity<>(movieService.findMoviesByYear(year), HttpStatus.OK);
     }

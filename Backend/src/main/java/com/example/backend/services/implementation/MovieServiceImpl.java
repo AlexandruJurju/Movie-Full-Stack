@@ -8,9 +8,7 @@ import com.example.backend.utility.enums.ReleaseStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -20,7 +18,6 @@ import java.util.List;
 public class MovieServiceImpl implements MovieService {
 
     private final MovieRepository movieRepository;
-    private final ImageService imageService;
 
     @Override
     public List<Movie> findAllMovies() {
@@ -54,28 +51,5 @@ public class MovieServiceImpl implements MovieService {
 
     public List<Movie> findMoviesByYear(int year) {
         return movieRepository.findMoviesByYear(year);
-    }
-
-    // todo: upload, download and delete will have to be implemented again for actors, maybe separate image to a different entity
-    @Override
-    public String uploadPoster(Long movieId, MultipartFile file) throws IOException {
-        Movie movie = findMovieById(movieId);
-        String posterURL = imageService.uploadImage(file);
-        movie.setImageURL(posterURL);
-        movieRepository.save(movie);
-        return posterURL;
-    }
-
-    @Override
-    public byte[] downloadPoster(Long movieId) throws IOException {
-        Movie movie = findMovieById(movieId);
-        log.info(movie.getImageURL());
-        return imageService.downloadImage(movie.getImageURL());
-    }
-
-    @Override
-    public void deletePoster(Long movieId) throws IOException {
-        Movie movie = findMovieById(movieId);
-        imageService.deleteImage(movie.getImageURL());
     }
 }

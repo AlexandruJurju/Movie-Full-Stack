@@ -22,10 +22,4 @@ public interface MovieService {
     List<Movie> findMovieByReleaseStatus(ReleaseStatus status);
 
     List<Movie> findMoviesByYear(int year);
-
-    String uploadPoster(Long movieID, MultipartFile file) throws IOException;
-
-    byte[] downloadPoster(Long movieID) throws IOException;
-
-    void deletePoster(Long movieID) throws IOException;
 }
