@@ -4,14 +4,13 @@ import com.example.backend.model.Genre;
 import com.example.backend.model.Movie;
 import com.example.backend.services.GenreService;
 import com.example.backend.services.MovieService;
-import com.example.backend.utility.enums.ReleaseStatus;
+import com.example.backend.enums.ReleaseStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.sql.Date;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.Set;
 
 @RequiredArgsConstructor
@@ -44,7 +43,7 @@ public class Runner implements CommandLineRunner {
         movie.setRevenue(104);
         movie.setBudget(11);
         movie.setReleaseStatus(ReleaseStatus.RELEASED);
-        movie.setImageURL(null);
+        movie.setPosterURL(null);
         movie.setReleaseDate(Date.valueOf("1979-05-25"));
         Set<Genre> alienGenres = new HashSet<>();
         alienGenres.add(genreService.findGenreById(1L));
@@ -60,8 +59,12 @@ public class Runner implements CommandLineRunner {
         movie.setRevenue(98);
         movie.setBudget(15);
         movie.setReleaseStatus(ReleaseStatus.RELEASED);
-        movie.setImageURL(null);
+        movie.setPosterURL(null);
         movie.setReleaseDate(Date.valueOf("1987-06-12"));
+        Set<Genre> predatorGenres = new HashSet<>();
+        predatorGenres.add(genreService.findGenreById(1L));
+        predatorGenres.add(genreService.findGenreById(5L));
+        movie.setGenres(predatorGenres);
         movieService.saveMovie(movie);
     }
 }

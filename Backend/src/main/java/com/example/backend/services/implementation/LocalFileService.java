@@ -1,7 +1,7 @@
 package com.example.backend.services.implementation;
 
 import com.example.backend.services.FileService;
-import com.example.backend.utility.enums.ImageType;
+import com.example.backend.enums.ImageType;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -15,6 +15,7 @@ import java.nio.file.Paths;
 import java.util.UUID;
 
 @Service
+// todo: remove LocalImageFileService, add delete and download methods here
 public class LocalFileService implements FileService {
 
     @Value("${static.resource.path}")

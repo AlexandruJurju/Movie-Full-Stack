@@ -4,7 +4,7 @@ import com.example.backend.exception.MovieInvalidIdException;
 import com.example.backend.model.Movie;
 import com.example.backend.repositories.MovieRepository;
 import com.example.backend.services.MovieService;
-import com.example.backend.utility.enums.ReleaseStatus;
+import com.example.backend.enums.ReleaseStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

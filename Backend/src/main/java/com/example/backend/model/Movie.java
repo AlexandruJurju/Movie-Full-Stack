@@ -1,10 +1,9 @@
 package com.example.backend.model;
 
-import com.example.backend.utility.enums.ReleaseStatus;
+import com.example.backend.enums.ReleaseStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
-import jdk.jfr.Description;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -56,8 +55,8 @@ public class Movie {
     @Column(name = "release_status")
     private ReleaseStatus releaseStatus;
 
-    @Column(name = "image_url")
-    private String imageURL;
+    @Column(name = "poster_url")
+    private String posterURL;
 
     @Column(name = "release_date")
     @Temporal(TemporalType.DATE)

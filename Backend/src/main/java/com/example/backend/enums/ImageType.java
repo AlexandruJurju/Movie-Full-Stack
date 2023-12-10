@@ -1,4 +1,4 @@
-package com.example.backend.utility.enums;
+package com.example.backend.enums;
 
 public enum ImageType {
     MOVIE_POSTER,

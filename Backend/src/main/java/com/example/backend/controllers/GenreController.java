@@ -19,7 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 
 @RestController
-@RequestMapping("api/v1/genre")
+@RequestMapping("/genre")
 
 @Tag(name = "Genre Controller", description = "CRUD REST APIs for managing movie genres")
 

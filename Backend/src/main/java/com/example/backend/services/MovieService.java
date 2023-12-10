@@ -1,10 +1,8 @@
 package com.example.backend.services;
 
 import com.example.backend.model.Movie;
-import com.example.backend.utility.enums.ReleaseStatus;
-import org.springframework.web.multipart.MultipartFile;
+import com.example.backend.enums.ReleaseStatus;
 
-import java.io.IOException;
 import java.util.List;
 
 public interface MovieService {

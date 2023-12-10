@@ -5,7 +5,7 @@ import com.example.backend.model.Movie;
 import com.example.backend.services.GenreService;
 import com.example.backend.services.MovieService;
 import com.example.backend.services.implementation.LocalImageService;
-import com.example.backend.utility.enums.ReleaseStatus;
+import com.example.backend.enums.ReleaseStatus;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -22,7 +22,7 @@ import java.util.List;
 @RequiredArgsConstructor
 
 @RestController
-@RequestMapping("api/v1/movie")
+@RequestMapping("/movie")
 
 @Tag(name = "Movie Controller", description = "CRUD REST APIs for managing movies")
 public class MovieController {
@@ -54,7 +54,7 @@ public class MovieController {
     @Operation(summary = "Save a movie", description = "REST API to save a movie based using RequestBody")
     public ResponseEntity<Movie> saveMovie(Movie movie, @RequestParam(value = "file") MultipartFile file) throws IOException {
         String path = localImageService.uploadImage(file);
-        movie.setImageURL(path);
+        movie.setPosterURL(path);
         return new ResponseEntity<>(movieService.saveMovie(movie), HttpStatus.CREATED);
     }
 
@@ -110,8 +110,12 @@ public class MovieController {
     @Operation(summary = "Delete a poster from a movie")
     public ResponseEntity<Movie> deletePoster(@PathVariable("movieId") Long movieId) throws IOException {
         Movie movie = movieService.findMovieById(movieId);
-        localImageService.deleteImage(movie.getImageURL());
-        movie.setImageURL(null);
+        // todo: check if image url is null before deleting it
+        String moviePosterURL = movie.getPosterURL();
+        if (moviePosterURL != null) {
+            localImageService.deleteImage(moviePosterURL);
+        }
+        movie.setPosterURL(null);
         return new ResponseEntity<>(movieService.saveMovie(movie), HttpStatus.OK);
     }
 
@@ -119,8 +123,21 @@ public class MovieController {
     @Operation(summary = "Get the poster image from a movie")
     public ResponseEntity<byte[]> getMoviePoster(@PathVariable("movieId") Long movieId) throws IOException {
         Movie movie = movieService.findMovieById(movieId);
-        byte[] image = localImageService.downloadImage(movie.getImageURL());
+        byte[] image = localImageService.downloadImage(movie.getPosterURL());
         return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.valueOf("image/png")).body(image);
+    }
+
+    @PutMapping(value = "/{movieId}/poster", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @Operation(summary = "Update a poster of a movie")
+    public ResponseEntity<Movie> updateMoviePoster(@PathVariable("movieId") Long movieId, @RequestParam(value = "file") MultipartFile file) throws IOException {
+        Movie movie = movieService.findMovieById(movieId);
+        String moviePosterURL = movie.getPosterURL();
+        if (moviePosterURL != null) {
+            localImageService.deleteImage(moviePosterURL);
+        }
+        String newPath = localImageService.uploadImage(file);
+        movie.setPosterURL(newPath);
+        return new ResponseEntity<>(movieService.saveMovie(movie), HttpStatus.OK);
     }
 
     @GetMapping("/{year}")
