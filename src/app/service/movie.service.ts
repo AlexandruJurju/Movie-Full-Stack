@@ -8,7 +8,7 @@ import {Movie} from "../model/movie";
 })
 
 export class MovieService {
-  private apiServerUrl = 'http://localhost:8080/';
+  private apiServerUrl = 'http://localhost:8080';
 
   constructor(private http: HttpClient) {
   }
