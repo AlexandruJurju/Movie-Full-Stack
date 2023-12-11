@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,11 +21,12 @@ import java.io.IOException;
 import java.util.List;
 
 @RequiredArgsConstructor
+@Slf4j
+
+@Tag(name = "Movie Controller", description = "CRUD REST APIs for managing movies")
 
 @RestController
 @RequestMapping("/movie")
-
-@Tag(name = "Movie Controller", description = "CRUD REST APIs for managing movies")
 public class MovieController {
 
     private final MovieService movieService;
@@ -36,6 +38,7 @@ public class MovieController {
     @Operation(summary = "Get all movies", description = "Retrieve a list of all movies")
     public ResponseEntity<List<Movie>> findAllMovies() {
         List<Movie> movies = movieService.findAllMovies();
+        log.info("Size of movies is " + movies.size());
         if (movies.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
