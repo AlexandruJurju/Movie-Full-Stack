@@ -125,7 +125,9 @@ public class MovieController {
     @GetMapping("/{movieId}/poster/")
     @Operation(summary = "Get the poster image from a movie")
     public ResponseEntity<byte[]> getMoviePoster(@PathVariable("movieId") Long movieId) throws IOException {
+        log.info("STARTING");
         Movie movie = movieService.findMovieById(movieId);
+        log.info(movie.getPosterURL());
         byte[] image = localImageService.downloadImage(movie.getPosterURL());
         return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.valueOf("image/png")).body(image);
     }

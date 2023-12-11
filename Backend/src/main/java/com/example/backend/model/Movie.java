@@ -29,11 +29,11 @@ public class Movie {
     private Long id;
 
     @Column(name = "title", nullable = false)
-    @Schema(description = "Title of the movie")
+    @Schema(description = "Title of the movie", example = "Alien")
     private String title;
 
     @Column(name = "tagline")
-    @Schema(description = "Punch-line of the movie")
+    @Schema(description = "Punch-line of the movie", example = "In space no one can hear you scream")
     private String tagline;
 
     @Column(name = "overview", columnDefinition = "TEXT")
