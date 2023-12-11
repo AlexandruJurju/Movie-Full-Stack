@@ -3,7 +3,6 @@ package com.example.backend.model;
 import com.example.backend.enums.ReleaseStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,8 +28,7 @@ public class Movie {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @NotEmpty(message = "Movie title cannot be empty")
-    @Column(name = "title")
+    @Column(name = "title", nullable = false)
     @Schema(description = "Title of the movie")
     private String title;
 
