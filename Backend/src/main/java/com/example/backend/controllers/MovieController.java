@@ -38,7 +38,6 @@ public class MovieController {
     @Operation(summary = "Get all movies", description = "Retrieve a list of all movies")
     public ResponseEntity<List<Movie>> findAllMovies() {
         List<Movie> movies = movieService.findAllMovies();
-        log.info("Size of movies is " + movies.size());
         if (movies.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
@@ -131,9 +130,9 @@ public class MovieController {
         return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.valueOf("image/png")).body(image);
     }
 
-    @PutMapping(value = "/{movieId}/poster", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/poster", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "Update a poster of a movie")
-    public ResponseEntity<Movie> updateMoviePoster(@PathVariable("movieId") Long movieId, @RequestParam(value = "file") MultipartFile file) throws IOException {
+    public ResponseEntity<Movie> updateMoviePoster(@RequestParam("movieId") Long movieId, @RequestParam(value = "file") MultipartFile file) throws IOException {
         Movie movie = movieService.findMovieById(movieId);
         String moviePosterURL = movie.getPosterURL();
         if (moviePosterURL != null) {
@@ -141,7 +140,7 @@ public class MovieController {
         }
         String newPath = localImageService.uploadImage(file);
         movie.setPosterURL(newPath);
-        return new ResponseEntity<>(movieService.saveMovie(movie), HttpStatus.OK);
+        return new ResponseEntity<>(movieService.saveMovie(movie), HttpStatus.CREATED);
     }
 
     @GetMapping("year/{year}")
