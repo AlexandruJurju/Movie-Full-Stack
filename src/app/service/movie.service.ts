@@ -34,4 +34,11 @@ export class MovieService {
     return this.http.delete<void>(`${this.apiServerUrl}/movie/${movieId}`);
   }
 
+  public uploadPoster(fileEntry: File, movieId: string): Observable<Movie> {
+    let formData = new FormData();
+    formData.append('file', fileEntry);
+    formData.append('movieId', movieId);
+    return this.http.post<Movie>(`${this.apiServerUrl}/poster`, formData)
+  }
+
 }
