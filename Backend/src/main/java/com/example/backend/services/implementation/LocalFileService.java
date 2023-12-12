@@ -20,16 +20,21 @@ public class LocalFileService implements FileService {
     String resourceFolder;
 
     @Override
-    public String upload(MultipartFile file) throws IOException {
+    public String upload(MultipartFile file) {
         Path uploadPath = Paths.get(resourceFolder);
+        String key = "";
 
-        if (!Files.exists(uploadPath)) {
-            Files.createDirectories(uploadPath);
+        try {
+            if (!Files.exists(uploadPath)) {
+                Files.createDirectories(uploadPath);
+            }
+            String filenameExtension = StringUtils.getFilenameExtension(file.getOriginalFilename());
+            key = UUID.randomUUID() + "." + filenameExtension;
+            String fullPath = resourceFolder + "\\" + key;
+            file.transferTo(new File(fullPath));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-        String filenameExtension = StringUtils.getFilenameExtension(file.getOriginalFilename());
-        String key = UUID.randomUUID() + "." + filenameExtension;
-        String fullPath = resourceFolder + "\\" + key;
-        file.transferTo(new File(fullPath));
         return key;
     }
 
