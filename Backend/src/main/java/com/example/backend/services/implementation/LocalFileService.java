@@ -1,6 +1,5 @@
 package com.example.backend.services.implementation;
 
-import com.example.backend.enums.ImageType;
 import com.example.backend.services.FileService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -15,44 +14,33 @@ import java.nio.file.Paths;
 import java.util.UUID;
 
 @Service
-// todo: remove LocalImageFileService, add delete and download methods here
 public class LocalFileService implements FileService {
 
-    @Value("${static.resource.path}")
-    String staticResourcePath;
+    @Value("${resource.path}")
+    String resourceFolder;
 
     @Override
     public String upload(MultipartFile file) throws IOException {
-        Path uploadPath = Paths.get(staticResourcePath);
+        Path uploadPath = Paths.get(resourceFolder);
 
         if (!Files.exists(uploadPath)) {
             Files.createDirectories(uploadPath);
         }
         String filenameExtension = StringUtils.getFilenameExtension(file.getOriginalFilename());
         String key = UUID.randomUUID() + "." + filenameExtension;
-        String fullPath = staticResourcePath + "\\" + key;
+        String fullPath = resourceFolder + "\\" + key;
         file.transferTo(new File(fullPath));
-        return fullPath;
+        return key;
     }
 
-    public String uploadWithType(MultipartFile file, ImageType type) throws IOException {
-
-        Path uploadPath = Paths.get(staticResourcePath);
-
-        if (type == ImageType.PERSON_PROFILE) {
-            uploadPath = Paths.get(staticResourcePath + "images/casts/");
-        } else if (type == ImageType.MOVIE_POSTER) {
-            uploadPath = Paths.get(staticResourcePath + "images/movies/");
-        } else if (type == ImageType.USER_PROFILE)
-            uploadPath = Paths.get(staticResourcePath + "images/users/");
-
-        if (!Files.exists(uploadPath)) {
-            Files.createDirectories(uploadPath);
-        }
-        String filenameExtension = StringUtils.getFilenameExtension(file.getOriginalFilename());
-        String key = UUID.randomUUID() + "." + filenameExtension;
-        String fullPath = staticResourcePath + "\\" + key;
-        file.transferTo(new File(fullPath));
-        return fullPath;
+    public byte[] downloadImage(String fileName) throws IOException {
+        String fullPath = resourceFolder + "\\" + fileName;
+        return Files.readAllBytes(new File(fullPath).toPath());
     }
+
+    public void deleteImage(String fileName) throws IOException {
+        String fullPath = resourceFolder + "\\" + fileName;
+        Files.delete(new File(fullPath).toPath());
+    }
+
 }

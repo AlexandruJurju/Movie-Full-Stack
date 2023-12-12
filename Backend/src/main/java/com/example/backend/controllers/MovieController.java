@@ -5,7 +5,7 @@ import com.example.backend.model.Genre;
 import com.example.backend.model.Movie;
 import com.example.backend.services.GenreService;
 import com.example.backend.services.MovieService;
-import com.example.backend.services.implementation.LocalImageService;
+import com.example.backend.services.implementation.LocalFileService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -31,7 +31,7 @@ public class MovieController {
 
     private final MovieService movieService;
     private final GenreService genreService;
-    private final LocalImageService localImageService;
+    private final LocalFileService localImageService;
 
 
     @GetMapping
@@ -55,7 +55,7 @@ public class MovieController {
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "Save a movie", description = "REST API to save a movie based using RequestBody")
     public ResponseEntity<Movie> saveMovie(Movie movie, @RequestParam(value = "file") MultipartFile file) throws IOException {
-        String path = localImageService.uploadImage(file);
+        String path = localImageService.upload(file);
         movie.setPosterURL(path);
         return new ResponseEntity<>(movieService.saveMovie(movie), HttpStatus.CREATED);
     }
@@ -140,7 +140,7 @@ public class MovieController {
         if (moviePosterURL != null) {
             localImageService.deleteImage(moviePosterURL);
         }
-        String newPath = localImageService.uploadImage(file);
+        String newPath = localImageService.upload(file);
         movie.setPosterURL(newPath);
         return new ResponseEntity<>(movieService.saveMovie(movie), HttpStatus.CREATED);
     }
