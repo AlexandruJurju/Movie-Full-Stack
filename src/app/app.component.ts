@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Movie} from "./model/movie";
 import {MovieService} from "./service/movie.service";
 import {HttpErrorResponse} from "@angular/common/http";
+import {environment} from "../enviroments/enviroment";
 
 @Component({
   selector: 'app-root',
@@ -31,4 +32,5 @@ export class AppComponent implements OnInit {
     })
   }
 
+  protected readonly environment = environment;
 }
