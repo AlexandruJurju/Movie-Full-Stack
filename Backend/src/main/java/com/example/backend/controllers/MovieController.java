@@ -110,40 +110,40 @@ public class MovieController {
         return new ResponseEntity<>(movieService.saveMovie(movie), HttpStatus.OK);
     }
 
-//    @PutMapping("/{movieId}/poster/delete")
-//    @Operation(summary = "Delete a poster from a movie")
-//    public ResponseEntity<Movie> deletePoster(@PathVariable("movieId") Long movieId) throws IOException {
-//        Movie movie = movieService.findMovieById(movieId);
-//        String moviePosterURL = movie.getPosterURL();
-//        if (moviePosterURL != null) {
-//            imageService.deleteImage(moviePosterURL);
-//        }
-//        movie.setPosterURL(null);
-//        return new ResponseEntity<>(movieService.saveMovie(movie), HttpStatus.OK);
-//    }
+    @PutMapping("/{movieId}/poster/delete")
+    @Operation(summary = "Delete a poster from a movie")
+    public ResponseEntity<Movie> deletePoster(@PathVariable("movieId") Long movieId) throws IOException {
+        Movie movie = movieService.findMovieById(movieId);
+        String moviePosterURL = movie.getPosterURL();
+        if (moviePosterURL != null) {
+            imageService.delete(moviePosterURL);
+        }
+        movie.setPosterURL(null);
+        return new ResponseEntity<>(movieService.saveMovie(movie), HttpStatus.OK);
+    }
 
-//    @GetMapping("/{movieId}/poster/")
-//    @Operation(summary = "Get the poster image from a movie")
-//    public ResponseEntity<byte[]> getMoviePoster(@PathVariable("movieId") Long movieId) throws IOException {
-//        log.info("STARTING");
-//        Movie movie = movieService.findMovieById(movieId);
-//        log.info(movie.getPosterURL());
-//        byte[] image = imageService.downloadImage(movie.getPosterURL());
-//        return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.valueOf("image/png")).body(image);
-//    }
+    @GetMapping("/{movieId}/poster/")
+    @Operation(summary = "Get the poster image from a movie")
+    public ResponseEntity<byte[]> getMoviePoster(@PathVariable("movieId") Long movieId) throws IOException {
+        log.info("STARTING");
+        Movie movie = movieService.findMovieById(movieId);
+        log.info(movie.getPosterURL());
+        byte[] image = imageService.download(movie.getPosterURL());
+        return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.valueOf("image/png")).body(image);
+    }
 
-//    @PostMapping(value = "/poster", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-//    @Operation(summary = "Update a poster of a movie")
-//    public ResponseEntity<Movie> updateMoviePoster(@RequestParam("movieId") Long movieId, @RequestParam(value = "file") MultipartFile file) throws IOException {
-//        Movie movie = movieService.findMovieById(movieId);
-//        String moviePosterURL = movie.getPosterURL();
-//        if (moviePosterURL != null) {
-//            imageService.deleteImage(moviePosterURL);
-//        }
-//        String newPath = imageService.upload(file);
-//        movie.setPosterURL(newPath);
-//        return new ResponseEntity<>(movieService.saveMovie(movie), HttpStatus.CREATED);
-//    }
+    @PostMapping(value = "/poster", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @Operation(summary = "Update a poster of a movie")
+    public ResponseEntity<Movie> updateMoviePoster(@RequestParam("movieId") Long movieId, @RequestParam(value = "file") MultipartFile file) throws IOException {
+        Movie movie = movieService.findMovieById(movieId);
+        String moviePosterURL = movie.getPosterURL();
+        if (moviePosterURL != null) {
+            imageService.delete(moviePosterURL);
+        }
+        String newPath = imageService.upload(file);
+        movie.setPosterURL(newPath);
+        return new ResponseEntity<>(movieService.saveMovie(movie), HttpStatus.CREATED);
+    }
 
     @GetMapping("year/{year}")
     @Operation(summary = "Get all movies that were released in a year")
