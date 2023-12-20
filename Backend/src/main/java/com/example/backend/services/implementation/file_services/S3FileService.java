@@ -1,4 +1,4 @@
-package com.example.backend.services.implementation;
+package com.example.backend.services.implementation.file_services;
 
 import com.example.backend.services.FileService;
 import lombok.RequiredArgsConstructor;
@@ -33,22 +33,24 @@ public class S3FileService implements FileService {
         //        String key = file.getOriginalFilename();
         //        ObjectMetadata metadata = new ObjectMetadata.Builder().contentType(file.getContentType()).build();
 
+        // Upload file to aws
         try {
             s3Client.putObject(PutObjectRequest.builder()
                             .bucket(bucket)
                             .key(key)
+                            .acl(ObjectCannedACL.PUBLIC_READ)
                             .build(),
                     RequestBody.fromBytes(file.getBytes()));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
+        // Call AWS to get the file url
+        // 1'st option: return "https://" + bucket + ".s3." + region + ".amazonaws.com/" + key;
         GetUrlRequest request = GetUrlRequest.builder()
                 .bucket(bucket)
                 .key(key)
                 .build();
-
-        //        return "https://" + bucket + ".s3." + region + ".amazonaws.com/" + key;
 
         return s3Client.utilities().getUrl(request).toString();
     }

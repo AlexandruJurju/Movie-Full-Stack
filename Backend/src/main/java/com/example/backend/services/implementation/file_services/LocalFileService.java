@@ -1,4 +1,4 @@
-package com.example.backend.services.implementation;
+package com.example.backend.services.implementation.file_services;
 
 import com.example.backend.services.FileService;
 import org.springframework.beans.factory.annotation.Value;

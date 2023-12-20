@@ -16,7 +16,7 @@ import java.util.NoSuchElementException;
 //@Order(Ordered.HIGHEST_PRECEDENCE)
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 //
-//    // TODO: remove HttpServletRequest, use jest exception
+//    // TODO: remove HttpServletRequest, use just exception
 //    @ExceptionHandler(MovieInvalidIdException.class)
 //    public ResponseEntity<Object> handleMovieInvalidIdException(HttpServletRequest request, MovieInvalidIdException e) {
 //        ErrorResponse response = new ErrorResponse(HttpStatus.NOT_FOUND,
