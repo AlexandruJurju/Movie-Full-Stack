@@ -1,4 +1,4 @@
-package com.example.backend.services.implementation;
+package com.example.backend.services_implementations;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,12 +14,12 @@ public class ImageService {
         return fileService.upload(file);
     }
 
-    public byte[] download(String key){
+    public byte[] download(String key) {
         return fileService.download(key);
     }
 
     // delete all is just loop over all movies and call delete for that poster url
-    public void delete(String key){
+    public void delete(String key) {
         fileService.delete(key);
     }
 

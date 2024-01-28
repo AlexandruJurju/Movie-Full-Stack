@@ -51,20 +51,20 @@ public class Runner implements CommandLineRunner {
         movie.setGenres(alienGenres);
         movieService.saveMovie(movie);
 
-//        movie = new Movie();
-//        movie.setTitle("Predator");
-//        movie.setTagline("Soon the hunt will begin.");
-//        movie.setOverview("A team of elite commandos on a secret mission in a Central American jungle come to find themselves hunted by an extraterrestrial warrior.");
-//        movie.setRuntime(107);
-//        movie.setRevenue(98);
-//        movie.setBudget(15);
-//        movie.setReleaseStatus(ReleaseStatus.RELEASED);
-//        movie.setPosterURL(null);
-//        movie.setReleaseDate(Date.valueOf("1987-06-12"));
-//        Set<Genre> predatorGenres = new HashSet<>();
-//        predatorGenres.add(genreService.findGenreById(1L));
-//        predatorGenres.add(genreService.findGenreById(5L));
-//        movie.setGenres(predatorGenres);
-//        movieService.saveMovie(movie);
+        movie = new Movie();
+        movie.setTitle("Predator");
+        movie.setTagline("Soon the hunt will begin.");
+        movie.setOverview("A team of elite commandos on a secret mission in a Central American jungle come to find themselves hunted by an extraterrestrial warrior.");
+        movie.setRuntime(107);
+        movie.setRevenue(98);
+        movie.setBudget(15);
+        movie.setReleaseStatus(ReleaseStatus.RELEASED);
+        movie.setPosterURL(null);
+        movie.setReleaseDate(Date.valueOf("1987-06-12"));
+        Set<Genre> predatorGenres = new HashSet<>();
+        predatorGenres.add(genreService.findGenreById(1L));
+        predatorGenres.add(genreService.findGenreById(5L));
+        movie.setGenres(predatorGenres);
+        movieService.saveMovie(movie);
     }
 }

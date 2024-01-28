@@ -84,4 +84,7 @@ public class Movie {
         genres.remove(genre);
     }
 
+    @OneToMany(mappedBy = "movie")
+    private Set<Credits> credits = new LinkedHashSet<>();
+
 }

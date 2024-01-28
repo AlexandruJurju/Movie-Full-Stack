@@ -1,4 +1,4 @@
-package com.example.backend.services.implementation;
+package com.example.backend.services_implementations;
 
 import com.example.backend.model.Genre;
 import com.example.backend.repositories.GenreRepository;

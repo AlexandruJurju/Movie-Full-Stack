@@ -5,7 +5,7 @@ import com.example.backend.model.Genre;
 import com.example.backend.model.Movie;
 import com.example.backend.services.GenreService;
 import com.example.backend.services.MovieService;
-import com.example.backend.services.implementation.ImageService;
+import com.example.backend.services_implementations.ImageService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;

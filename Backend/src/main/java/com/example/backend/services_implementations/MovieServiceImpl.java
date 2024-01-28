@@ -1,4 +1,4 @@
-package com.example.backend.services.implementation;
+package com.example.backend.services_implementations;
 
 import com.example.backend.enums.ReleaseStatus;
 import com.example.backend.exception.MovieInvalidIdException;
