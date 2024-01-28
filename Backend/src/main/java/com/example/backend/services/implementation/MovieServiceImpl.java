@@ -46,14 +46,26 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
+    public List<Movie> findMoviesByGenreId(Long genreId) {
+        return movieRepository.findMoviesByGenreId(genreId);
+    }
+
+    @Override
+    public List<Movie> findMoviesByGenreName(String genreName) {
+        return movieRepository.findMoviesByGenreName(genreName);
+    }
+
+    @Override
     public List<Movie> findMovieByReleaseStatus(ReleaseStatus status) {
         return movieRepository.findMovieByReleaseStatus(status);
     }
 
+    @Override
     public List<Movie> findMoviesByYear(int year) {
         return movieRepository.findMoviesByYear(year);
     }
 
+    @Override
     public List<Genre> findAllGenresOfAMovie(Long movieId) {
         return movieRepository.findGenresByMovieId(movieId);
     }

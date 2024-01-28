@@ -18,6 +18,10 @@ public interface MovieService {
 
     void deleteMovieById(Long id);
 
+    List<Movie> findMoviesByGenreId(Long genreId);
+
+    List<Movie> findMoviesByGenreName(String genreName);
+
     List<Movie> findMovieByReleaseStatus(ReleaseStatus status);
 
     List<Movie> findMoviesByYear(int year);

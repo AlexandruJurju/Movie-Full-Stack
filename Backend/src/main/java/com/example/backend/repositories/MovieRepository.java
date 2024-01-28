@@ -21,5 +21,11 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
     @Query("SELECT m.genres FROM Movie m WHERE m.id = :movieId")
     List<Genre> findGenresByMovieId(@Param("movieId") Long movieId);
 
+    @Query("SELECT m FROM Movie m JOIN m.genres g WHERE g.id = :genreId")
+    List<Movie> findMoviesByGenreId(@Param("genreId") Long genreId);
+
+    @Query("SELECT m FROM Movie m JOIN m.genres g WHERE g.name =:genreName")
+    List<Movie> findMoviesByGenreName(@Param("genreName") String genreName);
+
     // TODO: find all movies that contain keyword
 }

@@ -17,7 +17,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -52,11 +51,16 @@ public class MovieController {
         return new ResponseEntity<>(movieService.findMovieById(movieId), HttpStatus.OK);
     }
 
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @Operation(summary = "Save a movie", description = "REST API to save a movie based using RequestBody")
-    public ResponseEntity<Movie> saveMovie(Movie movie, @RequestParam(value = "file") MultipartFile file) throws IOException {
-        String path = imageService.upload(file);
-        movie.setPosterURL(path);
+    //    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    //    @Operation(summary = "Save a movie", description = "REST API to save a movie based using RequestBody")
+    //    public ResponseEntity<Movie> saveMovie(Movie movie, @RequestParam(value = "file") MultipartFile file) {
+    //        String path = imageService.upload(file);
+    //        movie.setPosterURL(path);
+    //        return new ResponseEntity<>(movieService.saveMovie(movie), HttpStatus.CREATED);
+    //    }
+
+    @PostMapping
+    public ResponseEntity<Movie> saveMovie(@RequestBody Movie movie) {
         return new ResponseEntity<>(movieService.saveMovie(movie), HttpStatus.CREATED);
     }
 
@@ -86,6 +90,17 @@ public class MovieController {
         return new ResponseEntity<>(movieService.findAllGenresOfAMovie(movieId), HttpStatus.OK);
     }
 
+    @GetMapping("/findByGenreId/{genreId}")
+    @Operation(summary = "Find all movies that contain a genre using the genreId")
+    public ResponseEntity<List<Movie>> findAllMoviesWithGenreID(@PathVariable("genreId") Long genreId) {
+        return new ResponseEntity<>(movieService.findMoviesByGenreId(genreId), HttpStatus.OK);
+    }
+
+    @GetMapping("/findByGenreName/{genreName}")
+    public ResponseEntity<List<Movie>> findAllMoviesWithGenreName(@PathVariable("genreName") String genreName) {
+        return new ResponseEntity<>(movieService.findMoviesByGenreName(genreName), HttpStatus.OK);
+    }
+
     @PutMapping("/{movieId}/addGenre/{genreId}")
     @Operation(summary = "Add a genre to a movie")
     public ResponseEntity<Movie> addGenreToMovie(
@@ -112,7 +127,7 @@ public class MovieController {
 
     @PutMapping("/{movieId}/poster/delete")
     @Operation(summary = "Delete a poster from a movie")
-    public ResponseEntity<Movie> deletePoster(@PathVariable("movieId") Long movieId) throws IOException {
+    public ResponseEntity<Movie> deletePoster(@PathVariable("movieId") Long movieId) {
         Movie movie = movieService.findMovieById(movieId);
         String moviePosterURL = movie.getPosterURL();
         if (moviePosterURL != null) {
@@ -124,7 +139,7 @@ public class MovieController {
 
     @GetMapping("/{movieId}/poster/")
     @Operation(summary = "Get the poster image from a movie")
-    public ResponseEntity<byte[]> getMoviePoster(@PathVariable("movieId") Long movieId) throws IOException {
+    public ResponseEntity<byte[]> getMoviePoster(@PathVariable("movieId") Long movieId) {
         log.info("STARTING");
         Movie movie = movieService.findMovieById(movieId);
         log.info(movie.getPosterURL());
@@ -134,7 +149,7 @@ public class MovieController {
 
     @PostMapping(value = "/poster", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "Update a poster of a movie")
-    public ResponseEntity<Movie> updateMoviePoster(@RequestParam("movieId") Long movieId, @RequestParam(value = "file") MultipartFile file) throws IOException {
+    public ResponseEntity<Movie> updateMoviePoster(@RequestParam("movieId") Long movieId, @RequestParam(value = "file") MultipartFile file) {
         Movie movie = movieService.findMovieById(movieId);
         String moviePosterURL = movie.getPosterURL();
         if (moviePosterURL != null) {

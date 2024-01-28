@@ -1,6 +1,7 @@
 package com.example.backend.model;
 
 import com.example.backend.enums.ReleaseStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -67,6 +68,8 @@ public class Movie {
     // owning side of the many-to-many relationship
     // the owning side is responsible for updating the table
     // often add genres to movie, not movies to genres
+    @JsonIgnore
+
     @ManyToMany
     @JoinTable(name = "movie_genres",
             joinColumns = @JoinColumn(name = "movie_id"),
