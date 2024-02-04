@@ -5,7 +5,7 @@ import com.example.springmovie.model.Genre;
 import com.example.springmovie.model.Movie;
 import com.example.springmovie.service.GenreService;
 import com.example.springmovie.service.MovieService;
-import com.example.springmovie.service_impl.ImageService;
+import com.example.springmovie.service_impl.ImageServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -30,7 +30,7 @@ public class MovieController {
 
     private final MovieService movieService;
     private final GenreService genreService;
-    private final ImageService imageService;
+    private final ImageServiceImpl imageServiceImpl;
 
 
     @GetMapping
@@ -131,7 +131,7 @@ public class MovieController {
         Movie movie = movieService.findMovieById(movieId);
         String moviePosterURL = movie.getPosterURL();
         if (moviePosterURL != null) {
-            imageService.delete(moviePosterURL);
+            imageServiceImpl.delete(moviePosterURL);
         }
         movie.setPosterURL(null);
         return new ResponseEntity<>(movieService.saveMovie(movie), HttpStatus.OK);
@@ -143,7 +143,7 @@ public class MovieController {
         log.info("STARTING");
         Movie movie = movieService.findMovieById(movieId);
         log.info(movie.getPosterURL());
-        byte[] image = imageService.download(movie.getPosterURL());
+        byte[] image = imageServiceImpl.download(movie.getPosterURL());
         return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.valueOf("image/png")).body(image);
     }
 
@@ -153,9 +153,9 @@ public class MovieController {
         Movie movie = movieService.findMovieById(movieId);
         String moviePosterURL = movie.getPosterURL();
         if (moviePosterURL != null) {
-            imageService.delete(moviePosterURL);
+            imageServiceImpl.delete(moviePosterURL);
         }
-        String newPath = imageService.upload(file);
+        String newPath = imageServiceImpl.upload(file);
         movie.setPosterURL(newPath);
         return new ResponseEntity<>(movieService.saveMovie(movie), HttpStatus.CREATED);
     }

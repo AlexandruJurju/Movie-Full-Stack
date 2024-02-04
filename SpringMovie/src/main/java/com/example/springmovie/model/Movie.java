@@ -10,10 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.util.Date;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "movie")
@@ -50,9 +47,9 @@ public class Movie {
     @Schema(description = "Revenue of the movie in millions of dollars", example = "104")
     private Integer revenue;
 
-    @Column(name = "budget")
-    @Schema(description = "Budget of the movie in millions of dollars", example = "11")
-    private Integer budget;
+//    @Column(name = "budget")
+//    @Schema(description = "Budget of the movie in millions of dollars", example = "11")
+//    private Integer budget;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "release_status")
@@ -70,12 +67,11 @@ public class Movie {
     // the owning side is responsible for updating the table
     // often add genres to movie, not movies to genres
     @JsonIgnore
-
     @ManyToMany
     @JoinTable(name = "movie_genres",
             joinColumns = @JoinColumn(name = "movie_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id"))
-    private Set<Genre> genres = new LinkedHashSet<>();
+    private Set<Genre> genres = new HashSet<>();
 
     public void addGenre(Genre genre) {
         genres.add(genre);
@@ -85,11 +81,7 @@ public class Movie {
         genres.remove(genre);
     }
 
-    @JsonIgnore
     @OneToMany(mappedBy = "movie")
-    private List<Cast> cast;
+    private Set<Cast> movieCast = new HashSet<>();
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "movie")
-    private List<Crew> crew;
 }

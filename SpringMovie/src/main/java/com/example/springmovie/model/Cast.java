@@ -7,14 +7,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "cast")
-
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class Cast {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,12 +21,12 @@ public class Cast {
     private Movie movie;
 
     @ManyToOne
-    @JoinColumn(name = "person_id")
-    private Person person;
+    @JoinColumn(name = "actor_id")
+    private Actor actor;
 
-    @Column(name = "character_name")
-    private String characterName;
+    @Column(name = "role")
+    private String role;
 
-    @Column(name = "listing_order")
-    private int listingOrder;
+    @Column(name = "display_order")
+    private Integer displayOrder;
 }

@@ -6,7 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
-public class ImageService {
+public class ImageServiceImpl {
 
     private final S3FileService fileService;
 
