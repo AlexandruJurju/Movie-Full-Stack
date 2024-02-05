@@ -7,11 +7,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
+@Table(name = "cast_member")
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Cast {
+public class CastMember {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -29,4 +31,7 @@ public class Cast {
 
     @Column(name = "display_order")
     private Integer displayOrder;
+
+    @Column(name = "character_image_url")
+    private String characterImageUrl;
 }

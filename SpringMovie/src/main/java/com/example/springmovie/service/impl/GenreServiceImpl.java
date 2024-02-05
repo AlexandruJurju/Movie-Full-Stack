@@ -1,4 +1,4 @@
-package com.example.springmovie.service_impl;
+package com.example.springmovie.service.impl;
 
 import com.example.springmovie.model.Genre;
 import com.example.springmovie.repositories.GenreRepository;

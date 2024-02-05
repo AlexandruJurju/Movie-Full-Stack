@@ -10,7 +10,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.util.*;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "movie")
@@ -43,14 +45,6 @@ public class Movie {
     @Schema(description = "Runtime of the movie in minutes", example = "117")
     private Integer runtime;
 
-    @Column(name = "revenue")
-    @Schema(description = "Revenue of the movie in millions of dollars", example = "104")
-    private Integer revenue;
-
-//    @Column(name = "budget")
-//    @Schema(description = "Budget of the movie in millions of dollars", example = "11")
-//    private Integer budget;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "release_status")
     private ReleaseStatus releaseStatus;
@@ -58,13 +52,15 @@ public class Movie {
     @Column(name = "poster_url")
     private String posterURL;
 
+    @Column(name = "imdb_url")
+    private String imdbUrl;
+
     @Column(name = "release_date")
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-mm-dd") // default html date type input date pattern "yyyy-mm-dd"
     private Date releaseDate;
 
-    // owning side of the many-to-many relationship
-    // the owning side is responsible for updating the table
+    // owning side of the many-to-many relationship - the owning side is responsible for updating the table
     // often add genres to movie, not movies to genres
     @JsonIgnore
     @ManyToMany
@@ -81,7 +77,17 @@ public class Movie {
         genres.remove(genre);
     }
 
+    @JsonIgnore
     @OneToMany(mappedBy = "movie")
-    private Set<Cast> movieCast = new HashSet<>();
+    private Set<CastMember> castMembers = new HashSet<>();
 
+    public void addCastMember(CastMember castMember) {
+        castMembers.add(castMember);
+        castMember.setMovie(this);
+    }
+
+    public void removeCastMember(CastMember castMember) {
+        castMembers.remove(castMember);
+        castMember.setMovie(null);
+    }
 }

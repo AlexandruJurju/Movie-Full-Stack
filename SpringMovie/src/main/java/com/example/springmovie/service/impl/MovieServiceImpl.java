@@ -1,7 +1,6 @@
-package com.example.springmovie.service_impl;
+package com.example.springmovie.service.impl;
 
 import com.example.springmovie.enums.ReleaseStatus;
-import com.example.springmovie.exception.MovieInvalidIdException;
 import com.example.springmovie.model.Genre;
 import com.example.springmovie.model.Movie;
 import com.example.springmovie.repositories.MovieRepository;
@@ -11,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -27,7 +27,7 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public Movie findMovieById(Long id) {
-        return movieRepository.findById(id).orElseThrow(() -> new MovieInvalidIdException("Cannot find movie with id - " + id));
+        return movieRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Cannot find movie with id - " + id));
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.example.springmovie.service_impl;
+package com.example.springmovie.service.impl.file_service;
 
 import com.example.springmovie.service.FileService;
 import lombok.RequiredArgsConstructor;

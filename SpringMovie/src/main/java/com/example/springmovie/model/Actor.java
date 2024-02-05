@@ -1,7 +1,7 @@
 package com.example.springmovie.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,7 +16,6 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class Actor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,7 +32,17 @@ public class Actor {
     @Column(name = "profile_pic_url")
     private String profilePicUrl;
 
-    @OneToMany(mappedBy = "actor")
-    private Set<Cast> actorCasts = new HashSet<>();
+    @Column(name = "imdb_url")
+    private String imdbUrl;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "actor")
+    private Set<CastMember> actorCastMembers = new HashSet<>();
+
+    public Actor(Long id, String name, Date birthDate, String profilePicUrl) {
+        this.id = id;
+        this.name = name;
+        this.birthDate = birthDate;
+        this.profilePicUrl = profilePicUrl;
+    }
 }
