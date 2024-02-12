@@ -69,25 +69,8 @@ public class Movie {
             inverseJoinColumns = @JoinColumn(name = "genre_id"))
     private Set<Genre> genres = new HashSet<>();
 
-    public void addGenre(Genre genre) {
-        genres.add(genre);
-    }
-
-    public void removeGenre(Genre genre) {
-        genres.remove(genre);
-    }
 
     @JsonIgnore
     @OneToMany(mappedBy = "movie")
-    private Set<CastMember> castMembers = new HashSet<>();
-
-    public void addCastMember(CastMember castMember) {
-        castMembers.add(castMember);
-        castMember.setMovie(this);
-    }
-
-    public void removeCastMember(CastMember castMember) {
-        castMembers.remove(castMember);
-        castMember.setMovie(null);
-    }
+    private Set<MovieActor> movieActors = new HashSet<>();
 }

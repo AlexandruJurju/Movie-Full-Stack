@@ -1,10 +1,13 @@
 package com.example.springmovie.controller;
 
 import com.example.springmovie.enums.ReleaseStatus;
-import com.example.springmovie.model.CastMember;
+import com.example.springmovie.model.Actor;
 import com.example.springmovie.model.Genre;
 import com.example.springmovie.model.Movie;
+import com.example.springmovie.model.MovieActor;
+import com.example.springmovie.service.ActorService;
 import com.example.springmovie.service.GenreService;
+import com.example.springmovie.service.MovieActorService;
 import com.example.springmovie.service.MovieService;
 import com.example.springmovie.service.impl.file_service.ImageServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
@@ -17,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.Set;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -31,6 +33,8 @@ public class MovieController {
     private final MovieService movieService;
     private final GenreService genreService;
     private final ImageServiceImpl imageServiceImpl;
+    private final MovieActorService movieActorService;
+    private final ActorService actorService;
 
 
     @GetMapping("")
@@ -39,13 +43,13 @@ public class MovieController {
         //        if (movies.isEmpty()) {
         //            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         //        }
-        return movieService.findAllMovies();
+        return movieService.saveAll();
     }
 
     @GetMapping("/{movieId}")
     @Operation(summary = "Get a single movie using id", description = "Retrieve a single movie using an ID passed as a variable")
     public Movie findMovieById(@Parameter(description = "id of movie to be searched") @PathVariable(value = "movieId") Long movieId) {
-        return movieService.findMovieById(movieId);
+        return movieService.findById(movieId);
     }
 
     //    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -58,42 +62,42 @@ public class MovieController {
 
     @PostMapping
     public Movie saveMovie(@RequestBody Movie movie) {
-        return movieService.saveMovie(movie);
+        return movieService.save(movie);
     }
 
     @PutMapping
     @Operation(summary = "Update a Movie", description = "REST API to update a Movie based using RequestBody")
     public Movie updateMovie(@RequestBody Movie movie) {
-        return movieService.saveMovie(movie);
+        return movieService.save(movie);
     }
 
     @DeleteMapping("/{movieId}")
     @Operation(summary = "Delete a Movie", description = "REST API to delete a Movie using an id passed as a variable")
     public void deleteMovie(@PathVariable("movieId") Long movieId) {
-        movieService.deleteMovieById(movieId);
+        movieService.deleteById(movieId);
     }
 
     @GetMapping("status/{releaseStatus}")
     @Operation(summary = "Find movies by release status")
     public List<Movie> findMoviesByReleaseStatus(@PathVariable("releaseStatus") ReleaseStatus status) {
-        return movieService.findMovieByReleaseStatus(status);
+        return movieService.findByReleaseStatus(status);
     }
 
     @GetMapping("/{movieId}/genre")
     @Operation(summary = "Find all genres of a movie")
     public List<Genre> findAllGenresOfAMovie(@PathVariable("movieId") Long movieId) {
-        return movieService.findAllGenresOfAMovie(movieId);
+        return movieService.findAllGenresOfMovie(movieId);
     }
 
     @GetMapping("/findByGenreId/{genreId}")
     @Operation(summary = "Find all movies that contain a genre using the genreId")
     public List<Movie> findAllMoviesWithGenreID(@PathVariable("genreId") Long genreId) {
-        return movieService.findMoviesByGenreId(genreId);
+        return movieService.findByGenreId(genreId);
     }
 
     @GetMapping("/findByGenreName/{genreName}")
     public List<Movie> findAllMoviesWithGenreName(@PathVariable("genreName") String genreName) {
-        return movieService.findMoviesByGenreName(genreName);
+        return movieService.findByGenreName(genreName);
     }
 
     @PutMapping("/{movieId}/addGenre/{genreId}")
@@ -101,9 +105,9 @@ public class MovieController {
     public Movie addGenreToMovie(@Parameter(description = "id of movie that the genre will be added to") @PathVariable("movieId") Long movieId,
                                  @Parameter(description = "id of the genre that will be added to the movie") @PathVariable("genreId") Long genreId) {
         Genre genre = genreService.findGenreById(genreId);
-        Movie movie = movieService.findMovieById(movieId);
-        movie.addGenre(genre);
-        return movieService.saveMovie(movie);
+        Movie movie = movieService.findById(movieId);
+        movie.getGenres().add(genre);
+        return movieService.save(movie);
     }
 
     @PutMapping("/{movieId}/removeGenre/{genreId}")
@@ -114,28 +118,28 @@ public class MovieController {
         //            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         //        }
 
-        Movie movie = movieService.findMovieById(movieId);
-        movie.removeGenre(genre);
-        return movieService.saveMovie(movie);
+        Movie movie = movieService.findById(movieId);
+        movie.getGenres().remove(genre);
+        return movieService.save(movie);
     }
 
     @PutMapping("/{movieId}/poster/delete")
     @Operation(summary = "Delete a poster from a movie")
     public Movie deletePoster(@PathVariable("movieId") Long movieId) {
-        Movie movie = movieService.findMovieById(movieId);
+        Movie movie = movieService.findById(movieId);
         String moviePosterURL = movie.getPosterURL();
         if (moviePosterURL != null) {
             imageServiceImpl.delete(moviePosterURL);
         }
         movie.setPosterURL(null);
-        return movieService.saveMovie(movie);
+        return movieService.save(movie);
     }
 
     @GetMapping("/{movieId}/poster")
     @Operation(summary = "Get the poster image from a movie")
     public byte[] getMoviePoster(@PathVariable("movieId") Long movieId) {
         log.info("STARTING");
-        Movie movie = movieService.findMovieById(movieId);
+        Movie movie = movieService.findById(movieId);
         log.info(movie.getPosterURL());
         //        byte[] image = imageServiceImpl.download(movie.getPosterURL());
         //        return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.valueOf("image/png")).body(image);
@@ -145,26 +149,52 @@ public class MovieController {
     @PostMapping(value = "/poster", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "Update a poster of a movie")
     public Movie updateMoviePoster(@RequestParam("movieId") Long movieId, @RequestParam(value = "file") MultipartFile file) {
-        Movie movie = movieService.findMovieById(movieId);
+        Movie movie = movieService.findById(movieId);
         String moviePosterURL = movie.getPosterURL();
         if (moviePosterURL != null) {
             imageServiceImpl.delete(moviePosterURL);
         }
         String newPath = imageServiceImpl.upload(file);
         movie.setPosterURL(newPath);
-        return movieService.saveMovie(movie);
+        return movieService.save(movie);
     }
 
     @GetMapping("/year/{year}")
     @Operation(summary = "Get all movies that were released in a year")
     public List<Movie> getMoviesInYear(@PathVariable("year") int year) {
-        return movieService.findMoviesByYear(year);
+        return movieService.findByYear(year);
+    }
+
+    @PostMapping("/addActor")
+    @Operation(summary = "Add an actor to a a movie")
+    public MovieActor addActorToMovie(@RequestBody MovieActor movieCast) {
+        Movie movie = movieService.findById(movieCast.getMovie().getId());
+        Actor actor = actorService.findById(movieCast.getActor().getId());
+
+        movieCast.setMovie(movie);
+        movieCast.setActor(actor);
+
+        movieActorService.save(movieCast);
+
+        return movieCast;
+    }
+
+    @DeleteMapping("/{movieId}/removeActor/{actorId}")
+    @Operation(summary = "Remove actor from movie")
+    public void removeActorFromMovie(@PathVariable Long movieId, @PathVariable Long actorId) {
+        List<MovieActor> movieCasts = movieActorService.findAll();
+
+        for (MovieActor movieCast : movieCasts) {
+            if (movieCast.getMovie().getId().equals(movieId) && movieCast.getActor().getId().equals(actorId)) {
+                movieActorService.deleteById(movieCast.getId());
+            }
+        }
     }
 
     @GetMapping("/{movieId}/actors")
-    public Set<CastMember> findAllCastMembersOfMovie(@PathVariable("movieId") Long movieId) {
-        Movie movie = (movieService.findMovieById(movieId));
-        return movie.getCastMembers();
-    }
+    @Operation(summary = "Get all actors from a movie")
+    public List<MovieActor> getActorsByMovieId(@PathVariable Long movieId) {
 
+        return movieActorService.findAllByMovieId(movieId);
+    }
 }

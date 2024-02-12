@@ -8,23 +8,23 @@ import java.util.List;
 
 public interface MovieService {
 
-    List<Movie> findAllMovies();
+    List<Movie> saveAll();
 
-    Movie findMovieById(Long id);
+    Movie findById(Long id);
 
-    Movie saveMovie(Movie movie);
+    Movie save(Movie movie);
 
     Movie updateMovie(Movie movie);
 
-    void deleteMovieById(Long id);
+    void deleteById(Long id);
 
-    List<Movie> findMoviesByGenreId(Long genreId);
+    List<Movie> findByGenreId(Long genreId);
 
-    List<Movie> findMoviesByGenreName(String genreName);
+    List<Movie> findByGenreName(String genreName);
 
-    List<Movie> findMovieByReleaseStatus(ReleaseStatus status);
+    List<Movie> findByReleaseStatus(ReleaseStatus status);
 
-    List<Movie> findMoviesByYear(int year);
+    List<Movie> findByYear(int year);
 
-    List<Genre> findAllGenresOfAMovie(Long movieId);
+    List<Genre> findAllGenresOfMovie(Long movieId);
 }

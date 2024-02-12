@@ -2,11 +2,12 @@ package com.example.springmovie;
 
 import com.example.springmovie.enums.ReleaseStatus;
 import com.example.springmovie.model.Actor;
-import com.example.springmovie.model.CastMember;
 import com.example.springmovie.model.Genre;
 import com.example.springmovie.model.Movie;
+import com.example.springmovie.model.MovieActor;
 import com.example.springmovie.service.ActorService;
 import com.example.springmovie.service.GenreService;
+import com.example.springmovie.service.MovieActorService;
 import com.example.springmovie.service.MovieService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -23,6 +24,7 @@ public class Runner implements CommandLineRunner {
     private final MovieService movieService;
     private final GenreService genreService;
     private final ActorService actorService;
+    private final MovieActorService movieActorService;
 
 
     @Override
@@ -36,8 +38,15 @@ public class Runner implements CommandLineRunner {
         genreService.saveGenre(new Genre("Thriller"));
         genreService.saveGenre(new Genre("Adventure"));
 
-        actorService.saveActor(new Actor(0L, "Carl Weathers", Date.valueOf("1969-01-10"), null));
-        actorService.saveActor(new Actor(0L, "Arnold Schwarzenegger", Date.valueOf("1934-01-01"), null));
+        Actor actor = new Actor();
+        actor.setName("Arnold Schwarzenegger");
+        actor.setBirthDate(Date.valueOf("1934-01-01"));
+        actorService.save(actor);
+
+        Actor actor2 = new Actor();
+        actor2.setName("Carl Weathers");
+        actor.setBirthDate(Date.valueOf("1969-01-10"));
+        actorService.save(actor2);
 
         Movie movie = new Movie();
         movie.setTitle("Predator");
@@ -52,18 +61,19 @@ public class Runner implements CommandLineRunner {
         predatorGenres.add(genreService.findGenreById(1L));
         predatorGenres.add(genreService.findGenreById(5L));
         movie.setGenres(predatorGenres);
-        movieService.saveMovie(movie);
+        movieService.save(movie);
 
-        Movie predatorMovie = movieService.findMovieById(1L);
-        Actor arnoldActor = actorService.findActorById(1L);
+        MovieActor movieActor = new MovieActor();
+        movieActor.setActor(actor);
+        movieActor.setMovie(movie);
+        movieActor.setRole("Dutch");
+        movieActorService.save(movieActor);
 
-//        CastMember newCastMember = new CastMember();
-        //        newCastMember.setActor(arnoldActor);
-        //        newCastMember.setRole("Dutch");
-        //        newCastMember.setDisplayOrder(1);
-        //
-        //        predatorMovie.addCastMember(newCastMember);
-        //
-        //        movieService.saveMovie(predatorMovie);
+        MovieActor movieActor2 = new MovieActor();
+        movieActor2.setMovie(movie);
+        movieActor2.setActor(actor2);
+        movieActor2.setRole("Unknown");
+        movieActorService.save(movieActor2);
+
     }
 }

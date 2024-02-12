@@ -23,6 +23,6 @@ public class ActorController {
         //        if (actors.isEmpty()) {
         //            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         //        }
-        return actorService.findAllActors();
+        return actorService.findAll();
     }
 }

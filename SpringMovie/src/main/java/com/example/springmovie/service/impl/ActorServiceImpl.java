@@ -18,23 +18,23 @@ public class ActorServiceImpl implements ActorService {
     }
 
     @Override
-    public List<Actor> findAllActors() {
+    public List<Actor> findAll() {
         return actorRepository.findAll();
     }
 
     @Override
-    public Actor findActorById(Long id) {
+    public Actor findById(Long id) {
         return actorRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Cannot find actor with id " + id));
     }
 
     @Override
-    public Actor saveActor(Actor actor) {
+    public Actor save(Actor actor) {
         return actorRepository.save(actor);
     }
 
     @Override
-    public void deleteActor(Long id) {
+    public void delete(Long id) {
         actorRepository.deleteById(id);
     }
 }

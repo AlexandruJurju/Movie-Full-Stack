@@ -37,12 +37,5 @@ public class Actor {
 
     @JsonIgnore
     @OneToMany(mappedBy = "actor")
-    private Set<CastMember> actorCastMembers = new HashSet<>();
-
-    public Actor(Long id, String name, Date birthDate, String profilePicUrl) {
-        this.id = id;
-        this.name = name;
-        this.birthDate = birthDate;
-        this.profilePicUrl = profilePicUrl;
-    }
+    private Set<MovieActor> movieActors = new HashSet<>();
 }

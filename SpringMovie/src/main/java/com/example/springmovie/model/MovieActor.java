@@ -7,13 +7,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "cast_member")
+@Table(name = "movie_actor")
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CastMember {
+public class MovieActor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
