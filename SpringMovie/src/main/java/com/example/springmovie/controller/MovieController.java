@@ -182,12 +182,10 @@ public class MovieController {
     @DeleteMapping("/{movieId}/removeActor/{actorId}")
     @Operation(summary = "Remove actor from movie")
     public void removeActorFromMovie(@PathVariable Long movieId, @PathVariable Long actorId) {
-        List<MovieActor> movieCasts = movieActorService.findAll();
+        List<MovieActor> movieCasts = movieActorService.findByMovieIdAndActorId(movieId, actorId);
 
         for (MovieActor movieCast : movieCasts) {
-            if (movieCast.getMovie().getId().equals(movieId) && movieCast.getActor().getId().equals(actorId)) {
-                movieActorService.deleteById(movieCast.getId());
-            }
+            movieActorService.deleteById(movieCast.getId());
         }
     }
 

@@ -40,5 +40,10 @@ public class MovieActorImpl implements MovieActorService {
         return movieActorRepository.findByMovieId(movieId);
     }
 
+    @Override
+    public List<MovieActor> findByMovieIdAndActorId(Long movieId, Long actorId) {
+        return movieActorRepository.findByMovieIdAndActorId(movieId, actorId);
+    }
+
 
 }

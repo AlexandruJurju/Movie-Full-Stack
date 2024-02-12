@@ -15,4 +15,6 @@ public interface MovieActorService {
     void deleteById(Long id);
 
     List<MovieActor> findAllByMovieId(Long movieId);
+
+    List<MovieActor> findByMovieIdAndActorId(Long movieId, Long actorId);
 }
