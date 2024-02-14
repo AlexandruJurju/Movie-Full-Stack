@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -39,12 +39,12 @@ public class Runner implements CommandLineRunner {
 
         Actor actor = new Actor();
         actor.setName("Arnold Schwarzenegger");
-        actor.setBirthDate(Date.valueOf("1934-01-01"));
+        actor.setBirthDate(LocalDate.of(1947, 7, 30));
         actorService.save(actor);
 
         Actor actor2 = new Actor();
         actor2.setName("Carl Weathers");
-        actor.setBirthDate(Date.valueOf("1969-01-10"));
+        actor.setBirthDate(LocalDate.of(1948, 2, 14));
         actorService.save(actor2);
 
         Movie movie = new Movie();
@@ -54,7 +54,7 @@ public class Runner implements CommandLineRunner {
         movie.setRuntime(107);
         movie.setReleaseStatus(ReleaseStatus.RELEASED);
         movie.setPosterURL(null);
-        movie.setReleaseDate(Date.valueOf("1987-06-12"));
+        movie.setReleaseDate(LocalDate.of(1987, 6, 12));
         movie.setImdbUrl("https://www.imdb.com/title/tt0093773/");
         movie.setPosterURL("a210837a-64bd-4d56-8d9f-d99425bd6068.jpg");
 

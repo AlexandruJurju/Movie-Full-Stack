@@ -42,13 +42,13 @@ public class MovieController {
         return movieService.findById(movieId);
     }
 
-    //    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    //    @Operation(summary = "Save a movie", description = "REST API to save a movie based using RequestBody")
-    //    public ResponseEntity<Movie> saveMovie(Movie movie, @RequestParam(value = "file") MultipartFile file) {
-    //        String path = imageService.upload(file);
-    //        movie.setPosterURL(path);
-    //        return new ResponseEntity<>(movieService.saveMovie(movie), HttpStatus.CREATED);
-    //    }
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @Operation(summary = "Save a movie", description = "REST API to save a movie based using RequestBody")
+    public ResponseEntity<Movie> saveMovie(Movie movie, @RequestParam(value = "file") MultipartFile file) {
+        String path = s3FileService.upload(file);
+        movie.setPosterURL(path);
+        return new ResponseEntity<>(movieService.save(movie), HttpStatus.CREATED);
+    }
 
     @PostMapping
     @Operation(summary = "Save a movie")

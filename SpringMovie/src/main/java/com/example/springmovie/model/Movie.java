@@ -8,9 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -55,10 +54,27 @@ public class Movie {
     @Column(name = "imdb_url")
     private String imdbUrl;
 
+    // Todo: add indexing
+    /*
+    @Entity
+    @Table(name = "movie", indexes = {@Index(name = "idx_release_year", columnList = "release_year")})
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    ...
+
+    @Column(name = "release_year")
+    private Integer releaseYear;
+
+    @PrePersist
+    private void setReleaseYear() {
+        if (releaseDate != null) {
+            releaseYear = releaseDate.getYear();
+        }
+     */
     @Column(name = "release_date")
-    @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "yyyy-mm-dd") // default html date type input date pattern "yyyy-mm-dd"
-    private Date releaseDate;
+    private LocalDate releaseDate;
 
     // owning side of the many-to-many relationship - the owning side is responsible for updating the table
     // often add genres to movie, not movies to genres
