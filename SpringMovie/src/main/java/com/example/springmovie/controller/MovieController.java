@@ -1,13 +1,7 @@
 package com.example.springmovie.controller;
 
 import com.example.springmovie.enums.ReleaseStatus;
-import com.example.springmovie.model.Actor;
-import com.example.springmovie.model.Genre;
 import com.example.springmovie.model.Movie;
-import com.example.springmovie.model.MovieActor;
-import com.example.springmovie.service.ActorService;
-import com.example.springmovie.service.GenreService;
-import com.example.springmovie.service.MovieActorService;
 import com.example.springmovie.service.MovieService;
 import com.example.springmovie.service.impl.file_service.ImageServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
@@ -31,18 +25,12 @@ import java.util.List;
 public class MovieController {
 
     private final MovieService movieService;
-    private final GenreService genreService;
     private final ImageServiceImpl imageServiceImpl;
-    private final MovieActorService movieActorService;
-    private final ActorService actorService;
 
 
     @GetMapping("")
     @Operation(summary = "Get all movies", description = "Retrieve a list of all movies")
     public List<Movie> findAllMovies() {
-        //        if (movies.isEmpty()) {
-        //            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        //        }
         return movieService.saveAll();
     }
 
@@ -61,6 +49,7 @@ public class MovieController {
     //    }
 
     @PostMapping
+    @Operation(summary = "Save a movie")
     public Movie saveMovie(@RequestBody Movie movie) {
         return movieService.save(movie);
     }
@@ -81,46 +70,6 @@ public class MovieController {
     @Operation(summary = "Find movies by release status")
     public List<Movie> findMoviesByReleaseStatus(@PathVariable("releaseStatus") ReleaseStatus status) {
         return movieService.findByReleaseStatus(status);
-    }
-
-    @GetMapping("/{movieId}/genre")
-    @Operation(summary = "Find all genres of a movie")
-    public List<Genre> findAllGenresOfAMovie(@PathVariable("movieId") Long movieId) {
-        return movieService.findAllGenresOfMovie(movieId);
-    }
-
-    @GetMapping("/findByGenreId/{genreId}")
-    @Operation(summary = "Find all movies that contain a genre using the genreId")
-    public List<Movie> findAllMoviesWithGenreID(@PathVariable("genreId") Long genreId) {
-        return movieService.findByGenreId(genreId);
-    }
-
-    @GetMapping("/findByGenreName/{genreName}")
-    public List<Movie> findAllMoviesWithGenreName(@PathVariable("genreName") String genreName) {
-        return movieService.findByGenreName(genreName);
-    }
-
-    @PutMapping("/{movieId}/addGenre/{genreId}")
-    @Operation(summary = "Add a genre to a movie")
-    public Movie addGenreToMovie(@Parameter(description = "id of movie that the genre will be added to") @PathVariable("movieId") Long movieId,
-                                 @Parameter(description = "id of the genre that will be added to the movie") @PathVariable("genreId") Long genreId) {
-        Genre genre = genreService.findGenreById(genreId);
-        Movie movie = movieService.findById(movieId);
-        movie.getGenres().add(genre);
-        return movieService.save(movie);
-    }
-
-    @PutMapping("/{movieId}/removeGenre/{genreId}")
-    @Operation(summary = "Remove a genre from a movie")
-    public Movie removeGenreFromMovie(@PathVariable("movieId") Long movieId, @PathVariable("genreId") Long genreId) {
-        Genre genre = genreService.findGenreById(genreId);
-        //        if (genre == null) {
-        //            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        //        }
-
-        Movie movie = movieService.findById(movieId);
-        movie.getGenres().remove(genre);
-        return movieService.save(movie);
     }
 
     @PutMapping("/{movieId}/poster/delete")
@@ -165,34 +114,5 @@ public class MovieController {
         return movieService.findByYear(year);
     }
 
-    @PostMapping("/addActor")
-    @Operation(summary = "Add an actor to a a movie")
-    public MovieActor addActorToMovie(@RequestBody MovieActor movieCast) {
-        Movie movie = movieService.findById(movieCast.getMovie().getId());
-        Actor actor = actorService.findById(movieCast.getActor().getId());
 
-        movieCast.setMovie(movie);
-        movieCast.setActor(actor);
-
-        movieActorService.save(movieCast);
-
-        return movieCast;
-    }
-
-    @DeleteMapping("/{movieId}/removeActor/{actorId}")
-    @Operation(summary = "Remove actor from movie")
-    public void removeActorFromMovie(@PathVariable Long movieId, @PathVariable Long actorId) {
-        List<MovieActor> movieCasts = movieActorService.findByMovieIdAndActorId(movieId, actorId);
-
-        for (MovieActor movieCast : movieCasts) {
-            movieActorService.deleteById(movieCast.getId());
-        }
-    }
-
-    @GetMapping("/{movieId}/actors")
-    @Operation(summary = "Get all actors from a movie")
-    public List<MovieActor> getActorsByMovieId(@PathVariable Long movieId) {
-
-        return movieActorService.findAllByMovieId(movieId);
-    }
 }

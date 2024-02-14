@@ -19,11 +19,11 @@ public class MovieActor {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "movie_id")
+    @JoinColumn(name = "movie_id", nullable = false)
     private Movie movie;
 
     @ManyToOne
-    @JoinColumn(name = "actor_id")
+    @JoinColumn(name = "actor_id", nullable = false)
     private Actor actor;
 
     @Column(name = "role")
