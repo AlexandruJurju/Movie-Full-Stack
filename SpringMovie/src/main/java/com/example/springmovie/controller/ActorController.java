@@ -1,5 +1,6 @@
 package com.example.springmovie.controller;
 
+import com.example.springmovie.dto.MovieActorDto;
 import com.example.springmovie.model.Actor;
 import com.example.springmovie.model.Movie;
 import com.example.springmovie.model.MovieActor;
@@ -7,11 +8,14 @@ import com.example.springmovie.service.ActorService;
 import com.example.springmovie.service.MovieActorService;
 import com.example.springmovie.service.MovieService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+@Tag(name = "Actor Controller", description = "CRUD REST APIs for actors in movies")
 
 @RequiredArgsConstructor
 
@@ -49,16 +53,18 @@ public class ActorController {
 
     @PostMapping("/add")
     @Operation(summary = "Add an actor to a a movie")
-    public MovieActor addActorToMovie(@RequestBody MovieActor movieCast) {
-        Movie movie = movieService.findById(movieCast.getMovie().getId());
-        Actor actor = actorService.findById(movieCast.getActor().getId());
+    public MovieActor addActorToMovie(@RequestBody MovieActorDto movieActorDto) {
+        Movie movie = movieService.findById(movieActorDto.movieId());
+        Actor actor = actorService.findById(movieActorDto.actorId());
 
-        movieCast.setMovie(movie);
-        movieCast.setActor(actor);
+        MovieActor movieActor = new MovieActor();
+        movieActor.setActor(actor);
+        movieActor.setMovie(movie);
+        movieActor.setRole(movieActorDto.role());
+        movieActor.setDisplayOrder(movieActorDto.displayOrder());
+        movieActor.setCharacterImageUrl(movieActorDto.characterImageUrl());
 
-        movieActorService.save(movieCast);
-
-        return movieCast;
+        return movieActorService.save(movieActor);
     }
 
     @DeleteMapping("/{movieId}/{actorId}")
@@ -73,9 +79,18 @@ public class ActorController {
 
     @GetMapping("/{movieId}")
     @Operation(summary = "Get all actors from a movie")
-    public List<MovieActor> getActorsByMovieId(@PathVariable Long movieId) {
+    public List<MovieActorDto> getActorsByMovieId(@PathVariable Long movieId) {
+        List<MovieActor> movieActors = movieActorService.findAllByMovieId(movieId);
 
-        return movieActorService.findAllByMovieId(movieId);
+        return movieActors.stream()
+                .map(movieActor -> new MovieActorDto(
+                        movieId,
+                        movieActor.getActor().getId(),
+                        movieActor.getRole(),
+                        movieActor.getDisplayOrder(),
+                        movieActor.getCharacterImageUrl()
+                ))
+                .collect(Collectors.toList());
     }
 
 
