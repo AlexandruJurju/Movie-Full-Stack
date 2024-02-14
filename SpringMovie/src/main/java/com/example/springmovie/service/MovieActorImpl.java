@@ -1,13 +1,13 @@
-package com.example.springmovie.service.impl;
+package com.example.springmovie.service;
 
+import com.example.springmovie.exception.NotFoundException;
 import com.example.springmovie.model.MovieActor;
 import com.example.springmovie.repositories.MovieActorRepository;
-import com.example.springmovie.service.MovieActorService;
+import com.example.springmovie.service.interfaces.MovieActorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -21,8 +21,9 @@ public class MovieActorImpl implements MovieActorService {
     }
 
     @Override
-    public Optional<MovieActor> findById(Long id) {
-        return movieActorRepository.findById(id);
+    public MovieActor findMovieActorById(Long id) {
+        return movieActorRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(id));
     }
 
     @Override

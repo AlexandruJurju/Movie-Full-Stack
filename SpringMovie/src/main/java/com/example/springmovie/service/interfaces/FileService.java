@@ -1,4 +1,4 @@
-package com.example.springmovie.service;
+package com.example.springmovie.service.interfaces;
 
 import org.springframework.web.multipart.MultipartFile;
 

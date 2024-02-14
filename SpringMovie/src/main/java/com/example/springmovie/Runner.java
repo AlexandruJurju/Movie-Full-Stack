@@ -5,10 +5,10 @@ import com.example.springmovie.model.Actor;
 import com.example.springmovie.model.Genre;
 import com.example.springmovie.model.Movie;
 import com.example.springmovie.model.MovieActor;
-import com.example.springmovie.service.ActorService;
-import com.example.springmovie.service.GenreService;
-import com.example.springmovie.service.MovieActorService;
-import com.example.springmovie.service.MovieService;
+import com.example.springmovie.service.interfaces.ActorService;
+import com.example.springmovie.service.interfaces.GenreService;
+import com.example.springmovie.service.interfaces.MovieActorService;
+import com.example.springmovie.service.interfaces.MovieService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -40,12 +40,12 @@ public class Runner implements CommandLineRunner {
         Actor actor = new Actor();
         actor.setName("Arnold Schwarzenegger");
         actor.setBirthDate(LocalDate.of(1947, 7, 30));
-        actorService.save(actor);
+        actorService.saveActor(actor);
 
         Actor actor2 = new Actor();
         actor2.setName("Carl Weathers");
         actor.setBirthDate(LocalDate.of(1948, 2, 14));
-        actorService.save(actor2);
+        actorService.saveActor(actor2);
 
         Movie movie = new Movie();
         movie.setTitle("Predator");
@@ -62,7 +62,7 @@ public class Runner implements CommandLineRunner {
         predatorGenres.add(genreService.findGenreById(1L));
         predatorGenres.add(genreService.findGenreById(5L));
         movie.setGenres(predatorGenres);
-        movieService.save(movie);
+        movieService.saveMovie(movie);
 
         MovieActor movieActor = new MovieActor();
         movieActor.setActor(actor);

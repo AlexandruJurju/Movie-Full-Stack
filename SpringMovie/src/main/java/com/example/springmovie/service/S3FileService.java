@@ -1,6 +1,6 @@
-package com.example.springmovie.service.impl;
+package com.example.springmovie.service;
 
-import com.example.springmovie.service.FileService;
+import com.example.springmovie.service.interfaces.FileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

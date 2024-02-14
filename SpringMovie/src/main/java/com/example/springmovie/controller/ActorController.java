@@ -4,9 +4,9 @@ import com.example.springmovie.dto.MovieActorDto;
 import com.example.springmovie.model.Actor;
 import com.example.springmovie.model.Movie;
 import com.example.springmovie.model.MovieActor;
-import com.example.springmovie.service.ActorService;
-import com.example.springmovie.service.MovieActorService;
-import com.example.springmovie.service.MovieService;
+import com.example.springmovie.service.interfaces.ActorService;
+import com.example.springmovie.service.interfaces.MovieActorService;
+import com.example.springmovie.service.interfaces.MovieService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -30,32 +30,32 @@ public class ActorController {
     @GetMapping("")
     @Operation(summary = "Find all actors")
     public List<Actor> findAllActors() {
-        return actorService.findAll();
+        return actorService.findAllActors();
     }
 
     @PostMapping("")
     @Operation(summary = "Add an actor to database")
     public Actor saveActor(@RequestBody Actor actor) {
-        return actorService.save(actor);
+        return actorService.saveActor(actor);
     }
 
     @DeleteMapping("/{actorId}")
     @Operation(summary = "Delete actor given id")
     public void deleteActor(@PathVariable("actorId") Long actorId) {
-        actorService.delete(actorId);
+        actorService.deleteActorById(actorId);
     }
 
     @PutMapping("")
     @Operation(summary = "Update an actor")
     public Actor updateActor(@RequestBody Actor actor) {
-        return actorService.save(actor);
+        return actorService.saveActor(actor);
     }
 
     @PostMapping("/add")
     @Operation(summary = "Add an actor to a a movie")
     public MovieActor addActorToMovie(@RequestBody MovieActorDto movieActorDto) {
-        Movie movie = movieService.findById(movieActorDto.movieId());
-        Actor actor = actorService.findById(movieActorDto.actorId());
+        Movie movie = movieService.findMovieById(movieActorDto.movieId());
+        Actor actor = actorService.findActorById(movieActorDto.actorId());
 
         MovieActor movieActor = new MovieActor();
         movieActor.setActor(actor);

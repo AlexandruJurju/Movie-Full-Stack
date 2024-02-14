@@ -1,21 +1,19 @@
-package com.example.springmovie.service.impl;
+package com.example.springmovie.service;
 
+import com.example.springmovie.exception.NotFoundException;
 import com.example.springmovie.model.Genre;
 import com.example.springmovie.repositories.GenreRepository;
-import com.example.springmovie.service.GenreService;
+import com.example.springmovie.service.interfaces.GenreService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
+@RequiredArgsConstructor
 @Service
 public class GenreServiceImpl implements GenreService {
 
     private final GenreRepository genreRepository;
-
-    public GenreServiceImpl(GenreRepository genreRepository) {
-        this.genreRepository = genreRepository;
-    }
 
     @Override
     public List<Genre> findAllGenres() {
@@ -25,7 +23,7 @@ public class GenreServiceImpl implements GenreService {
     @Override
     public Genre findGenreById(Long id) {
         return genreRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Cannot find genre with id " + id));
+                .orElseThrow(() -> new NotFoundException(id));
     }
 
     @Override

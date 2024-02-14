@@ -2,8 +2,8 @@ package com.example.springmovie.controller;
 
 import com.example.springmovie.model.Genre;
 import com.example.springmovie.model.Movie;
-import com.example.springmovie.service.GenreService;
-import com.example.springmovie.service.MovieService;
+import com.example.springmovie.service.interfaces.GenreService;
+import com.example.springmovie.service.interfaces.MovieService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -65,30 +65,30 @@ public class GenreController {
     public Movie addGenreToMovie(@Parameter(description = "id of movie that the genre will be added to") @PathVariable("movieId") Long movieId,
                                  @Parameter(description = "id of the genre that will be added to the movie") @PathVariable("genreId") Long genreId) {
         Genre genre = genreService.findGenreById(genreId);
-        Movie movie = movieService.findById(movieId);
+        Movie movie = movieService.findMovieById(movieId);
         movie.getGenres().add(genre);
-        return movieService.save(movie);
+        return movieService.saveMovie(movie);
     }
 
     @GetMapping("/findByGenreName/{genreName}")
     @Operation(summary = "Find all movies with genre name")
     public List<Movie> findAllMoviesWithGenreName(@PathVariable("genreName") String genreName) {
-        return movieService.findByGenreName(genreName);
+        return movieService.findMovieByGenreName(genreName);
     }
 
     @PutMapping("/{movieId}/removeGenre/{genreId}")
     @Operation(summary = "Remove a genre from a movie")
     public Movie removeGenreFromMovie(@PathVariable("movieId") Long movieId, @PathVariable("genreId") Long genreId) {
         Genre genre = genreService.findGenreById(genreId);
-        Movie movie = movieService.findById(movieId);
+        Movie movie = movieService.findMovieById(movieId);
         movie.getGenres().remove(genre);
-        return movieService.save(movie);
+        return movieService.saveMovie(movie);
     }
 
     @GetMapping("/findByGenreId/{genreId}")
     @Operation(summary = "Find all movies that contain a genre using the genreId")
     public List<Movie> findAllMoviesWithGenreID(@PathVariable("genreId") Long genreId) {
-        return movieService.findByGenreId(genreId);
+        return movieService.findMovieByGenreId(genreId);
     }
 
 }

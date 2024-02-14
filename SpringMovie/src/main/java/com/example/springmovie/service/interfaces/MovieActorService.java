@@ -1,4 +1,4 @@
-package com.example.springmovie.service;
+package com.example.springmovie.service.interfaces;
 
 import com.example.springmovie.model.MovieActor;
 
@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface MovieActorService {
     MovieActor save(MovieActor movieActor);
 
-    Optional<MovieActor> findById(Long id);
+    MovieActor findMovieActorById(Long id);
 
     List<MovieActor> findAll();
 
