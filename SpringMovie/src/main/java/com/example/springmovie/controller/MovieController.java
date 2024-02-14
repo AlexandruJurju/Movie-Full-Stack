@@ -3,13 +3,15 @@ package com.example.springmovie.controller;
 import com.example.springmovie.enums.ReleaseStatus;
 import com.example.springmovie.model.Movie;
 import com.example.springmovie.service.MovieService;
-import com.example.springmovie.service.impl.file_service.ImageServiceImpl;
+import com.example.springmovie.service.impl.S3FileService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,7 +27,7 @@ import java.util.List;
 public class MovieController {
 
     private final MovieService movieService;
-    private final ImageServiceImpl imageServiceImpl;
+    private final S3FileService s3FileService;
 
 
     @GetMapping("")
@@ -78,7 +80,7 @@ public class MovieController {
         Movie movie = movieService.findById(movieId);
         String moviePosterURL = movie.getPosterURL();
         if (moviePosterURL != null) {
-            imageServiceImpl.delete(moviePosterURL);
+            s3FileService.delete(moviePosterURL);
         }
         movie.setPosterURL(null);
         return movieService.save(movie);
@@ -86,13 +88,11 @@ public class MovieController {
 
     @GetMapping("/{movieId}/poster")
     @Operation(summary = "Get the poster image from a movie")
-    public byte[] getMoviePoster(@PathVariable("movieId") Long movieId) {
-        log.info("STARTING");
+    public ResponseEntity<byte[]> getMoviePoster(@PathVariable("movieId") Long movieId) {
         Movie movie = movieService.findById(movieId);
-        log.info(movie.getPosterURL());
-        //        byte[] image = imageServiceImpl.download(movie.getPosterURL());
-        //        return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.valueOf("image/png")).body(image);
-        return imageServiceImpl.download(movie.getPosterURL());
+        byte[] image = s3FileService.download(movie.getPosterURL());
+        return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.valueOf("image/png")).body(image);
+        //        return s3FileService.download(movie.getPosterURL());
     }
 
     @PostMapping(value = "/poster", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -101,10 +101,10 @@ public class MovieController {
         Movie movie = movieService.findById(movieId);
         String moviePosterURL = movie.getPosterURL();
         if (moviePosterURL != null) {
-            imageServiceImpl.delete(moviePosterURL);
+            s3FileService.delete(moviePosterURL);
         }
-        String newPath = imageServiceImpl.upload(file);
-        movie.setPosterURL(newPath);
+        movie.setPosterURL(s3FileService.upload(file));
+        log.info(movie.getPosterURL());
         return movieService.save(movie);
     }
 

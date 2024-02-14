@@ -1,4 +1,4 @@
-package com.example.springmovie.service.impl.file_service;
+package com.example.springmovie.service.impl;
 
 import com.example.springmovie.service.FileService;
 import lombok.RequiredArgsConstructor;
@@ -14,8 +14,8 @@ import software.amazon.awssdk.services.s3.model.*;
 import java.io.IOException;
 import java.util.UUID;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class S3FileService implements FileService {
 
     @Value("${s3.bucket.name}")
@@ -52,6 +52,13 @@ public class S3FileService implements FileService {
                 .key(key)
                 .build();
 
+        // TODO: entity should store the key, not the whole url
+        /*
+        "https://movie-fullstack.s3.eu-central-1.amazonaws.com/a210837a-64bd-4d56-8d9f-d99425bd6068.jpg" contains:
+        Bucket name: movie-fullstack
+        Region: eu-central-1
+        Key: a210837a-64bd-4d56-8d9f-d99425bd6068.jpg
+         */
         return s3Client.utilities().getUrl(request).toString();
     }
 
