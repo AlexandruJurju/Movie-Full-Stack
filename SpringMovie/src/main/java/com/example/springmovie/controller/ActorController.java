@@ -12,7 +12,7 @@ import java.util.List;
 @Tag(name = "Actor Controller", description = "CRUD REST APIs for actors in movies")
 
 @RequiredArgsConstructor
-
+// todo: actor exceptions
 @RestController
 @RequestMapping("/actor")
 public class ActorController {

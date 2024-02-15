@@ -39,7 +39,7 @@ public class MovieActorController {
         movieActor.setDisplayOrder(movieActorDto.displayOrder());
         movieActor.setCharacterImageUrl(movieActorDto.characterImageUrl());
 
-        return movieActorService.save(movieActor);
+        return movieActorService.saveMovieActor(movieActor);
     }
 
     @DeleteMapping("/{movieId}/{actorId}")

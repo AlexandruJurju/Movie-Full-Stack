@@ -68,13 +68,13 @@ public class Runner implements CommandLineRunner {
         movieActor.setActor(actor);
         movieActor.setMovie(movie);
         movieActor.setRole("Dutch");
-        movieActorService.save(movieActor);
+        movieActorService.saveMovieActor(movieActor);
 
         MovieActor movieActor2 = new MovieActor();
         movieActor2.setMovie(movie);
         movieActor2.setActor(actor2);
         movieActor2.setRole("Unknown");
-        movieActorService.save(movieActor2);
+        movieActorService.saveMovieActor(movieActor2);
 
     }
 }

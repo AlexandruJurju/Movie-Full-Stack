@@ -16,7 +16,7 @@ public class MovieActorImpl implements MovieActorService {
     private final MovieActorRepository movieActorRepository;
 
     @Override
-    public MovieActor save(MovieActor movieActor) {
+    public MovieActor saveMovieActor(MovieActor movieActor) {
         return movieActorRepository.save(movieActor);
     }
 

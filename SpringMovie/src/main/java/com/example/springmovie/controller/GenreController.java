@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/genre")
-
+// TODO: genre exceptions
 @Tag(name = "Genre Controller", description = "CRUD REST APIs for managing movie genres")
 
 public class GenreController {
