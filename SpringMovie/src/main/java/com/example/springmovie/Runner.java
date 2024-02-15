@@ -56,7 +56,7 @@ public class Runner implements CommandLineRunner {
         movie.setPosterURL(null);
         movie.setReleaseDate(LocalDate.of(1987, 6, 12));
         movie.setImdbUrl("https://www.imdb.com/title/tt0093773/");
-        movie.setPosterURL("a210837a-64bd-4d56-8d9f-d99425bd6068.jpg");
+            movie.setPosterURL("09eeba02-e2ec-4df1-98d8-2579157edf5d.jpg");
 
         Set<Genre> predatorGenres = new HashSet<>();
         predatorGenres.add(genreService.findGenreById(1L));

@@ -95,16 +95,19 @@ public class MovieController {
         return ResponseEntity.ok().body(movies);
     }
 
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @Operation(summary = "Save a movie", description = "REST API to save a movie based using RequestBody")
-    public ResponseEntity<Movie> saveMovie(Movie movie, @RequestParam(value = "file") MultipartFile file) {
-        String path = s3FileService.upload(file);
-        movie.setPosterURL(path);
+    // ==========================
+
+    @PostMapping(value = "/saveWithPoster", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @Operation(summary = "Save a movie together with its poster")
+    public ResponseEntity<Movie> saveMovieWithPoster(Movie movie, @RequestParam(name = "file", required = false) MultipartFile file) {
+        String key = s3FileService.upload(file);
+        movie.setPosterURL(key);
         return new ResponseEntity<>(movieService.saveMovie(movie), HttpStatus.CREATED);
     }
 
+
     @PostMapping(value = "/poster", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @Operation(summary = "Update a poster of a movie")
+    @Operation(summary = "Update the poster of a movie")
     public Movie updateMoviePoster(@RequestParam("movieId") Long movieId, @RequestParam(value = "file") MultipartFile file) {
         Movie movie = movieService.findMovieById(movieId);
         String moviePosterURL = movie.getPosterURL();

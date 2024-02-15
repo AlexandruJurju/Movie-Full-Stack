@@ -30,10 +30,6 @@ public class S3FileService implements FileService {
     public String upload(MultipartFile file) {
         String filenameExtension = StringUtils.getFilenameExtension(file.getOriginalFilename());
         String key = UUID.randomUUID() + "." + filenameExtension;
-        //        String key = file.getOriginalFilename();
-        //        ObjectMetadata metadata = new ObjectMetadata.Builder().contentType(file.getContentType()).build();
-
-        // Upload file to aws
         try {
             s3Client.putObject(PutObjectRequest.builder()
                             .bucket(bucket)
@@ -47,19 +43,13 @@ public class S3FileService implements FileService {
 
         // Call AWS to get the file url
         // 1'st option: return "https://" + bucket + ".s3." + region + ".amazonaws.com/" + key;
-        GetUrlRequest request = GetUrlRequest.builder()
-                .bucket(bucket)
-                .key(key)
-                .build();
-
-        // TODO: entity should store the key, not the whole url
-        /*
-        "https://movie-fullstack.s3.eu-central-1.amazonaws.com/a210837a-64bd-4d56-8d9f-d99425bd6068.jpg" contains:
-        Bucket name: movie-fullstack
-        Region: eu-central-1
-        Key: a210837a-64bd-4d56-8d9f-d99425bd6068.jpg
-         */
-        return s3Client.utilities().getUrl(request).toString();
+        // 2 use the GetUrlRequest to get the full URL
+        //        GetUrlRequest request = GetUrlRequest.builder()
+        //                .bucket(bucket)
+        //                .key(key)
+        //                .build();
+        //        return s3Client.utilities().getUrl(request).toString();
+        return key;
     }
 
     public void delete(String key) {
