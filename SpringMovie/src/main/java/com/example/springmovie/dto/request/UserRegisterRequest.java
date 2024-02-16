@@ -1,4 +1,4 @@
-package com.example.springmovie.dto;
+package com.example.springmovie.dto.request;
 
 import jakarta.validation.constraints.*;
 
