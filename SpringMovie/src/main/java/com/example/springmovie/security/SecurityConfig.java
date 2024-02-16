@@ -24,7 +24,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/movie").permitAll()
                         .requestMatchers("/auth/register").permitAll()
                         .requestMatchers("/auth/login").permitAll()
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 )
                 .cors(cors -> cors.disable())
                 .csrf(csrf -> csrf.disable());
