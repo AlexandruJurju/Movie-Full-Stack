@@ -1,4 +1,4 @@
-package com.example.springmovie.configuration;
+package com.example.springmovie.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

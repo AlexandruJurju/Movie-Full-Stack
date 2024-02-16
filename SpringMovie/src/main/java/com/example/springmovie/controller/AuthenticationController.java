@@ -1,8 +1,8 @@
 package com.example.springmovie.controller;
 
-import com.example.springmovie.dto.response.LoginResponse;
 import com.example.springmovie.dto.request.UserLoginRequest;
 import com.example.springmovie.dto.request.UserRegisterRequest;
+import com.example.springmovie.dto.response.LoginResponse;
 import com.example.springmovie.exception.UserAlreadyExistsException;
 import com.example.springmovie.model.User;
 import com.example.springmovie.service.interfaces.UserService;
@@ -10,10 +10,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 
@@ -43,4 +41,8 @@ public class AuthenticationController {
         }
     }
 
+    @GetMapping("/test/me")
+    public ResponseEntity<User> getLoggedInUser(@AuthenticationPrincipal User user) {
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
 }
