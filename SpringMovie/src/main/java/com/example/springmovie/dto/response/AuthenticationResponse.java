@@ -4,6 +4,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
-public record LoginResponse(
-        @NotNull @NotEmpty @NotBlank String jwt) {
+public record AuthenticationResponse(
+        @NotNull @NotEmpty @NotBlank String token) {
 }

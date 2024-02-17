@@ -1,7 +1,7 @@
 package com.example.springmovie.enums;
 
-public enum RoleType {
+public enum Role {
     NONE,
-    ACTOR,
-    CREW
+    USER,
+    ADMIN
 }

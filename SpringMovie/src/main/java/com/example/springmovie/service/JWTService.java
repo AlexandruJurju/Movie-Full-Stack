@@ -1,46 +1,75 @@
 package com.example.springmovie.service;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.interfaces.DecodedJWT;
-import com.example.springmovie.model.User;
-import jakarta.annotation.PostConstruct;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.security.Key;
 import java.util.Date;
+import java.util.function.Function;
 
 @Service
 public class JWTService {
 
-    public static final String USERNAME_KEY = "USERNAME";
-
-    @Value("JTW_SECRET_KEY")
-    private String key;
+    @Value("${JTW_SECRET_KEY}")
+    private String secretKey;
 
     @Value("${jwt.issuer}")
     private String issuer;
 
-    @Value("${jwt.expireTime}")
-    private int expireTime;
+    @Value("${jwt.expireTimeHours}")
+    private int expireTimeHours;
 
-    private Algorithm algorithm;
-
-    @PostConstruct
-    public void postConstruct() {
-        algorithm = Algorithm.HMAC256(key);
+    public String generateToken(UserDetails userDetails) {
+        long expirationTimeMillis = expireTimeHours * 60 * 60 * 1000L;
+        return Jwts.
+                builder()
+                .setSubject(userDetails.getUsername())
+                .setIssuer(issuer)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + expirationTimeMillis))
+                .signWith(getSignInKey(), SignatureAlgorithm.HS256)
+                .compact();
     }
 
-    public String generateJWT(User user) {
-        return JWT.create()
-                .withClaim(USERNAME_KEY, user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + (1000L * expireTime)))
-                .withIssuer(issuer)
-                .sign(algorithm);
+    public <T> T extractClaim(String token, Function<Claims, T> claimResolver) {
+        final Claims claims = extractAllClaims(token);
+        return claimResolver.apply(claims);
     }
 
-    public String getUsername(String token) {
-        DecodedJWT jwt = JWT.require(algorithm).build().verify(token);
-        return jwt.getClaim(USERNAME_KEY).asString();
+    private Key getSignInKey() {
+        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
+        return Keys.hmacShaKeyFor(keyBytes);
+    }
+
+    private Claims extractAllClaims(String token) {
+        return Jwts
+                .parserBuilder()
+                .setSigningKey(getSignInKey())
+                .build()
+                .parseClaimsJwt(token)
+                .getBody();
+    }
+
+    public String extractUsername(String token) {
+        return extractClaim(token, Claims::getSubject);
+    }
+
+    public boolean isTokenValid(String token, UserDetails userDetails) {
+        String username = extractUsername(token);
+        return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
+    }
+
+    private boolean isTokenExpired(String token) {
+        return extractExpiration(token).before(new Date());
+    }
+
+    private Date extractExpiration(String token) {
+        return extractClaim(token, Claims::getExpiration);
     }
 }

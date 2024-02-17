@@ -9,7 +9,7 @@ import java.io.Serializable;
 /**
  * DTO for {@link com.example.springmovie.model.User}
  */
-public record UserLoginRequest(
+public record AuthenticationRequest(
         @NotNull @NotEmpty @NotBlank String username,
         @NotNull @NotEmpty @NotBlank String password)
         implements Serializable {
