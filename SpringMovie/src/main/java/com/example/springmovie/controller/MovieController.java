@@ -25,7 +25,7 @@ import java.util.List;
 @Tag(name = "Movie Controller", description = "CRUD REST APIs for managing movies")
 
 @RestController
-@RequestMapping("/movie")
+@RequestMapping("/api/v1/movie")
 public class MovieController {
 
     private final MovieService movieService;

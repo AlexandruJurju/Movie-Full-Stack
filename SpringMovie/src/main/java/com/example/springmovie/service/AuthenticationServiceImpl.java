@@ -1,8 +1,8 @@
 package com.example.springmovie.service;
 
-import com.example.springmovie.dto.request.AuthenticationRequest;
+import com.example.springmovie.dto.request.LoginRequest;
 import com.example.springmovie.dto.request.RegisterRequest;
-import com.example.springmovie.dto.response.AuthenticationResponse;
+import com.example.springmovie.dto.response.LoginResponse;
 import com.example.springmovie.enums.Role;
 import com.example.springmovie.exception.UserAlreadyExistsException;
 import com.example.springmovie.model.User;
@@ -24,7 +24,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
 
-    public AuthenticationResponse register(RegisterRequest registerRequest) throws UserAlreadyExistsException {
+    public LoginResponse register(RegisterRequest registerRequest) throws UserAlreadyExistsException {
         if (userRepository.findUserByEmailIgnoreCase(registerRequest.email()).isPresent() || userRepository.findUserByUsernameIgnoreCase(registerRequest.username()).isPresent()) {
             throw new UserAlreadyExistsException();
         }
@@ -37,21 +37,21 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .build();
         userRepository.save(user);
         String jwtToken = jwtService.generateToken(user);
-        return new AuthenticationResponse(jwtToken);
+        return new LoginResponse(jwtToken);
     }
 
-    public AuthenticationResponse authenticate(AuthenticationRequest authenticationRequest) {
+    public LoginResponse login(LoginRequest loginRequest) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        authenticationRequest.username(),
-                        authenticationRequest.password())
+                        loginRequest.username(),
+                        loginRequest.password())
         );
 
-        User user = userRepository.findUserByUsernameIgnoreCase(authenticationRequest.username())
+        User user = userRepository.findUserByUsernameIgnoreCase(loginRequest.username())
                 .orElseThrow();
 
         String jwtToken = jwtService.generateToken(user);
 
-        return new AuthenticationResponse(jwtToken);
+        return new LoginResponse(jwtToken);
     }
 }

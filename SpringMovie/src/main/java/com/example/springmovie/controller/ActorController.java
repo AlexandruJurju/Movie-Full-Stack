@@ -14,7 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 // todo: actor exceptions
 @RestController
-@RequestMapping("/actor")
+@RequestMapping("/api/v1/actor")
 public class ActorController {
 
     private final ActorService actorService;

@@ -19,7 +19,7 @@ import java.util.List;
 @Tag(name = "MovieActor Controller", description = "Manages the many-to-many relation between movie and actors")
 
 @RestController
-@RequestMapping("/movie-actor")
+@RequestMapping("/api/v1/movie-actor")
 public class MovieActorController {
 
     private final MovieActorService movieActorService;

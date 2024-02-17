@@ -1,8 +1,8 @@
 package com.example.springmovie.controller;
 
-import com.example.springmovie.dto.request.AuthenticationRequest;
+import com.example.springmovie.dto.request.LoginRequest;
 import com.example.springmovie.dto.request.RegisterRequest;
-import com.example.springmovie.dto.response.AuthenticationResponse;
+import com.example.springmovie.dto.response.LoginResponse;
 import com.example.springmovie.exception.UserAlreadyExistsException;
 import com.example.springmovie.model.User;
 import com.example.springmovie.service.interfaces.AuthenticationService;
@@ -22,7 +22,7 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register(@RequestBody @Valid RegisterRequest registerRequest) {
+    public ResponseEntity<LoginResponse> register(@RequestBody @Valid RegisterRequest registerRequest) {
         try {
             return new ResponseEntity<>(authenticationService.register(registerRequest), HttpStatus.CREATED);
         } catch (UserAlreadyExistsException e) {
@@ -30,9 +30,9 @@ public class AuthenticationController {
         }
     }
 
-    @PostMapping("/authentication")
-    public ResponseEntity<AuthenticationResponse> authentication(@RequestBody @Valid AuthenticationRequest authenticationRequest) {
-        return new ResponseEntity<>(authenticationService.authenticate(authenticationRequest), HttpStatus.OK);
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> authentication(@RequestBody @Valid LoginRequest loginRequest) {
+        return new ResponseEntity<>(authenticationService.login(loginRequest), HttpStatus.OK);
     }
 
     @GetMapping("/test")

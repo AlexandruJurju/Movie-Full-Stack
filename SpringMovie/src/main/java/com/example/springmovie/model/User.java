@@ -41,6 +41,7 @@ public class User implements UserDetails {
     private String profilePictureUrl;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false)
     private Role role;
 
     @Override

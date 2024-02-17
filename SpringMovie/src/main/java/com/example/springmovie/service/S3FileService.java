@@ -40,15 +40,6 @@ public class S3FileService implements FileService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-        // Call AWS to get the file url
-        // 1'st option: return "https://" + bucket + ".s3." + region + ".amazonaws.com/" + key;
-        // 2 use the GetUrlRequest to get the full URL
-        //        GetUrlRequest request = GetUrlRequest.builder()
-        //                .bucket(bucket)
-        //                .key(key)
-        //                .build();
-        //        return s3Client.utilities().getUrl(request).toString();
         return key;
     }
 
