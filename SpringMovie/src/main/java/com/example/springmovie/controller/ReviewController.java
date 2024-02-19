@@ -31,6 +31,7 @@ public class ReviewController {
         return new ResponseEntity<>(reviews, HttpStatus.OK);
     }
 
+    // TODO: maybe dont need all information from review, ie both user (PASSWORD) and movie
     @GetMapping("/{id}")
     public ResponseEntity<Review> getReviewById(@PathVariable Long id) {
         try {
