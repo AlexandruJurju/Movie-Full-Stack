@@ -57,6 +57,9 @@ public class Movie {
     @Column(name = "imdb_rating")
     private Double imdbRating;
 
+    @Column(name = "trailer_url")
+    private String trailerUrl;
+
     @Column(name = "release_date")
     private LocalDate releaseDate;
 
