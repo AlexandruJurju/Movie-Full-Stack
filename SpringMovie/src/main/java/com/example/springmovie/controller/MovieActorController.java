@@ -10,6 +10,8 @@ import com.example.springmovie.service.interfaces.MovieService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,7 +30,7 @@ public class MovieActorController {
 
     @PostMapping("/add")
     @Operation(summary = "Add an actor to a a movie")
-    public MovieActor addActorToMovie(@RequestBody MovieActorDto movieActorDto) {
+    public ResponseEntity<MovieActor> addActorToMovie(@RequestBody MovieActorDto movieActorDto) {
         Movie movie = movieService.findMovieById(movieActorDto.movieId());
         Actor actor = actorService.findActorById(movieActorDto.actorId());
 
@@ -39,26 +41,39 @@ public class MovieActorController {
         movieActor.setDisplayOrder(movieActorDto.displayOrder());
         movieActor.setCharacterImageUrl(movieActorDto.characterImageUrl());
 
-        return movieActorService.saveMovieActor(movieActor);
+        return new ResponseEntity<>(movieActorService.saveMovieActor(movieActor), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{movieId}/{actorId}")
     @Operation(summary = "Remove actor from movie")
-    public void removeActorFromMovie(@PathVariable Long movieId, @PathVariable Long actorId) {
-        List<MovieActor> movieCasts = movieActorService.findByMovieIdAndActorId(movieId, actorId);
+    public ResponseEntity<?> removeActorFromMovie(@PathVariable Long movieId, @PathVariable Long actorId) {
+        List<MovieActor> movieActors = movieActorService.findByMovieIdAndActorId(movieId, actorId);
 
-        for (MovieActor movieCast : movieCasts) {
+        if (movieActors.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        for (MovieActor movieCast : movieActors) {
             movieActorService.deleteById(movieCast.getId());
         }
+
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{movieId}")
     @Operation(summary = "Get all actors from a movie")
-    public List<MovieActorDto> getActorsByMovieId(@PathVariable Long movieId) {
+    public ResponseEntity<List<MovieActorDto>> getActorsByMovieId(@PathVariable Long movieId) {
         List<MovieActor> movieActors = movieActorService.findAllByMovieId(movieId);
 
-        return movieActors.stream().map(movieActor -> new MovieActorDto(movieId, movieActor.getActor().getId(), movieActor.getRole(), movieActor.getDisplayOrder(),
-                movieActor.getCharacterImageUrl())).toList();
+        if (movieActors.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        List<MovieActorDto> response = movieActors.stream().map
+                (movieActor -> new MovieActorDto(movieId, movieActor.getActor().getId(), movieActor.getRole(),
+                movieActor.getDisplayOrder(), movieActor.getCharacterImageUrl())).toList();
+
+        return ResponseEntity.ok(response);
     }
 
 

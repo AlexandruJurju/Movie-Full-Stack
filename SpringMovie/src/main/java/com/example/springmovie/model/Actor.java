@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -35,6 +34,9 @@ public class Actor {
 
     @Column(name = "imdb_url")
     private String imdbUrl;
+
+    @Column(name = "biography", columnDefinition = "TEXT")
+    private String biography;
 
     @JsonIgnore
     @OneToMany(mappedBy = "actor")

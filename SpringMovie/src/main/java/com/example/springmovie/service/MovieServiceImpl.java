@@ -5,6 +5,7 @@ import com.example.springmovie.exception.NotFoundException;
 import com.example.springmovie.model.Genre;
 import com.example.springmovie.model.Movie;
 import com.example.springmovie.repositories.MovieRepository;
+import com.example.springmovie.service.interfaces.GenreService;
 import com.example.springmovie.service.interfaces.MovieService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,6 +20,9 @@ import java.util.Optional;
 public class MovieServiceImpl implements MovieService {
 
     private final MovieRepository movieRepository;
+    private final GenreService genreService;
+
+    // TODO: add filtering
 
     @Override
     public Page<Movie> findAllMovies(Pageable pageable) {
@@ -59,11 +63,6 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public List<Movie> findMovieByGenreName(String genreName) {
-        return movieRepository.findMoviesByGenreName(genreName);
-    }
-
-    @Override
     public List<Movie> findMovieByReleaseStatus(ReleaseStatus status) {
         return movieRepository.findMovieByReleaseStatus(status);
     }
@@ -76,5 +75,22 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public List<Genre> findAllGenresOfMovie(Long movieId) {
         return movieRepository.findGenresByMovieId(movieId);
+    }
+
+    @Override
+    public Movie addGenreToMovie(Long movieId, Long genreId) {
+        Movie movie = movieRepository.findById(movieId).
+                orElseThrow();
+        Genre genre = genreService.findGenreById(genreId);
+        movie.getGenres().add(genre);
+        return movieRepository.save(movie);
+    }
+
+    @Override
+    public Movie removeGenreFromMovie(Long movieId, Long genreId) {
+        Movie movie = movieRepository.findById(movieId).orElseThrow();
+        Genre genre = genreService.findGenreById(genreId);
+        movie.getGenres().remove(genre);
+        return movieRepository.save(movie);
     }
 }

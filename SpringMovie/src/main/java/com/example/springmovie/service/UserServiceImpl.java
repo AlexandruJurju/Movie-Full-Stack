@@ -14,6 +14,8 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
+    // TODO: add upload image
+
     @Override
     public UserDetailsService userDetailsService() {
         return new UserDetailsService() {

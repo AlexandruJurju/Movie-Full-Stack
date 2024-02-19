@@ -31,6 +31,7 @@ public class MovieController {
     private final MovieService movieService;
     private final S3FileService s3FileService;
 
+    // ========================== Find Movies ==========================
 
     @GetMapping("")
     @Operation(summary = "Get all movies", description = "Retrieve a paginated list of all movies")
@@ -49,6 +50,22 @@ public class MovieController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
+
+    @GetMapping("status/{releaseStatus}")
+    @Operation(summary = "Find movies by release status")
+    public ResponseEntity<List<Movie>> findMoviesByReleaseStatus(@PathVariable("releaseStatus") ReleaseStatus status) {
+        List<Movie> movies = movieService.findMovieByReleaseStatus(status);
+        return ResponseEntity.ok().body(movies);
+    }
+
+    @GetMapping("/year/{year}")
+    @Operation(summary = "Get all movies that were released in a year")
+    public ResponseEntity<List<Movie>> findMoviesByReleaseYear(@PathVariable int year) {
+        List<Movie> movies = movieService.findMovieByYear(year);
+        return ResponseEntity.ok().body(movies);
+    }
+
+    // ========================== CRUD Operations ==========================
 
     @PostMapping
     @Operation(summary = "Save a movie")
@@ -81,21 +98,7 @@ public class MovieController {
         }
     }
 
-    @GetMapping("status/{releaseStatus}")
-    @Operation(summary = "Find movies by release status")
-    public ResponseEntity<List<Movie>> findMoviesByReleaseStatus(@PathVariable("releaseStatus") ReleaseStatus status) {
-        List<Movie> movies = movieService.findMovieByReleaseStatus(status);
-        return ResponseEntity.ok().body(movies);
-    }
-
-    @GetMapping("/year/{year}")
-    @Operation(summary = "Get all movies that were released in a year")
-    public ResponseEntity<List<Movie>> findMoviesByReleaseYear(@PathVariable int year) {
-        List<Movie> movies = movieService.findMovieByYear(year);
-        return ResponseEntity.ok().body(movies);
-    }
-
-    // ==========================
+    // ========================== Poster Operations ==========================
 
     @PostMapping(value = "/saveWithPoster", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "Save a movie together with its poster")
@@ -136,7 +139,6 @@ public class MovieController {
         Movie movie = movieService.findMovieById(movieId);
         byte[] image = s3FileService.download(movie.getPosterUrl());
         return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.valueOf("image/png")).body(image);
-        //        return s3FileService.download(movie.getPosterURL());
     }
 
 

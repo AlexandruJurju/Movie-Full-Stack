@@ -22,11 +22,13 @@ public interface MovieService {
 
     List<Movie> findMovieByGenreId(Long genreId);
 
-    List<Movie> findMovieByGenreName(String genreName);
-
     List<Movie> findMovieByReleaseStatus(ReleaseStatus status);
 
     List<Movie> findMovieByYear(int year);
 
     List<Genre> findAllGenresOfMovie(Long movieId);
+
+    Movie addGenreToMovie(Long movieId, Long genreId);
+
+    Movie removeGenreFromMovie(Long movieId, Long genreId);
 }

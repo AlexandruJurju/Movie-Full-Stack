@@ -21,10 +21,12 @@ public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
 
+    // TODO: register give default image
+
+
     @PostMapping("/register")
     public ResponseEntity<LoginResponse> register(@RequestBody @Valid RegisterRequest registerRequest) {
         try {
-            // TODO: register give default image
             return new ResponseEntity<>(authenticationService.register(registerRequest), HttpStatus.CREATED);
         } catch (UserAlreadyExistsException e) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
