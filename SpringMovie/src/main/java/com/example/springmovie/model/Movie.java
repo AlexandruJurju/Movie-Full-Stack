@@ -76,4 +76,8 @@ public class Movie {
     @JsonIgnore
     @OneToMany(mappedBy = "movie")
     private Set<MovieActor> movieActors = new HashSet<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "movie")
+    private Set<Review> reviews = new HashSet<>();
 }

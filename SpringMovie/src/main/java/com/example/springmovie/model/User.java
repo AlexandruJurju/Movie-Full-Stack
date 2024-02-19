@@ -1,6 +1,7 @@
 package com.example.springmovie.model;
 
 import com.example.springmovie.enums.Role;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.*;
@@ -9,7 +10,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -48,6 +51,10 @@ public class User implements UserDetails {
     public String getPassword() {
         return password;
     }
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private Set<Review> reviews = new HashSet<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

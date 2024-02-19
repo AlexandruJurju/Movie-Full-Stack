@@ -41,12 +41,8 @@ public class MovieController {
     @GetMapping("/{movieId}")
     @Operation(summary = "Get a single movie using id", description = "Retrieve a single movie using an ID passed as a variable")
     public ResponseEntity<Movie> findMovieById(@PathVariable Long movieId) {
-        try {
-            Movie movie = movieService.findMovieById(movieId);
-            return ResponseEntity.ok(movie);
-        } catch (NotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+        Movie movie = movieService.findMovieById(movieId);
+        return ResponseEntity.ok(movie);
     }
 
     @GetMapping("status/{releaseStatus}")
