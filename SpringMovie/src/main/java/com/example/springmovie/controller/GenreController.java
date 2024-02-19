@@ -77,21 +77,25 @@ public class GenreController {
     @Operation(summary = "Add a genre to a movie")
     public ResponseEntity<Movie> addGenreToMovie(@Parameter(description = "ID of movie that the genre will be added to") @PathVariable("movieId") Long movieId,
                                                  @Parameter(description = "ID of the genre that will be added to the movie") @PathVariable("genreId") Long genreId) {
-        Movie movie = movieService.addGenreToMovie(movieId, genreId);
-        return ResponseEntity.ok(movie);
+        Movie movie = movieService.findMovieById(movieId);
+        Genre genre = genreService.findGenreById(genreId);
+        movie.getGenres().add(genre);
+        return new ResponseEntity<>(movieService.saveMovie(movie), HttpStatus.OK);
     }
 
     @PutMapping("movie/{movieId}/removeGenre/{genreId}")
     @Operation(summary = "Remove a genre from a movie")
     public ResponseEntity<Movie> removeGenreFromMovie(@PathVariable("movieId") Long movieId, @PathVariable("genreId") Long genreId) {
-        Movie movie = movieService.removeGenreFromMovie(movieId, genreId);
-        return ResponseEntity.ok(movie);
+        Movie movie = movieService.findMovieById(movieId);
+        Genre genre = genreService.findGenreById(genreId);
+        movie.getGenres().remove(genre);
+        return new ResponseEntity<>(movieService.saveMovie(movie), HttpStatus.OK);
     }
 
     @GetMapping("movie/findByGenreId/{genreId}")
     @Operation(summary = "Find all movies that contain a genre using the genreId")
     public ResponseEntity<List<Movie>> findAllMoviesContainingGenre(@PathVariable("genreId") Long genreId) {
-        List<Movie> movies = movieService.findMovieByGenreId(genreId);
+        List<Movie> movies = movieService.findMoviesByGenre(genreId);
         return ResponseEntity.ok(movies);
     }
 

@@ -1,14 +1,10 @@
 package com.example.springmovie;
 
-import com.example.springmovie.enums.Role;
-import com.example.springmovie.model.User;
 import com.example.springmovie.repositories.UserRepository;
 import com.example.springmovie.service.interfaces.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @Component
@@ -79,17 +75,17 @@ public class Runner implements CommandLineRunner {
         //            throw new RuntimeException(e);
         //        }
 
-        List<User> users = userRepository.findUserByRole(Role.USER);
-        if (users.isEmpty()) {
-            User user = User
-                    .builder()
-                    .username("thebigman123")
-                    .email("thebigman@gmail.com")
-                    .password("thebigman123")
-                    .role(Role.USER)
-                    .build();
-            userRepository.save(user);
-        }
+//        List<User> users = userRepository.findUserByRole(Role.USER);
+//        if (users.isEmpty()) {
+//            User user = User
+//                    .builder()
+//                    .username("thebigman123")
+//                    .email("thebigman@gmail.com")
+//                    .password("thebigman123")
+//                    .role(Role.USER)
+//                    .build();
+//            userRepository.save(user);
+//        }
 
     }
 }

@@ -1,10 +1,10 @@
 package com.example.springmovie.controller;
 
 import com.example.springmovie.enums.ReleaseStatus;
+import com.example.springmovie.exception.MovieNotFoundException;
 import com.example.springmovie.exception.NotFoundException;
 import com.example.springmovie.exception.ResourceAlreadyExistsException;
 import com.example.springmovie.model.Movie;
-import com.example.springmovie.service.S3FileService;
 import com.example.springmovie.service.interfaces.MovieService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -29,8 +29,6 @@ import java.util.List;
 public class MovieController {
 
     private final MovieService movieService;
-    private final S3FileService s3FileService;
-
     // ========================== Find Movies ==========================
 
     @GetMapping("")
@@ -54,14 +52,14 @@ public class MovieController {
     @GetMapping("status/{releaseStatus}")
     @Operation(summary = "Find movies by release status")
     public ResponseEntity<List<Movie>> findMoviesByReleaseStatus(@PathVariable("releaseStatus") ReleaseStatus status) {
-        List<Movie> movies = movieService.findMovieByReleaseStatus(status);
+        List<Movie> movies = movieService.findMoviesByReleaseStatus(status);
         return ResponseEntity.ok().body(movies);
     }
 
     @GetMapping("/year/{year}")
     @Operation(summary = "Get all movies that were released in a year")
     public ResponseEntity<List<Movie>> findMoviesByReleaseYear(@PathVariable int year) {
-        List<Movie> movies = movieService.findMovieByYear(year);
+        List<Movie> movies = movieService.findMoviesByYear(year);
         return ResponseEntity.ok().body(movies);
     }
 
@@ -103,43 +101,39 @@ public class MovieController {
     @PostMapping(value = "/saveWithPoster", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "Save a movie together with its poster")
     public ResponseEntity<Movie> saveMovieWithPoster(Movie movie, @RequestParam(name = "file", required = false) MultipartFile file) {
-        String key = s3FileService.upload(file);
-        movie.setPosterUrl(key);
-        return new ResponseEntity<>(movieService.saveMovie(movie), HttpStatus.CREATED);
+        return new ResponseEntity<>(movieService.saveMovieWithPoster(movie, file), HttpStatus.CREATED);
     }
-
 
     @PostMapping(value = "/poster", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "Update the poster of a movie")
-    public Movie updateMoviePoster(@RequestParam("movieId") Long movieId, @RequestParam(value = "file") MultipartFile file) {
-        Movie movie = movieService.findMovieById(movieId);
-        String moviePosterURL = movie.getPosterUrl();
-        if (moviePosterURL != null) {
-            s3FileService.delete(moviePosterURL);
+    public ResponseEntity<Movie> updateMoviePoster(@RequestParam("movieId") Long movieId, @RequestParam(value = "file") MultipartFile file) {
+        try {
+            return ResponseEntity.ok().body(movieService.updateMoviePoster(movieId, file));
+        } catch (MovieNotFoundException e) {
+            throw new RuntimeException(e);
         }
-        movie.setPosterUrl(s3FileService.upload(file));
-        return movieService.saveMovie(movie);
     }
 
     @PutMapping("/{movieId}/poster/delete")
     @Operation(summary = "Delete a poster from a movie")
-    public Movie deletePoster(@PathVariable("movieId") Long movieId) {
-        Movie movie = movieService.findMovieById(movieId);
-        String moviePosterURL = movie.getPosterUrl();
-        if (moviePosterURL != null) {
-            s3FileService.delete(moviePosterURL);
+    public ResponseEntity<Object> deletePoster(@PathVariable("movieId") Long movieId) {
+        try {
+            movieService.deleteMoviePoster(movieId);
+        } catch (MovieNotFoundException e) {
+            throw new RuntimeException(e);
         }
-        movie.setPosterUrl(null);
-        return movieService.saveMovie(movie);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{movieId}/poster")
     @Operation(summary = "Get the poster image from a movie")
     public ResponseEntity<byte[]> getMoviePoster(@PathVariable("movieId") Long movieId) {
-        Movie movie = movieService.findMovieById(movieId);
-        byte[] image = s3FileService.download(movie.getPosterUrl());
+        byte[] image;
+        try {
+            image = movieService.getMoviePoster(movieId);
+        } catch (MovieNotFoundException e) {
+            throw new RuntimeException(e);
+        }
         return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.valueOf("image/png")).body(image);
     }
-
-
 }
