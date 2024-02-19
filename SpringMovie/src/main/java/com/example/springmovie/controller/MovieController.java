@@ -101,7 +101,7 @@ public class MovieController {
     @Operation(summary = "Save a movie together with its poster")
     public ResponseEntity<Movie> saveMovieWithPoster(Movie movie, @RequestParam(name = "file", required = false) MultipartFile file) {
         String key = s3FileService.upload(file);
-        movie.setPosterURL(key);
+        movie.setPosterUrl(key);
         return new ResponseEntity<>(movieService.saveMovie(movie), HttpStatus.CREATED);
     }
 
@@ -110,11 +110,11 @@ public class MovieController {
     @Operation(summary = "Update the poster of a movie")
     public Movie updateMoviePoster(@RequestParam("movieId") Long movieId, @RequestParam(value = "file") MultipartFile file) {
         Movie movie = movieService.findMovieById(movieId);
-        String moviePosterURL = movie.getPosterURL();
+        String moviePosterURL = movie.getPosterUrl();
         if (moviePosterURL != null) {
             s3FileService.delete(moviePosterURL);
         }
-        movie.setPosterURL(s3FileService.upload(file));
+        movie.setPosterUrl(s3FileService.upload(file));
         return movieService.saveMovie(movie);
     }
 
@@ -122,11 +122,11 @@ public class MovieController {
     @Operation(summary = "Delete a poster from a movie")
     public Movie deletePoster(@PathVariable("movieId") Long movieId) {
         Movie movie = movieService.findMovieById(movieId);
-        String moviePosterURL = movie.getPosterURL();
+        String moviePosterURL = movie.getPosterUrl();
         if (moviePosterURL != null) {
             s3FileService.delete(moviePosterURL);
         }
-        movie.setPosterURL(null);
+        movie.setPosterUrl(null);
         return movieService.saveMovie(movie);
     }
 
@@ -134,7 +134,7 @@ public class MovieController {
     @Operation(summary = "Get the poster image from a movie")
     public ResponseEntity<byte[]> getMoviePoster(@PathVariable("movieId") Long movieId) {
         Movie movie = movieService.findMovieById(movieId);
-        byte[] image = s3FileService.download(movie.getPosterURL());
+        byte[] image = s3FileService.download(movie.getPosterUrl());
         return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.valueOf("image/png")).body(image);
         //        return s3FileService.download(movie.getPosterURL());
     }

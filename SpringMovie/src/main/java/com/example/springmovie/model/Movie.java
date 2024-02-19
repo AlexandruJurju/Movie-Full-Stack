@@ -42,37 +42,21 @@ public class Movie {
 
     @Column(name = "runtime")
     @Schema(description = "Runtime of the movie in minutes", example = "117")
-    private Integer runtime;
+    private Integer runtimeInMinutes;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "release_status")
     private ReleaseStatus releaseStatus;
 
     @Column(name = "poster_url")
-    private String posterURL;
+    private String posterUrl;
 
     @Column(name = "imdb_url")
     private String imdbUrl;
 
-    // Todo: add indexing
-    /*
-    @Entity
-    @Table(name = "movie", indexes = {@Index(name = "idx_release_year", columnList = "release_year")})
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    @NoArgsConstructor
-    ...
+    @Column(name = "imdb_rating")
+    private Double imdbRating;
 
-    @Column(name = "release_year")
-    private Integer releaseYear;
-
-    @PrePersist
-    private void setReleaseYear() {
-        if (releaseDate != null) {
-            releaseYear = releaseDate.getYear();
-        }
-     */
     @Column(name = "release_date")
     private LocalDate releaseDate;
 
