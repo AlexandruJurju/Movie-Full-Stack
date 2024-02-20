@@ -1,8 +1,8 @@
 package com.example.springmovie.service;
 
-import com.example.springmovie.dto.request.LoginRequest;
-import com.example.springmovie.dto.request.RegisterRequest;
-import com.example.springmovie.dto.response.LoginResponse;
+import com.example.springmovie.dto.LoginRequestDto;
+import com.example.springmovie.dto.RegisterRequestDto;
+import com.example.springmovie.dto.LoginResponseDto;
 import com.example.springmovie.enums.Role;
 import com.example.springmovie.exception.UserAlreadyExistsException;
 import com.example.springmovie.model.User;
@@ -24,34 +24,35 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
 
-    public LoginResponse register(RegisterRequest registerRequest) throws UserAlreadyExistsException {
-        if (userRepository.findUserByEmailIgnoreCase(registerRequest.email()).isPresent() || userRepository.findUserByUsernameIgnoreCase(registerRequest.username()).isPresent()) {
+    public LoginResponseDto register(RegisterRequestDto registerRequestDto) throws UserAlreadyExistsException {
+        if (userRepository.findUserByEmailIgnoreCase(registerRequestDto.email()).isPresent() || userRepository.findUserByUsernameIgnoreCase(registerRequestDto.username()).isPresent()) {
             throw new UserAlreadyExistsException();
         }
 
         User user = User.builder()
-                .username(registerRequest.username())
-                .email(registerRequest.email())
-                .password(passwordEncoder.encode(registerRequest.password()))
+                .username(registerRequestDto.username())
+                .email(registerRequestDto.email())
+                .password(passwordEncoder.encode(registerRequestDto.password()))
                 .role(Role.USER)
                 .build();
+
         userRepository.save(user);
         String jwtToken = jwtService.generateToken(user);
-        return new LoginResponse(jwtToken);
+        return new LoginResponseDto(jwtToken);
     }
 
-    public LoginResponse login(LoginRequest loginRequest) {
+    public LoginResponseDto login(LoginRequestDto loginRequestDto) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        loginRequest.username(),
-                        loginRequest.password())
+                        loginRequestDto.username(),
+                        loginRequestDto.password())
         );
 
-        User user = userRepository.findUserByUsernameIgnoreCase(loginRequest.username())
+        User user = userRepository.findUserByUsernameIgnoreCase(loginRequestDto.username())
                 .orElseThrow();
 
         String jwtToken = jwtService.generateToken(user);
 
-        return new LoginResponse(jwtToken);
+        return new LoginResponseDto(jwtToken);
     }
 }
