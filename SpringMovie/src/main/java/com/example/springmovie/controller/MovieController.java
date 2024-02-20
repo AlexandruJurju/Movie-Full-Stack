@@ -19,7 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @RequiredArgsConstructor
-// todo: movie exceptions
+
 @Tag(name = "Movie Controller", description = "CRUD REST APIs for managing movies")
 
 @RestController

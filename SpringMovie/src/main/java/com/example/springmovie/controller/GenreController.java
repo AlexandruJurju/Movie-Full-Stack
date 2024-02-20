@@ -8,7 +8,6 @@ import com.example.springmovie.service.interfaces.GenreService;
 import com.example.springmovie.service.interfaces.MovieService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,7 +21,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/genre")
 @Tag(name = "Genre Controller", description = "CRUD REST APIs for managing movie genres")
-
 public class GenreController {
 
     private final GenreService genreService;
@@ -57,7 +55,6 @@ public class GenreController {
 
     @DeleteMapping("/{genreId}")
     @Operation(summary = "Delete genre using ID")
-    @ApiResponse(responseCode = "204", description = "Genre deleted successfully")
     public ResponseEntity<?> deleteGenreById(@PathVariable("genreId") Long genreId) throws GenreNotFoundException {
         genreService.deleteGenre(genreId);
         return ResponseEntity.noContent().build();
@@ -81,6 +78,7 @@ public class GenreController {
         return new ResponseEntity<>(movieService.saveMovie(movie), HttpStatus.OK);
     }
 
+    // TODO: put in service
     @PutMapping("movie/{movieId}/removeGenre/{genreId}")
     @Operation(summary = "Remove a genre from a movie")
     public ResponseEntity<Movie> removeGenreFromMovie(@PathVariable("movieId") Long movieId, @PathVariable("genreId") Long genreId) throws MovieNotFoundException,

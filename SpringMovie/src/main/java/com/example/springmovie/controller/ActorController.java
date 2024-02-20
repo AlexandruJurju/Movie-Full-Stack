@@ -17,6 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/actor")
+// TODO: actor save with image
 public class ActorController {
 
     private final ActorService actorService;
@@ -26,6 +27,12 @@ public class ActorController {
     public ResponseEntity<List<Actor>> findAllActors() {
         List<Actor> actors = actorService.findAllActors();
         return ResponseEntity.ok(actors);
+    }
+
+    @GetMapping("/{actorId}")
+    @Operation(summary = "Find an actor using Id")
+    public ResponseEntity<Actor> findActorById(@PathVariable("actorId") Long actorId) throws ActorNotFoundException {
+        return new ResponseEntity<>(actorService.findActorById(actorId), HttpStatus.OK);
     }
 
     @PostMapping("")

@@ -30,6 +30,7 @@ public class MovieActorController {
     private final MovieService movieService;
     private final ActorService actorService;
 
+    // TODO: put in service ?
     @PostMapping("/add")
     @Operation(summary = "Add an actor to a a movie")
     public ResponseEntity<MovieActor> addActorToMovie(@RequestBody MovieActorDto movieActorDto) throws MovieNotFoundException, ActorNotFoundException {
@@ -46,6 +47,7 @@ public class MovieActorController {
         return new ResponseEntity<>(movieActorService.saveMovieActor(movieActor), HttpStatus.CREATED);
     }
 
+    // TODO: rewrite, a movie can have an actor with multiple roles
     @DeleteMapping("/{movieId}/{actorId}")
     @Operation(summary = "Remove actor from movie")
     public ResponseEntity<?> removeActorFromMovie(@PathVariable Long movieId, @PathVariable Long actorId) {
