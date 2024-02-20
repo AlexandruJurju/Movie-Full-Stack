@@ -1,5 +1,6 @@
 package com.example.springmovie.service;
 
+import com.example.springmovie.exception.MovieNotFoundException;
 import com.example.springmovie.model.Movie;
 import com.example.springmovie.repositories.MovieRepository;
 import org.junit.jupiter.api.Test;
@@ -44,28 +45,28 @@ public class MovieServiceImplTest {
     }
 
     @Test
-    public void testFindMovieById_ExistingMovie() {
-        Long id = 1L;
+    public void testFindMovieById_MovieExists() throws MovieNotFoundException {
+        Long movieId = 1L;
         Movie expectedMovie = new Movie();
-        expectedMovie.setId(id);
-        when(movieRepository.findById(id)).thenReturn(Optional.of(expectedMovie));
+        Optional<Movie> optionalMovie = Optional.of(expectedMovie);
+        when(movieRepository.findById(movieId)).thenReturn(optionalMovie);
 
-        Movie actualMovie = movieService.findMovieById(id);
+        Movie actualMovie = movieService.findMovieById(movieId);
 
         assertThat(actualMovie, is(equalTo(expectedMovie)));
-        verify(movieRepository, times(1)).findById(id);
+        verify(movieRepository, times(1)).findById(movieId);
     }
 
     @Test
-    public void testFindMovieById_WhenMovieDoenstExist_ThrowNullPointerException() {
+    public void testFindMovieById_WhenMovieDoenstExist_ThrowNotFoundException() {
         Long movieId = 2L;
         when(movieRepository.findById(movieId)).thenReturn(Optional.empty());
 
-        assertThrows(NotFoundException.class, () -> movieService.findMovieById(movieId));
+        assertThrows(MovieNotFoundException.class, () -> movieService.findMovieById(movieId));
     }
 
     @Test
-    void testUpdateMovie_WhenMovieExists() {
+    void testUpdateMovie_WhenMovieExists() throws MovieNotFoundException {
         Movie movie = new Movie();
         movie.setId(1L);
         when(movieRepository.findById(movie.getId())).thenReturn(Optional.of(movie));
@@ -82,11 +83,11 @@ public class MovieServiceImplTest {
         movie.setId(2L);
         when(movieRepository.findById(movie.getId())).thenReturn(Optional.empty());
 
-        assertThrows(NotFoundException.class, () -> movieService.updateMovie(movie));
+        assertThrows(MovieNotFoundException.class, () -> movieService.updateMovie(movie));
     }
 
     @Test
-    void testDeleteMovieById_WhenMovieExists() {
+    void testDeleteMovieById_WhenMovieExists() throws MovieNotFoundException {
         Long movieId = 1L;
         when(movieRepository.existsById(movieId)).thenReturn(true);
 
@@ -100,7 +101,7 @@ public class MovieServiceImplTest {
         Long movieId = 2L;
         when(movieRepository.existsById(movieId)).thenReturn(false);
 
-        assertThrows(NotFoundException.class, () -> movieService.deleteMovieById(movieId));
+        assertThrows(MovieNotFoundException.class, () -> movieService.deleteMovieById(movieId));
     }
 
 }
