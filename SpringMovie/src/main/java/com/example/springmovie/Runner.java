@@ -75,17 +75,7 @@ public class Runner implements CommandLineRunner {
         //            throw new RuntimeException(e);
         //        }
 
-//        List<User> users = userRepository.findUserByRole(Role.USER);
-//        if (users.isEmpty()) {
-//            User user = User
-//                    .builder()
-//                    .username("thebigman123")
-//                    .email("thebigman@gmail.com")
-//                    .password("thebigman123")
-//                    .role(Role.USER)
-//                    .build();
-//            userRepository.save(user);
-//        }
+
 
     }
 }

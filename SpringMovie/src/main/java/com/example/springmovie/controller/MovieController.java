@@ -3,7 +3,6 @@ package com.example.springmovie.controller;
 import com.example.springmovie.enums.ReleaseStatus;
 import com.example.springmovie.exception.MovieNotFoundException;
 import com.example.springmovie.exception.NotFoundException;
-import com.example.springmovie.exception.ResourceAlreadyExistsException;
 import com.example.springmovie.model.Movie;
 import com.example.springmovie.service.interfaces.MovieService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -64,11 +63,7 @@ public class MovieController {
     @PostMapping
     @Operation(summary = "Save a movie")
     public ResponseEntity<Movie> saveMovie(@RequestBody @Valid Movie movie) {
-        try {
-            return ResponseEntity.status(HttpStatus.CREATED).body(movieService.saveMovie(movie));
-        } catch (ResourceAlreadyExistsException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(movieService.saveMovie(movie));
     }
 
     @PutMapping
