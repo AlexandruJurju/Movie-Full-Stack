@@ -34,15 +34,15 @@ public class MovieActorController {
     @PostMapping("/add")
     @Operation(summary = "Add an actor to a a movie")
     public ResponseEntity<MovieActor> addActorToMovie(@RequestBody MovieActorDto movieActorDto) throws MovieNotFoundException, ActorNotFoundException {
-        Movie movie = movieService.findMovieById(movieActorDto.movieId());
-        Actor actor = actorService.findActorById(movieActorDto.actorId());
+        Movie movie = movieService.findMovieById(movieActorDto.getMovieId());
+        Actor actor = actorService.findActorById(movieActorDto.getActorId());
 
         MovieActor movieActor = new MovieActor();
         movieActor.setActor(actor);
         movieActor.setMovie(movie);
-        movieActor.setRole(movieActorDto.role());
-        movieActor.setDisplayOrder(movieActorDto.displayOrder());
-        movieActor.setCharacterImageUrl(movieActorDto.characterImageUrl());
+        movieActor.setRole(movieActorDto.getRole());
+        movieActor.setDisplayOrder(movieActorDto.getDisplayOrder());
+        movieActor.setCharacterImageUrl(movieActorDto.getCharacterImageUrl());
 
         return new ResponseEntity<>(movieActorService.saveMovieActor(movieActor), HttpStatus.CREATED);
     }

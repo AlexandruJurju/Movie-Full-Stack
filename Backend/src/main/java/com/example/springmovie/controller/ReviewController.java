@@ -53,12 +53,12 @@ public class ReviewController {
     @Operation(summary = "Add review to movie")
     public ResponseEntity<Review> addReviewToMovie(@RequestBody ReviewDto reviewDto) throws MovieNotFoundException, UserNotFoundException {
         Review review = new Review();
-        review.setText(reviewDto.text());
-        review.setScore(reviewDto.score());
+        review.setText(reviewDto.getText());
+        review.setScore(reviewDto.getScore());
         review.setPostedDate(LocalDate.now());
 
-        Movie movie = movieService.findMovieById(reviewDto.movieId());
-        User user = userService.findUserById(reviewDto.userId());
+        Movie movie = movieService.findMovieById(reviewDto.getMovieId());
+        User user = userService.findUserById(reviewDto.getUserId());
 
         review.setMovie(movie);
         review.setUser(user);

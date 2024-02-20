@@ -25,14 +25,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 
     public LoginResponseDto register(RegisterRequestDto registerRequestDto) throws UserAlreadyExistsException {
-        if (userRepository.findUserByEmailIgnoreCase(registerRequestDto.email()).isPresent() || userRepository.findUserByUsernameIgnoreCase(registerRequestDto.username()).isPresent()) {
+        if (userRepository.findUserByEmailIgnoreCase(registerRequestDto.getEmail()).isPresent() || userRepository.findUserByUsernameIgnoreCase(registerRequestDto.getUsername()).isPresent()) {
             throw new UserAlreadyExistsException();
         }
 
         User user = User.builder()
-                .username(registerRequestDto.username())
-                .email(registerRequestDto.email())
-                .password(passwordEncoder.encode(registerRequestDto.password()))
+                .username(registerRequestDto.getUsername())
+                .email(registerRequestDto.getEmail())
+                .password(passwordEncoder.encode(registerRequestDto.getPassword()))
                 .role(Role.USER)
                 .build();
 
@@ -44,11 +44,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public LoginResponseDto login(LoginRequestDto loginRequestDto) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        loginRequestDto.username(),
-                        loginRequestDto.password())
+                        loginRequestDto.getUsername(),
+                        loginRequestDto.getPassword())
         );
 
-        User user = userRepository.findUserByUsernameIgnoreCase(loginRequestDto.username())
+        User user = userRepository.findUserByUsernameIgnoreCase(loginRequestDto.getUsername())
                 .orElseThrow();
 
         String jwtToken = jwtService.generateToken(user);
