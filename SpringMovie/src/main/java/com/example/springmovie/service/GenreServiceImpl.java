@@ -1,6 +1,6 @@
 package com.example.springmovie.service;
 
-import com.example.springmovie.exception.NotFoundException;
+import com.example.springmovie.exception.GenreNotFoundException;
 import com.example.springmovie.model.Genre;
 import com.example.springmovie.repositories.GenreRepository;
 import com.example.springmovie.service.interfaces.GenreService;
@@ -21,9 +21,9 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
-    public Genre findGenreById(Long id) {
+    public Genre findGenreById(Long id) throws GenreNotFoundException {
         return genreRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException(id));
+                .orElseThrow(() -> new GenreNotFoundException("Genre with id " + id + " not found"));
     }
 
     @Override
@@ -32,7 +32,9 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
-    public void deleteGenre(Long id) {
+    public void deleteGenre(Long id) throws GenreNotFoundException {
+        genreRepository.findById(id)
+                .orElseThrow(() -> new GenreNotFoundException("Genre with id " + id + " not found"));
         genreRepository.deleteById(id);
     }
 }

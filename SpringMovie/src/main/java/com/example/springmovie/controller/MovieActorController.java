@@ -1,6 +1,8 @@
 package com.example.springmovie.controller;
 
 import com.example.springmovie.dto.MovieActorDto;
+import com.example.springmovie.exception.ActorNotFoundException;
+import com.example.springmovie.exception.MovieNotFoundException;
 import com.example.springmovie.model.Actor;
 import com.example.springmovie.model.Movie;
 import com.example.springmovie.model.MovieActor;
@@ -30,7 +32,7 @@ public class MovieActorController {
 
     @PostMapping("/add")
     @Operation(summary = "Add an actor to a a movie")
-    public ResponseEntity<MovieActor> addActorToMovie(@RequestBody MovieActorDto movieActorDto) {
+    public ResponseEntity<MovieActor> addActorToMovie(@RequestBody MovieActorDto movieActorDto) throws MovieNotFoundException, ActorNotFoundException {
         Movie movie = movieService.findMovieById(movieActorDto.movieId());
         Actor actor = actorService.findActorById(movieActorDto.actorId());
 

@@ -2,7 +2,6 @@ package com.example.springmovie.controller;
 
 import com.example.springmovie.enums.ReleaseStatus;
 import com.example.springmovie.exception.MovieNotFoundException;
-import com.example.springmovie.exception.NotFoundException;
 import com.example.springmovie.model.Movie;
 import com.example.springmovie.service.interfaces.MovieService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -28,8 +27,8 @@ import java.util.List;
 public class MovieController {
 
     private final MovieService movieService;
-    // ========================== Find Movies ==========================
 
+    // ========================== Find Movies ==========================
     @GetMapping("")
     @Operation(summary = "Get all movies", description = "Retrieve a paginated list of all movies")
     public ResponseEntity<Page<Movie>> findAllMovies(Pageable pageable) {
@@ -39,7 +38,7 @@ public class MovieController {
 
     @GetMapping("/{movieId}")
     @Operation(summary = "Get a single movie using id", description = "Retrieve a single movie using an ID passed as a variable")
-    public ResponseEntity<Movie> findMovieById(@PathVariable Long movieId) {
+    public ResponseEntity<Movie> findMovieById(@PathVariable Long movieId) throws MovieNotFoundException {
         Movie movie = movieService.findMovieById(movieId);
         return ResponseEntity.ok(movie);
     }
@@ -69,22 +68,14 @@ public class MovieController {
     @PutMapping
     @Operation(summary = "Update a Movie", description = "REST API to update a Movie based using RequestBody")
     public ResponseEntity<Movie> updateMovie(@RequestBody Movie movie) {
-        try {
-            return ResponseEntity.ok(movieService.saveMovie(movie));
-        } catch (NotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+        return ResponseEntity.ok(movieService.saveMovie(movie));
     }
 
     @DeleteMapping("/{movieId}")
     @Operation(summary = "Delete a Movie", description = "REST API to delete a Movie using an id passed as a variable")
-    public ResponseEntity<?> deleteMovie(@PathVariable("movieId") Long movieId) {
-        try {
-            movieService.deleteMovieById(movieId);
-            return ResponseEntity.noContent().build();
-        } catch (NotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+    public ResponseEntity<?> deleteMovie(@PathVariable("movieId") Long movieId) throws MovieNotFoundException {
+        movieService.deleteMovieById(movieId);
+        return ResponseEntity.noContent().build();
     }
 
     // ========================== Poster Operations ==========================
@@ -97,34 +88,21 @@ public class MovieController {
 
     @PostMapping(value = "/poster", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "Update the poster of a movie")
-    public ResponseEntity<Movie> updateMoviePoster(@RequestParam("movieId") Long movieId, @RequestParam(value = "file") MultipartFile file) {
-        try {
-            return ResponseEntity.ok().body(movieService.updateMoviePoster(movieId, file));
-        } catch (MovieNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+    public ResponseEntity<Movie> updateMoviePoster(@RequestParam("movieId") Long movieId, @RequestParam(value = "file") MultipartFile file) throws MovieNotFoundException {
+        return ResponseEntity.ok().body(movieService.updateMoviePoster(movieId, file));
     }
 
     @PutMapping("/{movieId}/poster/delete")
     @Operation(summary = "Delete a poster from a movie")
-    public ResponseEntity<Object> deletePoster(@PathVariable("movieId") Long movieId) {
-        try {
-            movieService.deleteMoviePoster(movieId);
-        } catch (MovieNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+    public ResponseEntity<Object> deletePoster(@PathVariable("movieId") Long movieId) throws MovieNotFoundException {
+        movieService.deleteMoviePoster(movieId);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{movieId}/poster")
     @Operation(summary = "Get the poster image from a movie")
-    public ResponseEntity<byte[]> getMoviePoster(@PathVariable("movieId") Long movieId) {
-        byte[] image;
-        try {
-            image = movieService.getMoviePoster(movieId);
-        } catch (MovieNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+    public ResponseEntity<byte[]> getMoviePoster(@PathVariable("movieId") Long movieId) throws MovieNotFoundException {
+        byte[] image = movieService.getMoviePoster(movieId);
         return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.valueOf("image/png")).body(image);
     }
 }

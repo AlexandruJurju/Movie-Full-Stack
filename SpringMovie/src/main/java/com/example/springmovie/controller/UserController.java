@@ -18,21 +18,14 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable("id") Long id) {
-        try {
-            return new ResponseEntity<>(userService.findById(id), HttpStatus.OK);
-        } catch (UserNotFoundException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<User> getUserById(@PathVariable("id") Long id) throws UserNotFoundException {
+        return new ResponseEntity<>(userService.findUserById(id), HttpStatus.OK);
     }
 
     @GetMapping("/email/{email}")
-    public ResponseEntity<User> getUserByEmail(@PathVariable("email") String email) {
-        try {
-            return new ResponseEntity<>(userService.findUserByEmail(email), HttpStatus.OK);
-        } catch (UserNotFoundException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<User> getUserByEmail(@PathVariable("email") String email) throws UserNotFoundException {
+        return new ResponseEntity<>(userService.findUserByEmail(email), HttpStatus.OK);
+
     }
 
     @GetMapping("")
@@ -41,12 +34,8 @@ public class UserController {
     }
 
     @DeleteMapping("/{userId}")
-    public ResponseEntity<?> deleteUser(@PathVariable("userId") Long userId) {
-        try {
-            userService.deleteUserById(userId);
-        } catch (UserNotFoundException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<?> deleteUser(@PathVariable("userId") Long userId) throws UserNotFoundException {
+        userService.deleteUserById(userId);
         return ResponseEntity.noContent().build();
     }
 }

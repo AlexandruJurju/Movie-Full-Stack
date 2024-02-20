@@ -1,6 +1,5 @@
 package com.example.springmovie.service;
 
-import com.example.springmovie.exception.NotFoundException;
 import com.example.springmovie.model.Movie;
 import com.example.springmovie.repositories.MovieRepository;
 import org.junit.jupiter.api.Test;

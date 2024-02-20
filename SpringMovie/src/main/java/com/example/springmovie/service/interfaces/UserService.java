@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface UserService {
 
-    User findById(Long id) throws UserNotFoundException;
+    User findUserById(Long id) throws UserNotFoundException;
 
     List<User> findAllUsers();
 

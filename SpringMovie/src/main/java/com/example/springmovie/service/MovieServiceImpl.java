@@ -2,7 +2,6 @@ package com.example.springmovie.service;
 
 import com.example.springmovie.enums.ReleaseStatus;
 import com.example.springmovie.exception.MovieNotFoundException;
-import com.example.springmovie.exception.NotFoundException;
 import com.example.springmovie.model.Genre;
 import com.example.springmovie.model.Movie;
 import com.example.springmovie.repositories.MovieRepository;
@@ -31,9 +30,9 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public Movie findMovieById(Long id) {
+    public Movie findMovieById(Long id) throws MovieNotFoundException {
         return movieRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException(id));
+                .orElseThrow(() -> new MovieNotFoundException("Movie with id " + id + " not found"));
     }
 
     @Override
@@ -42,18 +41,18 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public Movie updateMovie(Movie movie) {
+    public Movie updateMovie(Movie movie) throws MovieNotFoundException {
         Optional<Movie> existingMovie = movieRepository.findById(movie.getId());
         if (existingMovie.isEmpty()) {
-            throw new NotFoundException(movie.getId());
+            throw new MovieNotFoundException("Movie with id " + movie.getId() + " not found");
         }
         return movieRepository.save(movie);
     }
 
     @Override
-    public void deleteMovieById(Long id) {
+    public void deleteMovieById(Long id) throws MovieNotFoundException {
         if (!movieRepository.existsById(id)) {
-            throw new NotFoundException(id);
+            throw new MovieNotFoundException("Movie with id " + id + " not found");
         }
         movieRepository.deleteById(id);
     }
@@ -90,7 +89,7 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public Movie updateMoviePoster(Long movieId, MultipartFile file) throws MovieNotFoundException {
         Movie movie = movieRepository.findById(movieId)
-                .orElseThrow(() -> new MovieNotFoundException(movieId));
+                .orElseThrow(() -> new MovieNotFoundException("Movie with id " + movieId + " not found"));
         String moviePosterURL = movie.getPosterUrl();
         if (moviePosterURL != null) {
             s3FileService.delete(moviePosterURL);
@@ -104,7 +103,7 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public void deleteMoviePoster(Long movieId) throws MovieNotFoundException {
         Movie movie = movieRepository.findById(movieId)
-                .orElseThrow(() -> new MovieNotFoundException(movieId));
+                .orElseThrow(() -> new MovieNotFoundException("Movie with id " + movieId + " not found"));
         String moviePosterURL = movie.getPosterUrl();
         if (moviePosterURL != null) {
             s3FileService.delete(moviePosterURL);
@@ -116,7 +115,7 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public byte[] getMoviePoster(Long movieId) throws MovieNotFoundException {
         Movie movie = movieRepository.findById(movieId)
-                .orElseThrow(() -> new MovieNotFoundException(movieId));
+                .orElseThrow(() -> new MovieNotFoundException("Movie with id " + movieId + " not found"));
         String moviePosterURL = movie.getPosterUrl();
         if (moviePosterURL != null) {
             return s3FileService.download(moviePosterURL);

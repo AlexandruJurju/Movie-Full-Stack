@@ -1,5 +1,7 @@
 package com.example.springmovie.controller;
 
+import com.example.springmovie.exception.GenreNotFoundException;
+import com.example.springmovie.exception.MovieNotFoundException;
 import com.example.springmovie.model.Genre;
 import com.example.springmovie.model.Movie;
 import com.example.springmovie.service.interfaces.GenreService;
@@ -19,7 +21,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/genre")
-// TODO: genre exceptions
 @Tag(name = "Genre Controller", description = "CRUD REST APIs for managing movie genres")
 
 public class GenreController {
@@ -35,13 +36,9 @@ public class GenreController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Find a genre using Id")
-    public ResponseEntity<Genre> findGenreById(@PathVariable("id") Long id) {
+    public ResponseEntity<Genre> findGenreById(@PathVariable("id") Long id) throws GenreNotFoundException {
         Genre genre = genreService.findGenreById(id);
-        if (genre != null) {
-            return new ResponseEntity<>(genre, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(genre, HttpStatus.OK);
     }
 
     @PostMapping
@@ -61,7 +58,7 @@ public class GenreController {
     @DeleteMapping("/{genreId}")
     @Operation(summary = "Delete genre using ID")
     @ApiResponse(responseCode = "204", description = "Genre deleted successfully")
-    public ResponseEntity<?> deleteGenreById(@PathVariable("genreId") Long genreId) {
+    public ResponseEntity<?> deleteGenreById(@PathVariable("genreId") Long genreId) throws GenreNotFoundException {
         genreService.deleteGenre(genreId);
         return ResponseEntity.noContent().build();
     }
@@ -73,10 +70,11 @@ public class GenreController {
         return new ResponseEntity<>(genres, HttpStatus.OK);
     }
 
+    // TODO: put in service
     @PutMapping("movie/{movieId}/addGenre/{genreId}")
     @Operation(summary = "Add a genre to a movie")
     public ResponseEntity<Movie> addGenreToMovie(@Parameter(description = "ID of movie that the genre will be added to") @PathVariable("movieId") Long movieId,
-                                                 @Parameter(description = "ID of the genre that will be added to the movie") @PathVariable("genreId") Long genreId) {
+                                                 @Parameter(description = "ID of the genre that will be added to the movie") @PathVariable("genreId") Long genreId) throws MovieNotFoundException, GenreNotFoundException {
         Movie movie = movieService.findMovieById(movieId);
         Genre genre = genreService.findGenreById(genreId);
         movie.getGenres().add(genre);
@@ -85,7 +83,8 @@ public class GenreController {
 
     @PutMapping("movie/{movieId}/removeGenre/{genreId}")
     @Operation(summary = "Remove a genre from a movie")
-    public ResponseEntity<Movie> removeGenreFromMovie(@PathVariable("movieId") Long movieId, @PathVariable("genreId") Long genreId) {
+    public ResponseEntity<Movie> removeGenreFromMovie(@PathVariable("movieId") Long movieId, @PathVariable("genreId") Long genreId) throws MovieNotFoundException,
+            GenreNotFoundException {
         Movie movie = movieService.findMovieById(movieId);
         Genre genre = genreService.findGenreById(genreId);
         movie.getGenres().remove(genre);

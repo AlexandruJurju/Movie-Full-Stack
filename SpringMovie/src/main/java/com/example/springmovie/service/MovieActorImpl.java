@@ -1,6 +1,6 @@
 package com.example.springmovie.service;
 
-import com.example.springmovie.exception.NotFoundException;
+import com.example.springmovie.exception.MovieActorNotFoundException;
 import com.example.springmovie.model.MovieActor;
 import com.example.springmovie.repositories.MovieActorRepository;
 import com.example.springmovie.service.interfaces.MovieActorService;
@@ -21,9 +21,9 @@ public class MovieActorImpl implements MovieActorService {
     }
 
     @Override
-    public MovieActor findMovieActorById(Long id) {
+    public MovieActor findMovieActorById(Long id) throws MovieActorNotFoundException {
         return movieActorRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException(id));
+                .orElseThrow(() -> new MovieActorNotFoundException("Movie-actor with id " + id + " not found"));
     }
 
     @Override

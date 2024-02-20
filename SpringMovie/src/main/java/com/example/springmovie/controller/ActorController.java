@@ -1,9 +1,9 @@
 package com.example.springmovie.controller;
 
+import com.example.springmovie.exception.ActorNotFoundException;
 import com.example.springmovie.model.Actor;
 import com.example.springmovie.service.interfaces.ActorService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,7 +15,6 @@ import java.util.List;
 @Tag(name = "Actor Controller", description = "CRUD REST APIs for actors in movies")
 
 @RequiredArgsConstructor
-// todo: actor exceptions
 @RestController
 @RequestMapping("/api/v1/actor")
 public class ActorController {
@@ -38,8 +37,7 @@ public class ActorController {
 
     @DeleteMapping("/{actorId}")
     @Operation(summary = "Delete actor given id")
-    @ApiResponse(responseCode = "204", description = "Actor deleted successfully")
-    public ResponseEntity<?> deleteActor(@PathVariable("actorId") Long actorId) {
+    public ResponseEntity<?> deleteActor(@PathVariable("actorId") Long actorId) throws ActorNotFoundException {
         actorService.deleteActorById(actorId);
         return ResponseEntity.noContent().build();
     }

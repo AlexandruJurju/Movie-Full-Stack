@@ -7,7 +7,7 @@ import com.example.springmovie.exception.UserAlreadyExistsException;
 
 public interface AuthenticationService {
 
-    public LoginResponse register(RegisterRequest registerRequest) throws UserAlreadyExistsException;
+    LoginResponse register(RegisterRequest registerRequest) throws UserAlreadyExistsException;
 
-    public LoginResponse login(LoginRequest loginRequest);
+    LoginResponse login(LoginRequest loginRequest);
 }

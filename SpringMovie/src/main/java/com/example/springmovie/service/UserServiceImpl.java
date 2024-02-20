@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
     // TODO: add upload image
 
     @Override
-    public User findById(Long id) throws UserNotFoundException {
+    public User findUserById(Long id) throws UserNotFoundException {
         return userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User with id " + id + " not found"));
 

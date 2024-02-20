@@ -1,7 +1,9 @@
 package com.example.springmovie.controller;
 
 import com.example.springmovie.dto.ReviewDto;
+import com.example.springmovie.exception.MovieNotFoundException;
 import com.example.springmovie.exception.ReviewNotFoundException;
+import com.example.springmovie.exception.UserNotFoundException;
 import com.example.springmovie.model.Movie;
 import com.example.springmovie.model.Review;
 import com.example.springmovie.model.User;
@@ -31,27 +33,23 @@ public class ReviewController {
         return new ResponseEntity<>(reviews, HttpStatus.OK);
     }
 
-    // TODO: maybe dont need all information from review, ie both user (PASSWORD) and movie
     @GetMapping("/{id}")
-    public ResponseEntity<Review> getReviewById(@PathVariable Long id) {
-        try {
-            Review review = reviewService.findReviewById(id);
-            return new ResponseEntity<>(review, HttpStatus.OK);
-        } catch (ReviewNotFoundException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<Review> getReviewById(@PathVariable Long id) throws ReviewNotFoundException {
+        Review review = reviewService.findReviewById(id);
+        return new ResponseEntity<>(review, HttpStatus.OK);
     }
 
-    // TODO: remove useless information from return
+    // TODO: dont need all information from review return, ie both user (PASSWORD) and movie
+    // TODO: put in service
     @PostMapping("/movie/review")
-    public ResponseEntity<Review> addReviewToMovie(@RequestBody ReviewDto reviewDto) {
+    public ResponseEntity<Review> addReviewToMovie(@RequestBody ReviewDto reviewDto) throws MovieNotFoundException, UserNotFoundException {
         Review review = new Review();
         review.setText(reviewDto.text());
         review.setScore(reviewDto.score());
         review.setPostedDate(LocalDate.now());
 
         Movie movie = movieService.findMovieById(reviewDto.movieId());
-        User user = userService.findById(reviewDto.userId());
+        User user = userService.findUserById(reviewDto.userId());
 
         review.setMovie(movie);
         review.setUser(user);
@@ -60,13 +58,9 @@ public class ReviewController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Review> updateReview(@RequestBody Review updatedReview) {
-        try {
-            Review updated = reviewService.updateReview(updatedReview);
-            return new ResponseEntity<>(updated, HttpStatus.OK);
-        } catch (ReviewNotFoundException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<Review> updateReview(@RequestBody Review updatedReview) throws ReviewNotFoundException {
+        Review updated = reviewService.updateReview(updatedReview);
+        return new ResponseEntity<>(updated, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

@@ -14,13 +14,13 @@ public interface MovieService {
 
     Page<Movie> findAllMovies(Pageable pageable);
 
-    Movie findMovieById(Long id);
+    Movie findMovieById(Long id) throws MovieNotFoundException;
 
     Movie saveMovie(Movie movie);
 
-    Movie updateMovie(Movie movie);
+    Movie updateMovie(Movie movie) throws MovieNotFoundException;
 
-    void deleteMovieById(Long id);
+    void deleteMovieById(Long id) throws MovieNotFoundException;
 
     List<Movie> findMoviesByGenre(Long genreId);
 

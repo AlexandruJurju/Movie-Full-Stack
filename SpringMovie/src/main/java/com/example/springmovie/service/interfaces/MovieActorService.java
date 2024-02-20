@@ -1,5 +1,6 @@
 package com.example.springmovie.service.interfaces;
 
+import com.example.springmovie.exception.MovieActorNotFoundException;
 import com.example.springmovie.model.MovieActor;
 
 import java.util.List;
@@ -7,7 +8,7 @@ import java.util.List;
 public interface MovieActorService {
     MovieActor saveMovieActor(MovieActor movieActor);
 
-    MovieActor findMovieActorById(Long id);
+    MovieActor findMovieActorById(Long id) throws MovieActorNotFoundException;
 
     List<MovieActor> findAll();
 
