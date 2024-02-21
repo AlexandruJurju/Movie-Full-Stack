@@ -20,7 +20,12 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
+// TODO: add keywords
+// TODO: add more than 1 poster
+// TODO: add more media
+// TODO: add popularity
+// TODO: add watched movies
+// TODO: add watchlist
 @Schema(name = "Movie", description = "Schema to hold Movie information")
 public class Movie {
     @Id
@@ -44,6 +49,7 @@ public class Movie {
     @Schema(description = "Runtime of the movie in minutes", example = "117")
     private Integer runtimeInMinutes;
 
+    // TODO: remove, use releaseDate instead for search
     @Enumerated(EnumType.STRING)
     @Column(name = "release_status")
     private ReleaseStatus releaseStatus;

@@ -21,6 +21,7 @@ import java.util.Set;
 @Entity
 @Builder
 @Table(name = "user")
+// TODO: add critic distinction
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
