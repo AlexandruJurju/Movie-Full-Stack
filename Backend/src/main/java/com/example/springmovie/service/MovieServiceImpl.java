@@ -6,14 +6,19 @@ import com.example.springmovie.model.Genre;
 import com.example.springmovie.model.Movie;
 import com.example.springmovie.repositories.MovieRepository;
 import com.example.springmovie.service.interfaces.MovieService;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @RequiredArgsConstructor
 @Service
@@ -28,6 +33,34 @@ public class MovieServiceImpl implements MovieService {
     public Page<Movie> findAllMovies(Pageable pageable) {
         return movieRepository.findAll(pageable);
     }
+
+    @Override
+    public List<Movie> filterMovies(Integer startReleaseYear, Integer endReleaseYear, Set<Genre> genres, String title) {
+        return movieRepository.findAll((Specification<Movie>) (root, query, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+
+            if (startReleaseYear != null) {
+                predicates.add(criteriaBuilder.greaterThanOrEqualTo(criteriaBuilder.function("YEAR", Integer.class, root.get("releaseDate")), startReleaseYear));
+            }
+
+            if (endReleaseYear != null) {
+                predicates.add(criteriaBuilder.lessThanOrEqualTo(criteriaBuilder.function("YEAR", Integer.class, root.get("releaseDate")), endReleaseYear));
+            }
+
+            if (genres != null && !genres.isEmpty()) {
+                CriteriaBuilder.In<Genre> genrePredicate = criteriaBuilder.in(root.get("genres"));
+                genres.forEach(genrePredicate::value);
+                predicates.add(genrePredicate);
+            }
+
+            if (title != null) {
+                predicates.add(criteriaBuilder.like(root.get("title"), "%" + title + "%"));
+            }
+
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        });
+    }
+
 
     @Override
     public Movie findMovieById(Long id) throws MovieNotFoundException {

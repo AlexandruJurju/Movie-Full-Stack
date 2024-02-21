@@ -2,6 +2,7 @@ package com.example.springmovie.controller;
 
 import com.example.springmovie.enums.ReleaseStatus;
 import com.example.springmovie.exception.MovieNotFoundException;
+import com.example.springmovie.model.Genre;
 import com.example.springmovie.model.Movie;
 import com.example.springmovie.service.interfaces.MovieService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Set;
 
 @RequiredArgsConstructor
 
@@ -55,6 +57,15 @@ public class MovieController {
     public ResponseEntity<List<Movie>> findMoviesByReleaseYear(@PathVariable int year) {
         List<Movie> movies = movieService.findMoviesByYear(year);
         return ResponseEntity.ok().body(movies);
+    }
+
+    @GetMapping("/filter")
+    public List<Movie> filterMovies(
+            @RequestParam(required = false) Integer startReleaseDate,
+            @RequestParam(required = false) Integer endReleaseDate,
+            @RequestParam(required = false) Set<Genre> genres,
+            @RequestParam(required = false) String title) {
+        return movieService.filterMovies(startReleaseDate, endReleaseDate, genres, title);
     }
 
     // ========================== CRUD Operations ==========================

@@ -9,10 +9,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Set;
 
 public interface MovieService {
 
     Page<Movie> findAllMovies(Pageable pageable);
+
+    List<Movie> filterMovies(Integer startReleaseYear, Integer endReleaseYear, Set<Genre> genres, String title);
 
     Movie findMovieById(Long id) throws MovieNotFoundException;
 
