@@ -46,7 +46,7 @@ public class Movie {
     private String overview;
 
     @Column(name = "runtime")
-    @Schema(description = "Runtime of the movie in minutes", example = "117")
+    @Schema(description = "Runtime of` the movie in minutes", example = "117")
     private Integer runtimeInMinutes;
 
     // TODO: remove, use releaseDate instead for search

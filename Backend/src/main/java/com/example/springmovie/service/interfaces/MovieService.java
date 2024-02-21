@@ -15,6 +15,8 @@ public interface MovieService {
 
     Page<Movie> findAllMovies(Pageable pageable);
 
+    List<Movie> findAllMovies();
+
     List<Movie> filterMovies(Integer startReleaseYear, Integer endReleaseYear, Set<Genre> genres, String title);
 
     Movie findMovieById(Long id) throws MovieNotFoundException;

@@ -26,6 +26,7 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/api/v1/movie")
+
 public class MovieController {
 
     private final MovieService movieService;
@@ -33,7 +34,7 @@ public class MovieController {
     // ========================== Find Movies ==========================
     @GetMapping("")
     @Operation(summary = "Get all movies", description = "Retrieve a paginated list of all movies")
-    public ResponseEntity<Page<Movie>> findAllMovies(Pageable pageable) {
+    public ResponseEntity<Page<Movie>> findAllMoviesUnpaged(Pageable pageable) {
         Page<Movie> movies = movieService.findAllMovies(pageable);
         return ResponseEntity.ok(movies);
     }
@@ -60,12 +61,17 @@ public class MovieController {
     }
 
     @GetMapping("/filter")
-    public List<Movie> filterMovies(
+    public List<Movie> findMoviesByFilter(
             @RequestParam(required = false) Integer startReleaseDate,
             @RequestParam(required = false) Integer endReleaseDate,
             @RequestParam(required = false) Set<Genre> genres,
             @RequestParam(required = false) String title) {
         return movieService.filterMovies(startReleaseDate, endReleaseDate, genres, title);
+    }
+
+    @GetMapping("/unpaged")
+    public ResponseEntity<List<Movie>> findAllMoviesUnpaged() {
+        return new ResponseEntity<>(movieService.findAllMovies(), HttpStatus.OK);
     }
 
     // ========================== CRUD Operations ==========================
@@ -84,7 +90,7 @@ public class MovieController {
 
     @DeleteMapping("/{movieId}")
     @Operation(summary = "Delete a Movie", description = "REST API to delete a Movie using an id passed as a variable")
-    public ResponseEntity<?> deleteMovie(@PathVariable("movieId") Long movieId) throws MovieNotFoundException {
+    public ResponseEntity<?> deleteMovieById(@PathVariable("movieId") Long movieId) throws MovieNotFoundException {
         movieService.deleteMovieById(movieId);
         return ResponseEntity.noContent().build();
     }

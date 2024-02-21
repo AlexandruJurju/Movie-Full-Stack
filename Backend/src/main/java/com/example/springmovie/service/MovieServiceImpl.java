@@ -35,6 +35,11 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
+    public List<Movie> findAllMovies(){
+        return movieRepository.findAll();
+    }
+
+    @Override
     public List<Movie> filterMovies(Integer startReleaseYear, Integer endReleaseYear, Set<Genre> genres, String title) {
         return movieRepository.findAll((Specification<Movie>) (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
