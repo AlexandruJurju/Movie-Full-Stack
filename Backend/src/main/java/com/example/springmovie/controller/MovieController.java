@@ -106,6 +106,7 @@ public class MovieController {
     @PostMapping(value = "/poster", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "Update the poster of a movie")
     public ResponseEntity<Movie> updateMoviePoster(@RequestParam("movieId") Long movieId, @RequestParam(value = "file") MultipartFile file) throws MovieNotFoundException {
+        movieService.deleteMoviePoster(movieId);
         return ResponseEntity.ok().body(movieService.updateMoviePoster(movieId, file));
     }
 
