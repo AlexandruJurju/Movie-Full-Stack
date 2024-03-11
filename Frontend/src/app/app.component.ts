@@ -3,12 +3,13 @@ import {RouterOutlet} from '@angular/router';
 import {NgForOf, NgIf} from "@angular/common";
 import {Movie} from "./model/movie";
 import {MovieService} from "./service/movieService";
-import {HeaderComponent} from "./header/header.component";
+import {HeaderComponent} from "./components/header/header.component";
+import {HomeComponent} from "./components/home/home.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NgIf, NgForOf, HeaderComponent],
+  imports: [RouterOutlet, NgIf, NgForOf, HeaderComponent, HomeComponent, HeaderComponent, HomeComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
