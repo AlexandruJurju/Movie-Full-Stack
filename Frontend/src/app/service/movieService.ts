@@ -13,6 +13,11 @@ export class MovieService {
   constructor(private http: HttpClient) {
   }
 
+  // TODO: implement all methods from service
+  // TODO: add page for edit
+  // TODO: add page for upload
+  // TODO: add page for searching
+  // TODO: add filtering
   findAllMovies(): Observable<Movie[]> {
     return this.http.get<Movie[]>(this.baseUrl + '/unpaged'); // Append '/unpaged' to base URL
   }
