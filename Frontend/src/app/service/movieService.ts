@@ -18,7 +18,35 @@ export class MovieService {
   // TODO: add page for upload
   // TODO: add page for searching
   // TODO: add filtering
-  findAllMovies(): Observable<Movie[]> {
+  findAllMoviesUnpaged(): Observable<Movie[]> {
     return this.http.get<Movie[]>(this.baseUrl + '/unpaged'); // Append '/unpaged' to base URL
+  }
+
+  findMovieById(movieId: number): Observable<Movie> {
+    return this.http.get<Movie>(`${this.baseUrl}/${movieId}`)
+  }
+
+  findMoviesByReleaseStatus(status: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/status/${status}`);
+  }
+
+  findMoviesByReleaseYear(year: number): Observable<any> {
+    return this.http.get(`${this.baseUrl}/year/${year}`);
+  }
+
+  saveMovie(movie: Movie): Observable<Movie> {
+    return this.http.post<Movie>(this.baseUrl, movie)
+  }
+
+  deleteMovie(movieId: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${movieId}`);
+  }
+
+  updateMovie(movie: Movie): Observable<Movie> {
+    return this.http.put<Movie>(this.baseUrl, movie);
+  }
+
+  deleteMovieById(movieId: number): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/${movieId}`);
   }
 }
