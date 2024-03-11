@@ -1,8 +1,8 @@
 package com.example.springmovie.controller;
 
 import com.example.springmovie.dto.LoginRequestDto;
-import com.example.springmovie.dto.RegisterRequestDto;
 import com.example.springmovie.dto.LoginResponseDto;
+import com.example.springmovie.dto.RegisterRequestDto;
 import com.example.springmovie.exception.UserAlreadyExistsException;
 import com.example.springmovie.service.interfaces.AuthenticationService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -19,8 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1/auth")
-// TODO: register give default image for user
 public class AuthenticationController {
+
+    // TODO: register give default image for user
 
     private final AuthenticationService authenticationService;
 

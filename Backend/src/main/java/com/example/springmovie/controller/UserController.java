@@ -15,6 +15,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/user")
 public class UserController {
+    // TODO: get users should not show passwords -> DTO
+    // TODO: delete user -> cascade
 
     private final UserService userService;
 

@@ -22,8 +22,8 @@ public class S3FileService implements FileService {
     @Value("${s3.bucket.name}")
     private String bucket;
 
-    //    @Value("${spring.cloud.aws.region.static}")
-    //    private String region;
+    @Value("${spring.cloud.aws.region.static}")
+    private String region;
 
     private S3Utilities s3Utilities;
 

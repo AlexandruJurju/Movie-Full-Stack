@@ -29,6 +29,9 @@ import java.util.Set;
 
 public class MovieController {
 
+    // TODO: get movies filtered
+    // TODO:
+
     private final MovieService movieService;
 
     // ========================== Find Movies ==========================

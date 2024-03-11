@@ -17,8 +17,11 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/actor")
-// TODO: actor save with image
 public class ActorController {
+
+    // TODO: actor save with image
+    // TODO: upload, update actor image
+    // TODO: search actors by name
 
     private final ActorService actorService;
 
