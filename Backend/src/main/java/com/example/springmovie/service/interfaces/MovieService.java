@@ -1,6 +1,7 @@
 package com.example.springmovie.service.interfaces;
 
 import com.example.springmovie.enums.ReleaseStatus;
+import com.example.springmovie.exception.GenreNotFoundException;
 import com.example.springmovie.exception.MovieNotFoundException;
 import com.example.springmovie.model.Genre;
 import com.example.springmovie.model.Movie;
@@ -42,4 +43,8 @@ public interface MovieService {
     void deleteMoviePoster(Long movieId) throws MovieNotFoundException;
 
     byte[] getMoviePoster(Long movieId) throws MovieNotFoundException;
+
+    Movie addGenreToMovie(Long movieId, Long genreId) throws MovieNotFoundException, GenreNotFoundException;
+
+    Movie removeGenreFromMovie(Long movieId, Long genreId) throws MovieNotFoundException, GenreNotFoundException;
 }

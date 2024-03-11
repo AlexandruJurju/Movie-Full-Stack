@@ -3,8 +3,6 @@ package com.example.springmovie.controller;
 import com.example.springmovie.dto.MovieActorDto;
 import com.example.springmovie.exception.ActorNotFoundException;
 import com.example.springmovie.exception.MovieNotFoundException;
-import com.example.springmovie.model.Actor;
-import com.example.springmovie.model.Movie;
 import com.example.springmovie.model.MovieActor;
 import com.example.springmovie.service.interfaces.ActorService;
 import com.example.springmovie.service.interfaces.MovieActorService;
@@ -30,21 +28,10 @@ public class MovieActorController {
     private final MovieService movieService;
     private final ActorService actorService;
 
-    // TODO: put in service
     @PostMapping("/add")
     @Operation(summary = "Add an actor to a a movie")
     public ResponseEntity<MovieActor> addActorToMovie(@RequestBody MovieActorDto movieActorDto) throws MovieNotFoundException, ActorNotFoundException {
-        Movie movie = movieService.findMovieById(movieActorDto.getMovieId());
-        Actor actor = actorService.findActorById(movieActorDto.getActorId());
-
-        MovieActor movieActor = new MovieActor();
-        movieActor.setActor(actor);
-        movieActor.setMovie(movie);
-        movieActor.setRole(movieActorDto.getRole());
-        movieActor.setDisplayOrder(movieActorDto.getDisplayOrder());
-        movieActor.setCharacterImageUrl(movieActorDto.getCharacterImageUrl());
-
-        return new ResponseEntity<>(movieActorService.saveMovieActor(movieActor), HttpStatus.CREATED);
+        return new ResponseEntity<>(movieActorService.addActorToMovie(movieActorDto), HttpStatus.CREATED);
     }
 
     // TODO: rewrite, a movie can have an actor with multiple roles
@@ -75,7 +62,7 @@ public class MovieActorController {
 
         List<MovieActorDto> response = movieActors.stream().map
                 (movieActor -> new MovieActorDto(movieId, movieActor.getActor().getId(), movieActor.getRole(),
-                movieActor.getDisplayOrder(), movieActor.getCharacterImageUrl())).toList();
+                        movieActor.getDisplayOrder(), movieActor.getCharacterImageUrl())).toList();
 
         return ResponseEntity.ok(response);
     }

@@ -1,11 +1,13 @@
 package com.example.springmovie.controller;
 
 import com.example.springmovie.enums.ReleaseStatus;
+import com.example.springmovie.exception.GenreNotFoundException;
 import com.example.springmovie.exception.MovieNotFoundException;
 import com.example.springmovie.model.Genre;
 import com.example.springmovie.model.Movie;
 import com.example.springmovie.service.interfaces.MovieService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -38,37 +40,30 @@ public class MovieController {
     @GetMapping("")
     @Operation(summary = "Get all movies", description = "Retrieve a paginated list of all movies")
     public ResponseEntity<Page<Movie>> findAllMoviesUnpaged(Pageable pageable) {
-        Page<Movie> movies = movieService.findAllMovies(pageable);
-        return ResponseEntity.ok(movies);
+        return ResponseEntity.ok(movieService.findAllMovies(pageable));
     }
 
     @GetMapping("/{movieId}")
     @Operation(summary = "Get a single movie using id", description = "Retrieve a single movie using an ID passed as a variable")
     public ResponseEntity<Movie> findMovieById(@PathVariable Long movieId) throws MovieNotFoundException {
-        Movie movie = movieService.findMovieById(movieId);
-        return ResponseEntity.ok(movie);
+        return ResponseEntity.ok(movieService.findMovieById(movieId));
     }
 
     @GetMapping("status/{releaseStatus}")
     @Operation(summary = "Find movies by release status")
     public ResponseEntity<List<Movie>> findMoviesByReleaseStatus(@PathVariable("releaseStatus") ReleaseStatus status) {
-        List<Movie> movies = movieService.findMoviesByReleaseStatus(status);
-        return ResponseEntity.ok().body(movies);
+        return ResponseEntity.ok().body(movieService.findMoviesByReleaseStatus(status));
     }
 
     @GetMapping("/year/{year}")
     @Operation(summary = "Get all movies that were released in a year")
     public ResponseEntity<List<Movie>> findMoviesByReleaseYear(@PathVariable int year) {
-        List<Movie> movies = movieService.findMoviesByYear(year);
-        return ResponseEntity.ok().body(movies);
+        return ResponseEntity.ok().body(movieService.findMoviesByYear(year));
     }
 
     @GetMapping("/filter")
-    public List<Movie> findMoviesByFilter(
-            @RequestParam(required = false) Integer startReleaseDate,
-            @RequestParam(required = false) Integer endReleaseDate,
-            @RequestParam(required = false) Set<Genre> genres,
-            @RequestParam(required = false) String title) {
+    public List<Movie> findMoviesByFilter(@RequestParam(required = false) Integer startReleaseDate, @RequestParam(required = false) Integer endReleaseDate,
+                                          @RequestParam(required = false) Set<Genre> genres, @RequestParam(required = false) String title) {
         return movieService.filterMovies(startReleaseDate, endReleaseDate, genres, title);
     }
 
@@ -96,6 +91,34 @@ public class MovieController {
     public ResponseEntity<?> deleteMovieById(@PathVariable("movieId") Long movieId) throws MovieNotFoundException {
         movieService.deleteMovieById(movieId);
         return ResponseEntity.noContent().build();
+    }
+
+    // ========================== Genre Operations ==========================
+
+    @PutMapping("movie/{movieId}/addGenre/{genreId}")
+    @Operation(summary = "Add a genre to a movie")
+    public ResponseEntity<Movie> addGenreToMovie(@Parameter(description = "ID of movie that the genre will be added to") @PathVariable("movieId") Long movieId,
+                                                 @Parameter(description = "ID of the genre that will be added to the movie") @PathVariable("genreId") Long genreId) throws MovieNotFoundException, GenreNotFoundException {
+        return new ResponseEntity<>(movieService.addGenreToMovie(movieId, genreId), HttpStatus.OK);
+    }
+
+    @PutMapping("movie/{movieId}/removeGenre/{genreId}")
+    @Operation(summary = "Remove a genre from a movie")
+    public ResponseEntity<Movie> removeGenreFromMovie(@PathVariable("movieId") Long movieId, @PathVariable("genreId") Long genreId) throws MovieNotFoundException,
+            GenreNotFoundException {
+        return new ResponseEntity<>(movieService.removeGenreFromMovie(movieId, genreId), HttpStatus.OK);
+    }
+
+    @GetMapping("movie/allGenres/{movieId}")
+    @Operation(summary = "Find all genres of a movie")
+    public ResponseEntity<List<Genre>> findAllGenresOfAMovie(@PathVariable("movieId") Long movieId) {
+        return new ResponseEntity<>(movieService.findAllGenresOfMovie(movieId), HttpStatus.OK);
+    }
+
+    @GetMapping("movie/findByGenreId/{genreId}")
+    @Operation(summary = "Find all movies that contain a genre using the genreId")
+    public ResponseEntity<List<Movie>> findAllMoviesContainingGenre(@PathVariable("genreId") Long genreId) {
+        return ResponseEntity.ok(movieService.findMoviesByGenre(genreId));
     }
 
     // ========================== Poster Operations ==========================
@@ -126,4 +149,5 @@ public class MovieController {
         byte[] image = movieService.getMoviePoster(movieId);
         return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.valueOf("image/png")).body(image);
     }
+
 }

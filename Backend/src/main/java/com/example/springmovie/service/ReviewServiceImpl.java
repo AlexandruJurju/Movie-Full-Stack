@@ -1,12 +1,20 @@
 package com.example.springmovie.service;
 
+import com.example.springmovie.dto.ReviewDto;
+import com.example.springmovie.exception.MovieNotFoundException;
 import com.example.springmovie.exception.ReviewNotFoundException;
+import com.example.springmovie.exception.UserNotFoundException;
+import com.example.springmovie.model.Movie;
 import com.example.springmovie.model.Review;
+import com.example.springmovie.model.User;
 import com.example.springmovie.repositories.ReviewRepository;
+import com.example.springmovie.service.interfaces.MovieService;
 import com.example.springmovie.service.interfaces.ReviewService;
+import com.example.springmovie.service.interfaces.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -14,6 +22,24 @@ import java.util.List;
 public class ReviewServiceImpl implements ReviewService {
 
     private final ReviewRepository reviewRepository;
+    private final MovieService movieService;
+    private final UserService userService;
+
+    @Override
+    public Review createReview(ReviewDto reviewDto) throws MovieNotFoundException, UserNotFoundException {
+        Review review = new Review();
+        review.setText(reviewDto.getText());
+        review.setScore(reviewDto.getScore());
+        review.setPostedDate(LocalDate.now());
+
+        Movie movie = movieService.findMovieById(reviewDto.getMovieId());
+        User user = userService.findUserById(reviewDto.getUserId());
+
+        review.setMovie(movie);
+        review.setUser(user);
+
+        return reviewRepository.save(review);
+    }
 
     @Override
     public List<Review> findAllReviews() {
@@ -24,11 +50,6 @@ public class ReviewServiceImpl implements ReviewService {
     public Review findReviewById(Long id) throws ReviewNotFoundException {
         return reviewRepository.findById(id)
                 .orElseThrow(() -> new ReviewNotFoundException("Review not found with id: " + id));
-    }
-
-    @Override
-    public Review createReview(Review review) {
-        return reviewRepository.save(review);
     }
 
     @Override

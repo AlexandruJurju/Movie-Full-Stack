@@ -33,6 +33,7 @@ public class UserController {
 
     }
 
+    // TODO: get all users should not return user password?
     @GetMapping("")
     @Operation(summary = "Get all users")
     public ResponseEntity<List<User>> getAllUsers() {

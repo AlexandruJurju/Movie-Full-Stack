@@ -28,8 +28,7 @@ public class ActorController {
     @GetMapping("")
     @Operation(summary = "Find all actors")
     public ResponseEntity<List<Actor>> findAllActors() {
-        List<Actor> actors = actorService.findAllActors();
-        return ResponseEntity.ok(actors);
+        return ResponseEntity.ok(actorService.findAllActors());
     }
 
     @GetMapping("/{actorId}")
@@ -41,8 +40,7 @@ public class ActorController {
     @PostMapping("")
     @Operation(summary = "Add an actor to database")
     public ResponseEntity<Actor> saveActor(@RequestBody Actor actor) {
-        Actor savedActor = actorService.saveActor(actor);
-        return new ResponseEntity<>(savedActor, HttpStatus.CREATED);
+        return new ResponseEntity<>(actorService.saveActor(actor), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{actorId}")
@@ -55,7 +53,6 @@ public class ActorController {
     @PutMapping("")
     @Operation(summary = "Update an actor")
     public ResponseEntity<Actor> updateActor(@RequestBody Actor actor) {
-        Actor updatedActor = actorService.saveActor(actor);
-        return ResponseEntity.ok(updatedActor);
+        return ResponseEntity.ok(actorService.saveActor(actor));
     }
 }

@@ -1,10 +1,12 @@
 package com.example.springmovie.service;
 
 import com.example.springmovie.enums.ReleaseStatus;
+import com.example.springmovie.exception.GenreNotFoundException;
 import com.example.springmovie.exception.MovieNotFoundException;
 import com.example.springmovie.model.Genre;
 import com.example.springmovie.model.Movie;
 import com.example.springmovie.repositories.MovieRepository;
+import com.example.springmovie.service.interfaces.GenreService;
 import com.example.springmovie.service.interfaces.MovieService;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.Predicate;
@@ -27,6 +29,8 @@ public class MovieServiceImpl implements MovieService {
     private final MovieRepository movieRepository;
     private final S3FileService s3FileService;
 
+    private final GenreService genreService;
+
     // TODO: add filtering
 
     @Override
@@ -35,7 +39,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public List<Movie> findAllMovies(){
+    public List<Movie> findAllMovies() {
         return movieRepository.findAll();
     }
 
@@ -160,6 +164,22 @@ public class MovieServiceImpl implements MovieService {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public Movie addGenreToMovie(Long movieId, Long genreId) throws MovieNotFoundException, GenreNotFoundException {
+        Movie movie = findMovieById(movieId);
+        Genre genre = genreService.findGenreById(genreId);
+        movie.getGenres().add(genre);
+        return movieRepository.save(movie);
+    }
+
+    @Override
+    public Movie removeGenreFromMovie(Long movieId, Long genreId) throws MovieNotFoundException, GenreNotFoundException {
+        Movie movie = findMovieById(movieId);
+        Genre genre = genreService.findGenreById(genreId);
+        movie.getGenres().remove(genre);
+        return movieRepository.save(movie);
     }
 
 }
