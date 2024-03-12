@@ -1,29 +1,28 @@
 import {Component} from '@angular/core';
-import {RouterOutlet} from '@angular/router';
 import {NgForOf, NgIf} from "@angular/common";
-import {Movie} from "./model/movie";
-import {MovieService} from "./service/movieService";
-import {HeaderComponent} from "./components/header/header.component";
-import {HomeComponent} from "./components/home/home.component";
+import {HeaderComponent} from "./header/header.component";
+import {HomeComponent} from "./home/home.component";
+import {UploadMovieComponent} from "./upload-movie/upload-movie.component";
+import {RouterLink, RouterOutlet} from "@angular/router";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NgIf, NgForOf, HeaderComponent, HomeComponent, HeaderComponent, HomeComponent],
+  imports: [
+    NgIf,
+    NgForOf,
+    HeaderComponent,
+    HomeComponent,
+    UploadMovieComponent,
+    RouterOutlet,
+    RouterLink,
+  ]
+  ,
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'Frontend';
-  movies: Movie[] = [];
-
-  constructor(private movieService: MovieService) {
+  constructor() {
   }
 
-  getMovies() {
-    this.movieService.findAllMoviesUnpaged()
-      .subscribe(movies => {
-        this.movies = movies;
-      });
-  }
 }
