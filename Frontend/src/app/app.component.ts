@@ -4,6 +4,7 @@ import {HeaderComponent} from "./header/header.component";
 import {HomeComponent} from "./home/home.component";
 import {UploadMovieComponent} from "./upload-movie/upload-movie.component";
 import {RouterLink, RouterOutlet} from "@angular/router";
+import {FindMoviesComponent} from "./find-movies/find-movies.component";
 
 @Component({
   selector: 'app-root',
@@ -16,6 +17,7 @@ import {RouterLink, RouterOutlet} from "@angular/router";
     UploadMovieComponent,
     RouterOutlet,
     RouterLink,
+    FindMoviesComponent,
   ]
   ,
   templateUrl: './app.component.html',

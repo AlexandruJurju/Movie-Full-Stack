@@ -1,18 +1,23 @@
 <header class="main-header">
-  <img class="main-logo" ngSrc="{{ logoPath }}" height="172" width="161" alt="logo" priority>
   <h1 class="main-title">{{ title }}</h1>
   <nav>
     <a class="button"
        routerLink="/home"
        routerLinkActive="activebutton"
        ariaCurrentWhenActive="page">
-      Crisis Center
+      Home
     </a> |
     <a class="button"
        routerLink="/upload-movie"
        routerLinkActive="activebutton"
        ariaCurrentWhenActive="page">
-      Heroes
+      Add movies
+    </a> |
+    <a class="button"
+       routerLink="/find-movies"
+       routerLinkActive="activebutton"
+       ariaCurrentWhenActive="page">
+      Find Movies
     </a>
   </nav>
 </header>

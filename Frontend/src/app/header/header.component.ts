@@ -15,5 +15,4 @@ import {RouterLink, RouterLinkActive} from "@angular/router";
 })
 export class HeaderComponent {
   @Input() title = "Title"
-  logoPath = "assets/logo.png"
 }
