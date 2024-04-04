@@ -1,0 +1,17 @@
+<div class="main">
+  <h1>Show All movies</h1>
+
+  <button (click)="getMovies()">Get All Movies</button>
+
+  <div *ngIf="movies">
+    <h2>Movies List</h2>
+    <ul>
+      <li *ngFor="let movie of movies">
+        {{ movie.title }}
+        {{ movie.releaseDate }}
+        <img [src]="movie.posterUrl" alt="{{ movie.title }} Poster" width="200">
+      </li>
+    </ul>
+  </div>
+
+</div>
