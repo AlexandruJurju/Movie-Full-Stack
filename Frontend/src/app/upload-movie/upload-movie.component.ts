@@ -30,4 +30,13 @@ export class UploadMovieComponent {
     });
   }
 
+  onFileSelected(event: Event) {
+    const inputElement = event.target as HTMLInputElement;
+    const fileList = inputElement.files;
+    if (fileList && fileList.length > 0) {
+      // Display preview of the selected poster image if needed
+      const posterPreview = document.getElementById('posterPreview') as HTMLImageElement;
+      posterPreview.src = URL.createObjectURL(fileList[0]);
+    }
+  }
 }
