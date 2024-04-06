@@ -28,7 +28,7 @@ public interface MovieService {
 
     void deleteMovieById(Long id) throws MovieNotFoundException;
 
-    List<Movie> findMoviesByGenre(Long genreId);
+    List<Movie> findMoviesByGenreId(Long genreId);
 
     List<Movie> findMoviesByReleaseStatus(ReleaseStatus status);
 

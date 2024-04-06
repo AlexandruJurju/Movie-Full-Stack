@@ -26,15 +26,15 @@ public class MovieActorImpl implements MovieActorService {
 
     @Override
     public MovieActor addActorToMovie(MovieActorDto movieActorDto) throws MovieNotFoundException, ActorNotFoundException {
-        Movie movie = movieService.findMovieById(movieActorDto.getMovieId());
-        Actor actor = actorService.findActorById(movieActorDto.getActorId());
+        Movie movie = movieService.findMovieById(movieActorDto.movieId());
+        Actor actor = actorService.findActorById(movieActorDto.actorId());
 
         MovieActor movieActor = new MovieActor();
         movieActor.setActor(actor);
         movieActor.setMovie(movie);
-        movieActor.setRole(movieActorDto.getRole());
-        movieActor.setDisplayOrder(movieActorDto.getDisplayOrder());
-        movieActor.setCharacterImageUrl(movieActorDto.getCharacterImageUrl());
+        movieActor.setRole(movieActorDto.role());
+        movieActor.setDisplayOrder(movieActorDto.displayOrder());
+        movieActor.setCharacterImageUrl(movieActorDto.characterImageUrl());
 
         movieActorRepository.save(movieActor);
 

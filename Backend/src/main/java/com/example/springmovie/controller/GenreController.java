@@ -20,7 +20,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/genre")
-@Tag(name = "Genre Controller", description = "CRUD REST APIs for managing movie genres")
+@Tag(name = "Genre Controller", description = "REST APIs for managing movie genres")
 public class GenreController {
 
     private final GenreService genreService;
