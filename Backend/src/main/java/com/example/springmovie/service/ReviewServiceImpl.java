@@ -28,12 +28,12 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public Review createReview(ReviewDto reviewDto) throws MovieNotFoundException, UserNotFoundException {
         Review review = new Review();
-        review.setText(reviewDto.getText());
-        review.setScore(reviewDto.getScore());
+        review.setText(reviewDto.text());
+        review.setScore(reviewDto.score());
         review.setPostedDate(LocalDate.now());
 
-        Movie movie = movieService.findMovieById(reviewDto.getMovieId());
-        User user = userService.findUserById(reviewDto.getUserId());
+        Movie movie = movieService.findMovieById(reviewDto.movieId());
+        User user = userService.findUserById(reviewDto.userId());
 
         review.setMovie(movie);
         review.setUser(user);
