@@ -1,4 +1,4 @@
-package com.example.springmovie.service;
+package com.example.springmovie.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import java.security.Key;
 import java.util.Date;
 import java.util.function.Function;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Service

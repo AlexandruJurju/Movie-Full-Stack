@@ -7,6 +7,7 @@ import com.example.springmovie.enums.Role;
 import com.example.springmovie.exception.UserAlreadyExistsException;
 import com.example.springmovie.model.User;
 import com.example.springmovie.repositories.UserRepository;
+import com.example.springmovie.security.JWTService;
 import com.example.springmovie.service.interfaces.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,7 +15,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Service
