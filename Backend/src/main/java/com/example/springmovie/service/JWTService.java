@@ -30,7 +30,7 @@ public class JWTService {
         return Jwts.
                 builder()
                 .setSubject(userDetails.getUsername())
-//                .setIssuer(issuer)
+                //                .setIssuer(issuer)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expirationTimeMillis))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)

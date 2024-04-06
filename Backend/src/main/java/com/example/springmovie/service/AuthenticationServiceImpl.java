@@ -23,6 +23,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
 
+    @Override
     public LoginResponseDto register(RegisterRequestDto registerRequestDto) throws UserAlreadyExistsException {
         if (userRepository.findUserByEmailIgnoreCase(registerRequestDto.email()).isPresent() || userRepository.findUserByUsernameIgnoreCase(registerRequestDto.username()).isPresent()) {
             throw new UserAlreadyExistsException();
@@ -40,6 +41,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return new LoginResponseDto(jwtToken);
     }
 
+    @Override
     public LoginResponseDto login(LoginRequestDto loginRequestDto) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(

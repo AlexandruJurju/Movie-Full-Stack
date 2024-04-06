@@ -1,11 +1,11 @@
 package com.example.springmovie.security;
 
+import com.example.springmovie.enums.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -24,24 +24,30 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .cors(AbstractHttpConfigurer::disable)
-                .cors(Customizer.withDefaults())
+                //                .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers(HttpMethod.GET, "/movie").permitAll()
-                        // permit all for logging in and registering
-                        .requestMatchers("/auth/login").permitAll()
-                        .requestMatchers("/auth/register").permitAll()
+                        // permit all GET requests
+                        .requestMatchers(HttpMethod.GET, "api/v1/movie/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "api/v1/actor/**").permitAll()
+                        // permit POST for logging in and registering
+                        .requestMatchers(HttpMethod.POST, "api/v1/auth/**").permitAll()
                         // only those who have the role user can do anything else
-                        //                        .requestMatchers("/**").hasRole(Role.USER.name())
-                        .anyRequest().permitAll()
+                        .requestMatchers("/**").hasRole(Role.USER.name())
+                        // permit all
+                        // .anyRequest().permitAll()
+                        .anyRequest().authenticated()
                 )
+                // Configure session management to be stateless
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+
+                // Set the custom authentication provider
                 .authenticationProvider(authenticationProvider)
+
+                // Add JWT request filter before AuthorizationFilter
                 .addFilterBefore(jwtRequestFilter, AuthorizationFilter.class);
         return http.build();
     }
-
 
 }
 
