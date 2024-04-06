@@ -14,6 +14,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 @Service
 @RequiredArgsConstructor
 public class AuthenticationServiceImpl implements AuthenticationService {
@@ -23,8 +26,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
 
+    private static final Logger log = Logger.getLogger(AuthenticationServiceImpl.class.getName());
+
     @Override
     public LoginResponseDto register(RegisterRequestDto registerRequestDto) throws UserAlreadyExistsException {
+        log.info("Registering new user: " + registerRequestDto.username());
+
         if (userRepository.findUserByEmailIgnoreCase(registerRequestDto.email()).isPresent() || userRepository.findUserByUsernameIgnoreCase(registerRequestDto.username()).isPresent()) {
             throw new UserAlreadyExistsException();
         }
@@ -37,12 +44,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .build();
 
         userRepository.save(user);
+
+        log.info("User registered successfully: " + registerRequestDto.username());
         String jwtToken = jwtService.generateToken(user);
         return new LoginResponseDto(jwtToken);
     }
 
     @Override
     public LoginResponseDto login(LoginRequestDto loginRequestDto) {
+        log.info("Authenticating user: " + loginRequestDto.username());
+
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginRequestDto.username(),
@@ -52,6 +63,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         User user = userRepository.findUserByUsernameIgnoreCase(loginRequestDto.username())
                 .orElseThrow();
 
+        log.info("User authenticated successfully: " + loginRequestDto.username());
         String jwtToken = jwtService.generateToken(user);
 
         return new LoginResponseDto(jwtToken);

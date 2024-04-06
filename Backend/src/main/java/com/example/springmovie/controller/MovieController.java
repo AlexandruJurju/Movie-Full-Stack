@@ -118,7 +118,7 @@ public class MovieController {
     @GetMapping("movie/findByGenreId/{genreId}")
     @Operation(summary = "Find all movies that contain a genre using the genreId")
     public ResponseEntity<List<Movie>> findAllMoviesContainingGenre(@PathVariable("genreId") Long genreId) {
-        return ResponseEntity.ok(movieService.findMoviesByGenre(genreId));
+        return ResponseEntity.ok(movieService.findMoviesByGenreId(genreId));
     }
 
     // ========================== Poster Operations ==========================
