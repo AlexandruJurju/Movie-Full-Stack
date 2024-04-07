@@ -7,29 +7,40 @@
        ariaCurrentWhenActive="page">
       Home
     </a> |
-    <a class="button"
-       routerLink="/register"
-       routerLinkActive="activebutton"
-       ariaCurrentWhenActive="page">
-      Register
-    </a> |
-    <a class="button"
-       routerLink="/login"
-       routerLinkActive="activebutton"
-       ariaCurrentWhenActive="page">
-      Login
-    </a> |
-    <a class="button"
-       routerLink="/upload-movie"
-       routerLinkActive="activebutton"
-       ariaCurrentWhenActive="page">
-      Add movies
-    </a> |
-    <a class="button"
-       routerLink="/find-movies"
-       routerLinkActive="activebutton"
-       ariaCurrentWhenActive="page">
-      Find Movies
-    </a> |
+
+    <div *ngIf="authService.currentUserSig() === null">
+
+      <a class="button"
+         routerLink="/register"
+         routerLinkActive="activebutton"
+         ariaCurrentWhenActive="page">
+        Register
+      </a> |
+      <a class="button"
+         routerLink="/login"
+         routerLinkActive="activebutton"
+         ariaCurrentWhenActive="page">
+        Login
+      </a> |
+    </div>
+
+    <div *ngIf="authService.currentUserSig()">
+      {{ authService.currentUserSig()?.username }}
+
+      <a class="button"
+         routerLink="/upload-movie"
+         routerLinkActive="activebutton"
+         ariaCurrentWhenActive="page">
+        Add movies
+      </a> |
+
+      <a class="button"
+         routerLink="/find-movies"
+         routerLinkActive="activebutton"
+         ariaCurrentWhenActive="page">
+        Find Movies
+      </a>
+
+    </div>
   </nav>
 </header>
