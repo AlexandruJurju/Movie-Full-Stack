@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {FormsModule, NgForm} from "@angular/forms";
-import {MovieService} from "../service/movie.service";
-import {Movie} from "../model/movie";
+import {MovieService} from "../../service/movie.service";
+import {Movie} from "../../model/movie";
 
 @Component({
   selector: 'app-upload-movie',

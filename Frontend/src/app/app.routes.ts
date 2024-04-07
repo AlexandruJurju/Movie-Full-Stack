@@ -1,9 +1,10 @@
 import {Routes} from '@angular/router';
-import {HomeComponent} from "./home/home.component";
-import {UploadMovieComponent} from "./upload-movie/upload-movie.component";
-import {FindMoviesComponent} from "./find-movies/find-movies.component";
-import {RegisterComponent} from "./register/register.component";
-import {LoginComponent} from "./login/login.component";
+import {HomeComponent} from "./pages/home/home.component";
+import {UploadMovieComponent} from "./pages/upload-movie/upload-movie.component";
+import {FindMoviesComponent} from "./pages/find-movies/find-movies.component";
+import {RegisterComponent} from "./pages/register/register.component";
+import {LoginComponent} from "./pages/login/login.component";
+
 
 export const routes: Routes = [
   {path: 'home', component: HomeComponent},

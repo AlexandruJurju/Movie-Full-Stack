@@ -1,56 +1,57 @@
 import {Component, inject} from '@angular/core';
 import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
-import {AuthService} from "../service/auth.service";
-import {RegisterRequestDto} from "../model/registerRequestDto";
 import {Router} from "@angular/router";
+import {LoginRequestDto} from "../../model/loginRequestDto";
+import {AuthService} from "../../service/auth.service";
 
 @Component({
-  selector: 'app-register',
+  selector: 'app-login',
   standalone: true,
   imports: [
     ReactiveFormsModule
   ],
-  templateUrl: './register.component.html',
-  styleUrl: './register.component.css'
+  templateUrl: './login.component.html',
+  styleUrl: './login.component.css'
 })
-export class RegisterComponent {
-  fb = inject(FormBuilder);
-  authService = inject(AuthService);
-  router = inject(Router);
 
-  // validate form data
+export class LoginComponent {
+  authService = inject(AuthService);
+  fb = inject(FormBuilder);
+  router = inject(Router)
+
   form = this.fb.nonNullable.group({
     username: ['', Validators.required],
-    email: ['', Validators.required],
     password: ['', Validators.required]
   });
 
   onSubmit(): void {
+    console.log("login")
     if (this.form.valid) {
       const formValue = this.form.value;
-      if (formValue.username && formValue.email && formValue.password) {
-        const registerRequestDto: RegisterRequestDto = {
+      if (formValue.username && formValue.password) {
+        const loginRequestDto: LoginRequestDto = {
           username: formValue.username,
-          email: formValue.email,
           password: formValue.password
         };
 
-        this.authService.register(registerRequestDto).subscribe({
+        this.authService.login(loginRequestDto).subscribe({
           next: (response) => {
-            console.log('Registration successful', response);
+            console.log('Login successful', response);
+
             // set the JWT token to local storage
             localStorage.setItem('token', response.token);
+
             // signal as authenticated
             this.authService.currentUserSig.set(response)
+
             this.router.navigateByUrl('/')
           },
           error: (error) => {
-            console.error('Registration failed', error);
+            console.error('Login failed', error);
           }
         });
 
       }
     }
   }
-
 }
