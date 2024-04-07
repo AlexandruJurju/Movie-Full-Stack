@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {NgForOf, NgIf} from "@angular/common";
-import {MovieService} from "../service/movieService";
+import {MovieService} from "../service/movie.service";
 import {Movie} from "../model/movie";
 
 @Component({
