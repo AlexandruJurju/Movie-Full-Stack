@@ -19,4 +19,13 @@ export class HeaderComponent {
   @Input() title = "Title"
 
   authService = inject(AuthService);
+
+  // use token to see if user is logged in
+  ngOnInit(): void {
+    console.log(this.authService.currentUserSig())
+  }
+
+  logout() {
+
+  }
 }
