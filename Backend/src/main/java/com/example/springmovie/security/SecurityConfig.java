@@ -1,6 +1,5 @@
 package com.example.springmovie.security;
 
-import com.example.springmovie.enums.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,12 +37,28 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req -> req
-                        .requestMatchers(WHITE_LIST_URL).permitAll()
-                        .requestMatchers("api/v1/movie/**").hasAnyAuthority(Role.USER.name())
-                        .anyRequest().authenticated()
+                                .anyRequest().permitAll()
+                        //                        .requestMatchers(WHITE_LIST_URL).permitAll()
+                        // allow only requests if user has USER authority
+                        //                        .requestMatchers("api/v1/movie/**").hasAnyAuthority(Role.USER.name())
+                        // allow all requests if user has any authority
+                        //                        .anyRequest().authenticated()
                 )
+
+//                .authorizeHttpRequests(req -> req
+                //                        .requestMatchers(WHITE_LIST_URL).permitAll()
+                //                        // allow only requests if user has USER authority
+                //                        //                        .requestMatchers("api/v1/movie/**").hasAnyAuthority(Role.USER.name())
+                //                        // allow all requests if user has any authority
+                //                        .anyRequest().authenticated()
+                //                )
+
+                // SessionManagement configures session management
+                // stateless means that spring security will never create an httpsession and it will never use it to obtain the securitycontext
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
+                // set the AuthenticationProvider to be used
                 .authenticationProvider(authenticationProvider)
+                // addfilterbefore adds the JwtAuthenticationFilter before usernamepasswordauthenticationfilter
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }

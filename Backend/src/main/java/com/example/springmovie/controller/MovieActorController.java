@@ -4,9 +4,7 @@ import com.example.springmovie.dto.MovieActorDto;
 import com.example.springmovie.exception.ActorNotFoundException;
 import com.example.springmovie.exception.MovieNotFoundException;
 import com.example.springmovie.model.MovieActor;
-import com.example.springmovie.service.interfaces.ActorService;
 import com.example.springmovie.service.interfaces.MovieActorService;
-import com.example.springmovie.service.interfaces.MovieService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -25,8 +23,6 @@ import java.util.List;
 public class MovieActorController {
 
     private final MovieActorService movieActorService;
-    private final MovieService movieService;
-    private final ActorService actorService;
 
     @PostMapping("/add")
     @Operation(summary = "Add an actor to a a movie")

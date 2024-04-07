@@ -21,17 +21,13 @@ import java.util.logging.Logger;
 @Service
 public class S3FileService implements FileService {
 
+    private static final Logger log = Logger.getLogger(S3FileService.class.getName());
+    private final S3Client s3Client;
     @Value("${s3.bucket.name}")
     private String bucket;
-
     @Value("${spring.cloud.aws.region.static}")
     private String region;
-
-    private S3Utilities s3Utilities;
-
-    private final S3Client s3Client;
-
-    private static final Logger log = Logger.getLogger(S3FileService.class.getName());
+    private final S3Utilities s3Utilities;
 
     public S3FileService(S3Client s3Client) {
         this.s3Client = s3Client;

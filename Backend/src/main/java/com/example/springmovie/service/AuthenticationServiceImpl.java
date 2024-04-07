@@ -21,12 +21,11 @@ import java.util.logging.Logger;
 @RequiredArgsConstructor
 public class AuthenticationServiceImpl implements AuthenticationService {
 
+    private static final Logger log = Logger.getLogger(AuthenticationServiceImpl.class.getName());
     private final UserRepository userRepository;
     private final JWTService jwtService;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
-
-    private static final Logger log = Logger.getLogger(AuthenticationServiceImpl.class.getName());
 
     @Override
     public LoginResponseDto register(RegisterRequestDto registerRequestDto) throws UserAlreadyExistsException {
