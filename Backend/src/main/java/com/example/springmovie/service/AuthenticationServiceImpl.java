@@ -45,25 +45,23 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         log.info("User registered successfully: " + registerRequestDto.username());
         String jwtToken = jwtService.generateToken(user);
-        return new LoginResponseDto(jwtToken);
+        return new LoginResponseDto(registerRequestDto.username(), jwtToken);
     }
 
     @Override
     public LoginResponseDto login(LoginRequestDto loginRequestDto) {
         log.info("Authenticating user: " + loginRequestDto.username());
 
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginRequestDto.username(),
-                        loginRequestDto.password())
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                loginRequestDto.username(),
+                loginRequestDto.password())
         );
 
-        User user = userRepository.findUserByUsernameIgnoreCase(loginRequestDto.username())
-                .orElseThrow();
+        User user = userRepository.findUserByUsernameIgnoreCase(loginRequestDto.username()).orElseThrow();
 
         log.info("User authenticated successfully: " + loginRequestDto.username());
         String jwtToken = jwtService.generateToken(user);
 
-        return new LoginResponseDto(jwtToken);
+        return new LoginResponseDto(loginRequestDto.username(), jwtToken);
     }
 }
