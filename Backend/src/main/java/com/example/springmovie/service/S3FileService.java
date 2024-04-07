@@ -1,6 +1,7 @@
 package com.example.springmovie.service;
 
 import com.example.springmovie.service.interfaces.FileService;
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -16,12 +17,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.UUID;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
+@Log
 @Service
 public class S3FileService implements FileService {
 
-    private static final Logger log = Logger.getLogger(S3FileService.class.getName());
     private final S3Client s3Client;
     @Value("${s3.bucket.name}")
     private String bucket;
@@ -47,7 +47,6 @@ public class S3FileService implements FileService {
                             .build(),
                     RequestBody.fromBytes(file.getBytes()));
         } catch (IOException e) {
-            log.log(Level.SEVERE, "Error occurred while uploading file to S3", e);
             throw new RuntimeException(e);
         }
 
@@ -59,25 +58,24 @@ public class S3FileService implements FileService {
                 .toString();
     }
 
-    public void delete(String fileUrl) {
-        log.info("Deleting file from S3 with url " + fileUrl);
+    public void delete(String path) {
+        log.info("Deleting file from S3 with url " + path);
         s3Client.deleteObject(DeleteObjectRequest.builder()
                 .bucket(bucket)
-                .key(getKeyFromUrl(fileUrl)).
+                .key(getKeyFromUrl(path)).
                 build());
         log.info("File deleted successfully from S3");
     }
 
-    public byte[] download(String fileUrl) {
-        log.info("Downloading file from S3 with url " + fileUrl);
+    public byte[] download(String path) {
+        log.info("Downloading file from S3 with url " + path);
         ResponseInputStream<GetObjectResponse> response = s3Client.getObject(GetObjectRequest.builder()
                 .bucket(bucket)
-                .key(getKeyFromUrl(fileUrl))
+                .key(getKeyFromUrl(path))
                 .build());
         try {
             return response.readAllBytes();
         } catch (IOException e) {
-            log.log(Level.SEVERE, "Error occurred while downloading file from S3", e);
             throw new RuntimeException(e);
         }
     }
@@ -87,7 +85,6 @@ public class S3FileService implements FileService {
             URL url = new URL(fileUrl);
             return url.getPath().substring(1);
         } catch (MalformedURLException e) {
-            log.log(Level.SEVERE, "Invalid URL", e);
             throw new RuntimeException("Invalid URL", e);
         }
     }

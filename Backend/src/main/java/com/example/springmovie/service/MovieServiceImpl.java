@@ -6,6 +6,7 @@ import com.example.springmovie.exception.MovieNotFoundException;
 import com.example.springmovie.model.Genre;
 import com.example.springmovie.model.Movie;
 import com.example.springmovie.repositories.MovieRepository;
+import com.example.springmovie.service.interfaces.FileService;
 import com.example.springmovie.service.interfaces.GenreService;
 import com.example.springmovie.service.interfaces.MovieService;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -30,7 +31,7 @@ import java.util.Set;
 public class MovieServiceImpl implements MovieService {
 
     private final MovieRepository movieRepository;
-    private final S3FileService s3FileService;
+    private final FileService fileService;
     private final GenreService genreService;
 
     @Override
@@ -136,7 +137,7 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public Movie saveMovieWithPoster(Movie movie, MultipartFile file) {
         if (file != null) {
-            String key = s3FileService.upload(file);
+            String key = fileService.upload(file);
             movie.setPosterUrl(key);
         }
         return movieRepository.save(movie);
@@ -152,11 +153,11 @@ public class MovieServiceImpl implements MovieService {
         String moviePosterURL = movie.getPosterUrl();
         if (moviePosterURL != null) {
             log.info("Deleting existing movie poster for movie id: " + movieId);
-            s3FileService.delete(moviePosterURL);
+            fileService.delete(moviePosterURL);
         }
         if (file != null) {
             log.info("Uploading new movie poster for movie id: " + movieId);
-            movie.setPosterUrl(s3FileService.upload(file));
+            movie.setPosterUrl(fileService.upload(file));
         }
 
         log.info("Saving movie with updated poster for movie id: " + movieId);
@@ -173,7 +174,7 @@ public class MovieServiceImpl implements MovieService {
         String moviePosterURL = movie.getPosterUrl();
         if (moviePosterURL != null) {
             log.info("Deleting movie poster from S3 for movie id: " + movieId);
-            s3FileService.delete(moviePosterURL);
+            fileService.delete(moviePosterURL);
             movie.setPosterUrl(null);
 
             log.info("Saving movie without poster for movie id: " + movieId);
@@ -191,7 +192,7 @@ public class MovieServiceImpl implements MovieService {
         String moviePosterURL = movie.getPosterUrl();
         if (moviePosterURL != null) {
             log.info("Downloading movie poster from S3 for movie id: " + movieId);
-            return s3FileService.download(moviePosterURL);
+            return fileService.download(moviePosterURL);
         } else {
             log.info("No movie poster found for movie id: " + movieId);
             return null;

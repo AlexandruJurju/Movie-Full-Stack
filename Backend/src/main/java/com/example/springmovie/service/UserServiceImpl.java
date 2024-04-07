@@ -5,7 +5,6 @@ import com.example.springmovie.model.User;
 import com.example.springmovie.repositories.UserRepository;
 import com.example.springmovie.service.interfaces.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -48,12 +47,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetailsService userDetailsService() {
-        return new UserDetailsService() {
-            @Override
-            public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-                return userRepository.findUserByUsernameIgnoreCase(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
-            }
-        };
+        return username -> userRepository.findUserByUsernameIgnoreCase(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        //                return new UserDetailsService() {
+        //            @Override
+        //            public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        //                return userRepository.findUserByUsernameIgnoreCase(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        //            }
+        //        };
     }
 
 }
