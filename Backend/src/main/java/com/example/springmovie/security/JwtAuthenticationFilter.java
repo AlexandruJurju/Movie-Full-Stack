@@ -1,5 +1,6 @@
 package com.example.springmovie.security;
 
+import com.example.springmovie.service.JWTService;
 import com.example.springmovie.service.interfaces.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

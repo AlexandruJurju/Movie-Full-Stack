@@ -5,9 +5,7 @@ import com.example.springmovie.exception.MovieNotFoundException;
 import com.example.springmovie.exception.ReviewNotFoundException;
 import com.example.springmovie.exception.UserNotFoundException;
 import com.example.springmovie.model.Review;
-import com.example.springmovie.service.interfaces.MovieService;
 import com.example.springmovie.service.interfaces.ReviewService;
-import com.example.springmovie.service.interfaces.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,8 +21,6 @@ import java.util.List;
 public class ReviewController {
 
     private final ReviewService reviewService;
-    private final MovieService movieService;
-    private final UserService userService;
 
     // TODO: get all reviews of a movie - page
     // TODO: get average score of movie

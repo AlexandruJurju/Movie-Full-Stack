@@ -1,4 +1,4 @@
-package com.example.springmovie.security;
+package com.example.springmovie.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

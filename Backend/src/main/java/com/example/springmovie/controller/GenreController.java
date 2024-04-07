@@ -1,13 +1,9 @@
 package com.example.springmovie.controller;
 
 import com.example.springmovie.exception.GenreNotFoundException;
-import com.example.springmovie.exception.MovieNotFoundException;
 import com.example.springmovie.model.Genre;
-import com.example.springmovie.model.Movie;
 import com.example.springmovie.service.interfaces.GenreService;
-import com.example.springmovie.service.interfaces.MovieService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

@@ -7,7 +7,6 @@ import com.example.springmovie.enums.Role;
 import com.example.springmovie.exception.UserAlreadyExistsException;
 import com.example.springmovie.model.User;
 import com.example.springmovie.repositories.UserRepository;
-import com.example.springmovie.security.JWTService;
 import com.example.springmovie.service.interfaces.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,12 +20,11 @@ import java.util.logging.Logger;
 @RequiredArgsConstructor
 public class AuthenticationServiceImpl implements AuthenticationService {
 
+    private static final Logger log = Logger.getLogger(AuthenticationServiceImpl.class.getName());
     private final UserRepository userRepository;
     private final JWTService jwtService;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
-
-    private static final Logger log = Logger.getLogger(AuthenticationServiceImpl.class.getName());
 
     @Override
     public LoginResponseDto register(RegisterRequestDto registerRequestDto) throws UserAlreadyExistsException {
@@ -47,25 +45,23 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         log.info("User registered successfully: " + registerRequestDto.username());
         String jwtToken = jwtService.generateToken(user);
-        return new LoginResponseDto(jwtToken);
+        return new LoginResponseDto(registerRequestDto.username(), jwtToken);
     }
 
     @Override
     public LoginResponseDto login(LoginRequestDto loginRequestDto) {
         log.info("Authenticating user: " + loginRequestDto.username());
 
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginRequestDto.username(),
-                        loginRequestDto.password())
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                loginRequestDto.username(),
+                loginRequestDto.password())
         );
 
-        User user = userRepository.findUserByUsernameIgnoreCase(loginRequestDto.username())
-                .orElseThrow();
+        User user = userRepository.findUserByUsernameIgnoreCase(loginRequestDto.username()).orElseThrow();
 
         log.info("User authenticated successfully: " + loginRequestDto.username());
         String jwtToken = jwtService.generateToken(user);
 
-        return new LoginResponseDto(jwtToken);
+        return new LoginResponseDto(loginRequestDto.username(), jwtToken);
     }
 }
