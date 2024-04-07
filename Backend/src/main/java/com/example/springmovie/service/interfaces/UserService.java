@@ -16,5 +16,9 @@ public interface UserService {
 
     User findUserByEmail(String email) throws UserNotFoundException;
 
+    User findUserByUsername(String username) throws UserNotFoundException;
+
     UserDetailsService userDetailsService();
+
+    User save(User user);
 }

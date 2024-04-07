@@ -46,6 +46,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User findUserByUsername(String username) throws UserNotFoundException {
+        return userRepository.findUserByUsernameIgnoreCase(username)
+                .orElseThrow(() -> new UserNotFoundException("User with email " + username + " not found"));
+    }
+
+    @Override
     public UserDetailsService userDetailsService() {
         return username -> userRepository.findUserByUsernameIgnoreCase(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
@@ -55,6 +61,11 @@ public class UserServiceImpl implements UserService {
         //                return userRepository.findUserByUsernameIgnoreCase(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
         //            }
         //        };
+    }
+
+    @Override
+    public User save(User user) {
+        return userRepository.save(user);
     }
 
 }
