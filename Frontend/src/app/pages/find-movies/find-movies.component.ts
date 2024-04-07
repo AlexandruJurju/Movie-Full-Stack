@@ -1,7 +1,7 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {NgForOf, NgIf} from "@angular/common";
-import {MovieService} from "../service/movieService";
-import {Movie} from "../model/movie";
+import {Movie} from "../../model/movie";
+import {MovieService} from "../../service/movie.service";
 
 @Component({
   selector: 'app-find-movies',
@@ -16,9 +16,7 @@ import {Movie} from "../model/movie";
 export class FindMoviesComponent {
   title = 'Frontend';
   movies: Movie[] = [];
-
-  constructor(private movieService: MovieService) {
-  }
+  movieService = inject(MovieService);
 
   getMovies() {
     this.movieService.findAllMoviesUnpaged()

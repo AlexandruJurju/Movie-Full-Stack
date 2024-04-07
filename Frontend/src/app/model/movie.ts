@@ -4,11 +4,11 @@ export class Movie {
   tagline: string;
   overview: string;
   runtimeInMinutes: number;
-  posterUrl: string;
-  imdbUrl: string;
-  imdbRating: number;
-  trailerUrl: string;
-  releaseDate: Date;
+  posterUrl: string | null;
+  imdbUrl: string | null;
+  imdbRating: number | null;
+  trailerUrl: string | null;
+  releaseDate: Date | null;
 
 
   constructor(id: number, title: string, tagline: string, overview: string, runtimeInMinutes: number, posterUrl: string, imdbUrl: string, imdbRating: number, trailerUrl: string, releaseDate: Date) {
