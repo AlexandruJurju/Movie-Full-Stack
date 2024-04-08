@@ -1,8 +1,10 @@
 package com.example.springmovie.security;
 
+import com.example.springmovie.enums.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -21,8 +23,8 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthFilter;
     private static final String[] WHITE_LIST_URL = {
             "/api/v1/auth/**",
-            "/v2/api-docs",
-            "/v3/api-docs",
+            "/v1/api-docs/**",
+            "/v2/api-docs/**",
             "/v3/api-docs/**",
             "/swagger-resources",
             "/swagger-resources/**",
@@ -30,13 +32,15 @@ public class SecurityConfig {
             "/configuration/security",
             "/swagger-ui/**",
             "/webjars/**",
+            "/docs/**",
+            "/swagger-ui/**",
             "/swagger-ui.html"};
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
-//                .authorizeHttpRequests(req -> req
+                //                .authorizeHttpRequests(req -> req
                 //                                .anyRequest().permitAll()
                 //                        //                        .requestMatchers(WHITE_LIST_URL).permitAll()
                 //                        // allow only requests if user has USER authority
@@ -46,11 +50,15 @@ public class SecurityConfig {
                 //                )
 
                 .authorizeHttpRequests(req -> req
-                        .requestMatchers(WHITE_LIST_URL).permitAll()
-                        // allow only requests if user has USER authority
-                        //                        .requestMatchers("api/v1/movie/**").hasAnyAuthority(Role.USER.name())
+                                .requestMatchers(HttpMethod.GET, "api/v1/movie/**").hasAnyAuthority(Role.USER.name(), Role.ADMIN.name())
+                                .requestMatchers(HttpMethod.POST, "api/v1/movie/**").hasAnyAuthority(Role.ADMIN.name())
+                                .requestMatchers(HttpMethod.PUT, "api/v1/movie/**").hasAnyAuthority(Role.ADMIN.name())
+                                .requestMatchers(HttpMethod.DELETE, "api/v1/movie/**").hasAnyAuthority(Role.ADMIN.name())
+                                .requestMatchers("api/v1/genre/**").hasAnyAuthority(Role.ADMIN.name())
+                                .requestMatchers(WHITE_LIST_URL).permitAll()
+
                         // allow all requests if user has any authority
-                        .anyRequest().authenticated()
+                        //                        .anyRequest().authenticated()
                 )
 
                 // SessionManagement configures session management

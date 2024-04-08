@@ -45,8 +45,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .build();
 
         userService.save(user);
-
         log.info("User registered successfully: " + registerRequestDto.username());
+
         String jwtToken = jwtService.generateToken(user);
         return new LoginResponseDto(registerRequestDto.username(), jwtToken);
     }
