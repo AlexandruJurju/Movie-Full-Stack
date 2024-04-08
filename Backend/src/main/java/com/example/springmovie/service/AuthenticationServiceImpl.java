@@ -10,19 +10,18 @@ import com.example.springmovie.model.User;
 import com.example.springmovie.service.interfaces.AuthenticationService;
 import com.example.springmovie.service.interfaces.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.logging.Logger;
-
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AuthenticationServiceImpl implements AuthenticationService {
 
-    private static final Logger log = Logger.getLogger(AuthenticationServiceImpl.class.getName());
     private final UserService userService;
     private final JWTService jwtService;
     private final PasswordEncoder passwordEncoder;
@@ -30,7 +29,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public LoginResponseDto register(RegisterRequestDto registerRequestDto) throws UserAlreadyExistsException, UserNotFoundException {
-        log.info("Registering new user: " + registerRequestDto.username());
+        log.info("Registering new user: {}", registerRequestDto.username());
 
         if (userService.findUserByEmail(registerRequestDto.email()) != null || userService.findUserByUsername(registerRequestDto.username()) != null) {
             throw new UserAlreadyExistsException();
@@ -45,7 +44,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .build();
 
         userService.save(user);
-        log.info("User registered successfully: " + registerRequestDto.username());
+        log.info("User registered successfully: {}", registerRequestDto.username());
 
         String jwtToken = jwtService.generateToken(user);
         return new LoginResponseDto(registerRequestDto.username(), jwtToken);
@@ -53,7 +52,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public LoginResponseDto login(LoginRequestDto loginRequestDto) throws UserNotFoundException {
-        log.info("Authenticating user: " + loginRequestDto.username());
+        log.info("Authenticating user: {}", loginRequestDto.username());
 
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 loginRequestDto.username(),
@@ -62,7 +61,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         User user = userService.findUserByUsername(loginRequestDto.username());
 
-        log.info("User authenticated successfully: " + loginRequestDto.username());
+        log.info("User authenticated successfully: {}", loginRequestDto.username());
         String jwtToken = jwtService.generateToken(user);
 
         return new LoginResponseDto(loginRequestDto.username(), jwtToken);

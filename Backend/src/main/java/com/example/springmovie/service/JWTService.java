@@ -5,6 +5,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -12,8 +13,8 @@ import org.springframework.stereotype.Service;
 import java.security.Key;
 import java.util.Date;
 import java.util.function.Function;
-import java.util.logging.Logger;
 
+@Slf4j
 @Service
 public class JWTService {
 
@@ -26,10 +27,8 @@ public class JWTService {
     @Value("${jwt.expireTimeHours}")
     private int expireTimeHours;
 
-    private static final Logger log = Logger.getLogger(JWTService.class.getName());
-
     public String generateToken(UserDetails userDetails) {
-        log.info("Generating token for user: " + userDetails.getUsername());
+        log.info("Generating token for user: {}", userDetails.getUsername());
 
         long expirationTimeMillis = expireTimeHours * 60 * 60 * 1000L;
         return Jwts.
