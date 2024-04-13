@@ -5,8 +5,6 @@ import com.example.springmovie.model.User;
 import com.example.springmovie.repositories.UserRepository;
 import com.example.springmovie.service.interfaces.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -46,26 +44,33 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User save(User user) {
+        return userRepository.save(user);
+    }
+
+    @Override
     public User findUserByUsername(String username) throws UserNotFoundException {
         return userRepository.findUserByUsernameIgnoreCase(username)
                 .orElseThrow(() -> new UserNotFoundException("User with email " + username + " not found"));
     }
 
     @Override
-    public UserDetailsService userDetailsService() {
-        return username -> userRepository.findUserByUsernameIgnoreCase(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
-
-        //                return new UserDetailsService() {
-        //            @Override
-        //            public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        //                return userRepository.findUserByUsernameIgnoreCase(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
-        //            }
-        //        };
+    public boolean checkUserExistsUsingEmail(String email) {
+        try {
+            findUserByEmail(email);
+            return true;
+        } catch (UserNotFoundException e) {
+            return false;
+        }
     }
 
     @Override
-    public User save(User user) {
-        return userRepository.save(user);
+    public boolean checkUserExistsUsingUsername(String username) {
+        try {
+            findUserByUsername(username);
+            return true;
+        } catch (UserNotFoundException e) {
+            return false;
+        }
     }
-
 }

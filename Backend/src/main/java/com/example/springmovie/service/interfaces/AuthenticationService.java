@@ -8,7 +8,7 @@ import com.example.springmovie.exception.UserNotFoundException;
 
 public interface AuthenticationService {
 
-    LoginResponseDto register(RegisterRequestDto registerRequestDto) throws UserAlreadyExistsException, UserNotFoundException;
+    LoginResponseDto register(RegisterRequestDto registerRequestDto) throws UserAlreadyExistsException;
 
     LoginResponseDto login(LoginRequestDto loginRequestDto) throws UserNotFoundException;
 

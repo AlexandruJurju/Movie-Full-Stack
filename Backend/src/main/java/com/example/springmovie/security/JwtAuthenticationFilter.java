@@ -1,7 +1,7 @@
 package com.example.springmovie.security;
 
 import com.example.springmovie.service.JWTService;
-import com.example.springmovie.service.interfaces.UserService;
+import com.example.springmovie.service.MyUserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,7 +24,7 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JWTService jwtService;
-    private final UserService userService;
+    private final MyUserDetailsService userDetailsService;
     private static final String AUTHORIZATION_HEADER = "Authorization";
     private static final String BEARER_PREFIX = "Bearer ";
 
@@ -52,7 +52,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // if the username is not null and the user is not already authenticated
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             // load the user details
-            UserDetails userDetails = userService.userDetailsService().loadUserByUsername(username);
+            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
             // if the token is valid, set the authentication in the securitycontext
             if (jwtService.isTokenValid(jwtToken, userDetails)) {

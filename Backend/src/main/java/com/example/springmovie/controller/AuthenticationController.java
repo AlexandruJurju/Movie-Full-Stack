@@ -28,7 +28,7 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     @Operation(summary = "Register a user to the site")
-    public ResponseEntity<LoginResponseDto> register(@RequestBody @Valid RegisterRequestDto registerRequestDto) throws UserAlreadyExistsException, UserNotFoundException {
+    public ResponseEntity<LoginResponseDto> register(@RequestBody @Valid RegisterRequestDto registerRequestDto) throws UserAlreadyExistsException {
         return new ResponseEntity<>(authenticationService.register(registerRequestDto), HttpStatus.CREATED);
     }
 
@@ -43,4 +43,5 @@ public class AuthenticationController {
     public ResponseEntity<LoginResponseDto> authenticationStatus(@RequestBody @Valid String token) throws UserNotFoundException {
         return new ResponseEntity<>(authenticationService.status(token), HttpStatus.OK);
     }
+
 }

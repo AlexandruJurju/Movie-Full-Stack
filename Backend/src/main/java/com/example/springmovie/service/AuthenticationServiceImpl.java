@@ -10,31 +10,32 @@ import com.example.springmovie.model.User;
 import com.example.springmovie.service.interfaces.AuthenticationService;
 import com.example.springmovie.service.interfaces.UserService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.java.Log;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-@Slf4j
+@Log
 @Service
 @RequiredArgsConstructor
 public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final UserService userService;
+    private final UserDetailsService userDetailsService;
     private final JWTService jwtService;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
 
     @Override
-    public LoginResponseDto register(RegisterRequestDto registerRequestDto) throws UserAlreadyExistsException, UserNotFoundException {
-        log.info("Registering new user: {}", registerRequestDto.username());
+    public LoginResponseDto register(RegisterRequestDto registerRequestDto) throws UserAlreadyExistsException {
+        log.info("Registering new user: " + registerRequestDto.username());
 
-        if (userService.findUserByEmail(registerRequestDto.email()) != null || userService.findUserByUsername(registerRequestDto.username()) != null) {
+        if (userService.checkUserExistsUsingEmail(registerRequestDto.email()) || userService.checkUserExistsUsingUsername(registerRequestDto.username())) {
             throw new UserAlreadyExistsException();
         }
-
 
         User user = User.builder()
                 .username(registerRequestDto.username())
@@ -44,15 +45,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .build();
 
         userService.save(user);
-        log.info("User registered successfully: {}", registerRequestDto.username());
 
+        log.info("User registered successfully: " + registerRequestDto.username());
         String jwtToken = jwtService.generateToken(user);
         return new LoginResponseDto(registerRequestDto.username(), jwtToken);
     }
 
     @Override
     public LoginResponseDto login(LoginRequestDto loginRequestDto) throws UserNotFoundException {
-        log.info("Authenticating user: {}", loginRequestDto.username());
+        log.info("Authenticating user: " + loginRequestDto.username());
 
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 loginRequestDto.username(),
@@ -61,16 +62,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         User user = userService.findUserByUsername(loginRequestDto.username());
 
-        log.info("User authenticated successfully: {}", loginRequestDto.username());
+        log.info("User authenticated successfully: " + loginRequestDto.username());
         String jwtToken = jwtService.generateToken(user);
 
         return new LoginResponseDto(loginRequestDto.username(), jwtToken);
     }
 
     @Override
-    public LoginResponseDto status(String token) throws UserNotFoundException {
+    public LoginResponseDto status(String token) {
         String username = jwtService.extractUsername(token);
-        UserDetails userDetails = userService.findUserByUsername(username);
+        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
         jwtService.isTokenValid(token, userDetails);
 
