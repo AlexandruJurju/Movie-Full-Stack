@@ -30,7 +30,11 @@
   color: white;
 }
 
-/* Add spacing between authenticated user links */
+.nav-container {
+  color: white;
+}
+
 .nav-container div a {
   margin-right: 10px;
 }
+

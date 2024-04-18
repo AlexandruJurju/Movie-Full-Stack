@@ -1,6 +1,6 @@
 import {Component, inject, Input} from '@angular/core';
 import {NgIf, NgOptimizedImage} from "@angular/common";
-import {RouterLink, RouterLinkActive} from "@angular/router";
+import {Router, RouterLink, RouterLinkActive} from "@angular/router";
 import {AuthService} from "../service/auth.service";
 
 @Component({
@@ -19,8 +19,12 @@ export class HeaderComponent {
   @Input() title = "Title"
 
   authService = inject(AuthService);
+  router = inject(Router);
 
   logout() {
-
+    console.log("logout");
+    localStorage.setItem('token', '');
+    this.authService.currentUserSig.set(null);
+    this.router.navigateByUrl('/')
   }
 }

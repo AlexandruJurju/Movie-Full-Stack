@@ -38,8 +38,10 @@ export class RegisterComponent {
         this.authService.register(registerRequestDto).subscribe({
           next: (response) => {
             console.log('Registration successful', response);
+
             // set the JWT token to local storage
             localStorage.setItem('token', response.token);
+
             // signal as authenticated
             this.authService.currentUserSig.set(response)
             this.router.navigateByUrl('/')
