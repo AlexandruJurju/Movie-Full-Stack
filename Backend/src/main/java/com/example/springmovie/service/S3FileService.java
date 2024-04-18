@@ -1,7 +1,7 @@
 package com.example.springmovie.service;
 
 import com.example.springmovie.service.interfaces.FileService;
-import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -16,17 +16,16 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.UUID;
-import java.util.logging.Level;
 
-@Log
+@Slf4j
 @Service
 public class S3FileService implements FileService {
 
     private final S3Client s3Client;
     @Value("${s3.bucket.name}")
     private String bucket;
-    @Value("${spring.cloud.aws.region.static}")
-    private String region;
+//    @Value("${spring.cloud.aws.region.static}")
+//    private String region;
     private final S3Utilities s3Utilities;
 
     public S3FileService(S3Client s3Client) {
@@ -59,7 +58,7 @@ public class S3FileService implements FileService {
     }
 
     public void delete(String path) {
-        log.info("Deleting file from S3 with url " + path);
+        log.info("Deleting file from S3 with url {}", path);
         s3Client.deleteObject(DeleteObjectRequest.builder()
                 .bucket(bucket)
                 .key(getKeyFromUrl(path)).
@@ -68,7 +67,7 @@ public class S3FileService implements FileService {
     }
 
     public byte[] download(String path) {
-        log.info("Downloading file from S3 with url " + path);
+        log.info("Downloading file from S3 with url {}", path);
         ResponseInputStream<GetObjectResponse> response = s3Client.getObject(GetObjectRequest.builder()
                 .bucket(bucket)
                 .key(getKeyFromUrl(path))

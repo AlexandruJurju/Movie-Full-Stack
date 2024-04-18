@@ -4,6 +4,7 @@ import com.example.springmovie.dto.LoginRequestDto;
 import com.example.springmovie.dto.LoginResponseDto;
 import com.example.springmovie.dto.RegisterRequestDto;
 import com.example.springmovie.exception.UserAlreadyExistsException;
+import com.example.springmovie.exception.UserNotFoundException;
 import com.example.springmovie.service.interfaces.AuthenticationService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -33,12 +34,14 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     @Operation(summary = "Login to the site")
-    public ResponseEntity<LoginResponseDto> authentication(@RequestBody @Valid LoginRequestDto loginRequestDto) {
+    public ResponseEntity<LoginResponseDto> authentication(@RequestBody @Valid LoginRequestDto loginRequestDto) throws UserNotFoundException {
         return new ResponseEntity<>(authenticationService.login(loginRequestDto), HttpStatus.OK);
     }
 
-    //    @GetMapping("/test")
-    //    public ResponseEntity<User> getLoggedInUser(@AuthenticationPrincipal User user) {
-    //        return new ResponseEntity<>(user, HttpStatus.OK);
-    //    }
+    @PostMapping("/status")
+    @Operation(summary = "Receive a JWT token and check if it's valid")
+    public ResponseEntity<LoginResponseDto> authenticationStatus(@RequestBody @Valid String token) throws UserNotFoundException {
+        return new ResponseEntity<>(authenticationService.status(token), HttpStatus.OK);
+    }
+
 }
