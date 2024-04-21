@@ -14,7 +14,7 @@ import {MovieService} from "../../service/movie.service";
   styleUrl: './find-movies.component.css'
 })
 export class FindMoviesComponent {
-  title = 'Frontend';
+  title = 'Movie-Frontend';
   movies: Movie[] = [];
   movieService = inject(MovieService);
 

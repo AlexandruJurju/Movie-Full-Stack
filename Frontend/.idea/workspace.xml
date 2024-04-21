@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="c49ffae5-2058-4874-9a83-18fc2dc0304a" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/.editorconfig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/.vscode/extensions.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/.vscode/launch.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/.vscode/tasks.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/angular.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/package-lock.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/src/app/app.component.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/src/app/app.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/src/app/app.component.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/src/app/app.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/src/app/app.config.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/src/app/app.routes.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/src/app/config.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/src/app/header/header.component.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/src/app/header/header.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/src/app/header/header.component.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/src/app/header/header.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/src/app/interceptors/auth.interceptor.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/src/app/interceptors/auth.interceptor.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/src/app/model/loginRequestDto.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/src/app/model/loginResponseDto.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/src/app/model/movie.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/src/app/model/registerRequestDto.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/src/app/pages/find-movies/find-movies.component.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/src/app/pages/find-movies/find-movies.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/src/app/pages/find-movies/find-movies.component.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/src/app/pages/find-movies/find-movies.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/src/app/pages/home/home.component.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/src/app/pages/home/home.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/src/app/pages/home/home.component.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/src/app/pages/home/home.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/src/app/pages/login/login.component.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/src/app/pages/login/login.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/src/app/pages/login/login.component.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/src/app/pages/login/login.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/src/app/pages/page-not-found/page-not-found.component.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/src/app/pages/page-not-found/page-not-found.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/src/app/pages/page-not-found/page-not-found.component.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/src/app/pages/page-not-found/page-not-found.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/src/app/pages/register/register.component.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/src/app/pages/register/register.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/src/app/pages/register/register.component.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/src/app/pages/register/register.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/src/app/pages/upload-movie/upload-movie.component.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/src/app/pages/upload-movie/upload-movie.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/src/app/pages/upload-movie/upload-movie.component.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/src/app/pages/upload-movie/upload-movie.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/src/app/service/auth.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/src/app/service/movie.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/src/assets/.gitkeep" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/src/assets/logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/src/favicon.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/src/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/src/main.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/src/styles.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/tsconfig.app.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/tsconfig.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Movie-Frontend/tsconfig.spec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.editorconfig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jpa-buddy.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vscode/extensions.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vscode/launch.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vscode/tasks.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/angular.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/app.component.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/app.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/app.component.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/app.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/app.config.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/app.routes.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/config.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/header/header.component.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/header/header.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/header/header.component.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/header/header.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/interceptors/auth.interceptor.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/interceptors/auth.interceptor.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/model/loginRequestDto.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/model/loginResponseDto.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/model/movie.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/model/registerRequestDto.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/find-movies/find-movies.component.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/find-movies/find-movies.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/find-movies/find-movies.component.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/find-movies/find-movies.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/home/home.component.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/home/home.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/home/home.component.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/home/home.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/login/login.component.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/login/login.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/login/login.component.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/login/login.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/page-not-found/page-not-found.component.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/page-not-found/page-not-found.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/page-not-found/page-not-found.component.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/page-not-found/page-not-found.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/register/register.component.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/register/register.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/register/register.component.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/register/register.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/upload-movie/upload-movie.component.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/upload-movie/upload-movie.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/upload-movie/upload-movie.component.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/upload-movie/upload-movie.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/service/auth.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/service/movie.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/.gitkeep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tsconfig.app.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tsconfig.spec.json" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
+  <component name="ProjectId" id="2fPZXBaH2qEHM6BZgnTVMGWQnkg" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "frontend/main",
+    "last_opened_file_path": "X:/Private Repos/Movie-Java Master/Movie-Frontend/Movie-Frontend/Movie-Frontend/package.json",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "npm.start.executor": "Run",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration name="start" type="js.build_tools.npm" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/../Movie-Frontend/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="start" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-1d06a55b98c1-2e7d6887c066-JavaScript-WS-241.15989.47" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c49ffae5-2058-4874-9a83-18fc2dc0304a" name="Changes" comment="" />
+      <created>1713704711875</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1713704711875</updated>
+      <workItem from="1713704712744" duration="302000" />
+      <workItem from="1713705028790" duration="60000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

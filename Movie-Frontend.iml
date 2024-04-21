@@ -2,9 +2,9 @@
 <module type="WEB_MODULE" version="4">
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
-    <content url="file://$MODULE_DIR$/Frontend">
-      <excludeFolder url="file://$MODULE_DIR$/Frontend/dist" />
-      <excludeFolder url="file://$MODULE_DIR$/Frontend/tmp" />
+    <content url="file://$MODULE_DIR$/Movie-Frontend">
+      <excludeFolder url="file://$MODULE_DIR$/Movie-Frontend/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/Movie-Frontend/tmp" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
