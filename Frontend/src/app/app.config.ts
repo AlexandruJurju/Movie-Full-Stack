@@ -7,9 +7,9 @@ import {provideHttpClient, withInterceptors} from "@angular/common/http";
 import {authInterceptor} from "./interceptors/auth.interceptor";
 
 export const appConfig: ApplicationConfig = {
-  // TO PROVIDE HTTP CLIENT FOR STANDALONE
   providers: [
     provideRouter(routes),
     provideAnimationsAsync(),
+    // TO PROVIDE HTTP CLIENT FOR STANDALONE
     provideHttpClient(withInterceptors([authInterceptor]))]
 };
