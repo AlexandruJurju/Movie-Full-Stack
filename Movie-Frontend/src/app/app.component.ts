@@ -1,10 +1,10 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {NgForOf, NgIf} from "@angular/common";
-import {HeaderComponent} from "./header/header.component";
+import {HeaderComponent} from "./pages/header/header.component";
 import {HomeComponent} from "./pages/home/home.component";
-import {UploadMovieComponent} from "./pages/upload-movie/upload-movie.component";
+import {UploadMovieComponent} from "./pages/movie-upload/upload-movie.component";
 import {RouterLink, RouterOutlet} from "@angular/router";
-import {FindMoviesComponent} from "./pages/find-movies/find-movies.component";
+import {MovieFindComponent} from "./pages/movie-find/movie-find.component";
 import {AuthService} from "./service/auth.service";
 
 
@@ -19,7 +19,7 @@ import {AuthService} from "./service/auth.service";
     UploadMovieComponent,
     RouterOutlet,
     RouterLink,
-    FindMoviesComponent,
+    MovieFindComponent,
   ]
   ,
   templateUrl: './app.component.html',

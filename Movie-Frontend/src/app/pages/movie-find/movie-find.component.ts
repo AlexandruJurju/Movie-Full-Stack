@@ -4,16 +4,16 @@ import {Movie} from "../../model/movie";
 import {MovieService} from "../../service/movie.service";
 
 @Component({
-  selector: 'app-find-movies',
+  selector: 'app-movie-find',
   standalone: true,
   imports: [
     NgForOf,
     NgIf
   ],
-  templateUrl: './find-movies.component.html',
-  styleUrl: './find-movies.component.css'
+  templateUrl: './movie-find.component.html',
+  styleUrl: './movie-find.component.css'
 })
-export class FindMoviesComponent {
+export class MovieFindComponent {
   title = 'Movie-Frontend';
   movies: Movie[] = [];
   movieService = inject(MovieService);

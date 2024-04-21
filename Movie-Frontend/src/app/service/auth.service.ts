@@ -10,7 +10,7 @@ import { BASE_URL } from "../config";
   providedIn: 'root'
 })
 export class AuthService {
-  // initially signal is null - unauthorized, after login signal receives LoginResponseDto
+  // initially signal is null - unauthorized, after user-login signal receives LoginResponseDto
   currentUserSig = signal<LoginResponseDto | null>(null);
 
   constructor(private http: HttpClient) {

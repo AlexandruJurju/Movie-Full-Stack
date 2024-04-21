@@ -11,15 +11,15 @@
     <!-- Conditional rendering based on user's authentication status -->
     <ng-container *ngIf="authService.currentUserSig() === null">
       <!-- Links for unauthenticated users -->
-      <a class="button" routerLink="/register" routerLinkActive="activebutton" ariaCurrentWhenActive="page">Register</a>
-      <a class="button" routerLink="/login" routerLinkActive="activebutton" ariaCurrentWhenActive="page">Login</a>
+      <a class="button" routerLink="/user-register" routerLinkActive="activebutton" ariaCurrentWhenActive="page">Register</a>
+      <a class="button" routerLink="/user-login" routerLinkActive="activebutton" ariaCurrentWhenActive="page">Login</a>
     </ng-container>
 
     <!-- Links for authenticated users -->
     <ng-container *ngIf="authService.currentUserSig() !== null">
       <div>
-        <a class="button" routerLink="/upload-movie" routerLinkActive="activebutton" ariaCurrentWhenActive="page">Add movies</a>
-        <a class="button" routerLink="/find-movies" routerLinkActive="activebutton" ariaCurrentWhenActive="page">Find Movies</a>
+        <a class="button" routerLink="/movie-upload" routerLinkActive="activebutton" ariaCurrentWhenActive="page">Add movies</a>
+        <a class="button" routerLink="/movie-find" routerLinkActive="activebutton" ariaCurrentWhenActive="page">Find Movies</a>
         <span (click)="logout()">Logout</span>
       </div>
     </ng-container>

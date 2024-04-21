@@ -1,57 +1,58 @@
 import {Component, inject} from '@angular/core';
 import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
-import {LoginRequestDto} from "../../model/loginRequestDto";
+import {RegisterRequestDto} from "../../model/registerRequestDto";
 import {AuthService} from "../../service/auth.service";
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-user-register',
   standalone: true,
   imports: [
     ReactiveFormsModule
   ],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  templateUrl: './user-register.component.html',
+  styleUrl: './user-register.component.css'
 })
-
-export class LoginComponent {
-  authService = inject(AuthService);
+export class UserRegisterComponent {
   fb = inject(FormBuilder);
-  router = inject(Router)
+  authService = inject(AuthService);
+  router = inject(Router);
 
+  // validate form data
   form = this.fb.nonNullable.group({
     username: ['', Validators.required],
+    email: ['', Validators.required],
     password: ['', Validators.required]
   });
 
   onSubmit(): void {
-    console.log("login")
     if (this.form.valid) {
       const formValue = this.form.value;
-      if (formValue.username && formValue.password) {
-        const loginRequestDto: LoginRequestDto = {
+      if (formValue.username && formValue.email && formValue.password) {
+        const registerRequestDto: RegisterRequestDto = {
           username: formValue.username,
+          email: formValue.email,
           password: formValue.password
         };
 
-        this.authService.login(loginRequestDto).subscribe({
+        this.authService.register(registerRequestDto).subscribe({
           next: (response) => {
-            console.log('Login successful', response);
+            console.log('Registration successful', response);
 
             // set the JWT token to local storage
             localStorage.setItem('token', response.token);
 
             // signal as authenticated
             this.authService.currentUserSig.set(response)
-
             this.router.navigateByUrl('/')
           },
           error: (error) => {
-            console.error('Login failed', error);
+            console.error('Registration failed', error);
           }
         });
 
       }
     }
   }
+
 }
