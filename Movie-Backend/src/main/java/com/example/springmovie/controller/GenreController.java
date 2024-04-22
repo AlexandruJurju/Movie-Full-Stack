@@ -14,9 +14,10 @@ import java.util.List;
 
 @RequiredArgsConstructor
 
+@Tag(name="Genre")
+
 @RestController
 @RequestMapping("/api/v1/genre")
-@Tag(name = "Genre Controller", description = "REST APIs for managing movie genres")
 public class GenreController {
 
     private final GenreService genreService;

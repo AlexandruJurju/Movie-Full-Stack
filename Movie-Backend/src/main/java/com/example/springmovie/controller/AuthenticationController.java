@@ -7,6 +7,7 @@ import com.example.springmovie.exception.UserAlreadyExistsException;
 import com.example.springmovie.exception.UserNotFoundException;
 import com.example.springmovie.service.interfaces.AuthenticationService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
+
+@Tag(name="Authentication")
 
 @RestController
 @RequestMapping("/api/v1/auth")

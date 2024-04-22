@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Tag(name = "Actor Controller", description = "CRUD REST APIs for actors in movies")
 
 @RequiredArgsConstructor
+
+@Tag(name="Actor")
+
 @RestController
 @RequestMapping("/api/v1/actor")
 public class ActorController {

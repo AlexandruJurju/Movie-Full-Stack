@@ -16,8 +16,9 @@ import java.util.List;
 
 @RequiredArgsConstructor
 
-@Tag(name = "MovieActor Controller", description = "Manages the many-to-many relation between movie and actors")
+@Tag(name="MovieActor")
 
+// TODO: remove, put methods in Movie or Actor
 @RestController
 @RequestMapping("/api/v1/movie-actor")
 public class MovieActorController {

@@ -11,8 +11,6 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,11 +18,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.Set;
 
 @RequiredArgsConstructor
 
-@Tag(name = "Movie Controller", description = "CRUD REST APIs for managing movies")
+@Tag(name = "Movie")
 
 @RestController
 @RequestMapping("/api/v1/movie")
@@ -32,16 +29,15 @@ import java.util.Set;
 public class MovieController {
 
     // TODO: get movies filtered
-    // TODO:
 
     private final MovieService movieService;
 
     // ========================== Find Movies ==========================
-    @GetMapping("")
-    @Operation(summary = "Get all movies", description = "Retrieve a paginated list of all movies")
-    public ResponseEntity<Page<Movie>> findAllMoviesUnpaged(Pageable pageable) {
-        return ResponseEntity.ok(movieService.findAllMovies(pageable));
-    }
+    //    @GetMapping("")
+    //    @Operation(summary = "Get all movies", description = "Retrieve a paginated list of all movies")
+    //    public ResponseEntity<Page<Movie>> findAllMoviesPaged(Pageable pageable) {
+    //        return ResponseEntity.ok(movieService.findAllMovies(pageable));
+    //    }
 
     @GetMapping("/{movieId}")
     @Operation(summary = "Get a single movie using id", description = "Retrieve a single movie using an ID passed as a variable")
@@ -60,15 +56,15 @@ public class MovieController {
     public ResponseEntity<List<Movie>> findMoviesByReleaseYear(@PathVariable int year) {
         return ResponseEntity.ok().body(movieService.findMoviesByYear(year));
     }
-
-    @GetMapping("/filter")
-    public List<Movie> findMoviesByFilter(@RequestParam(required = false) Integer startReleaseDate, @RequestParam(required = false) Integer endReleaseDate,
-                                          @RequestParam(required = false) Set<Genre> genres, @RequestParam(required = false) String title) {
-        return movieService.filterMovies(startReleaseDate, endReleaseDate, genres, title);
-    }
+    //
+    //    @GetMapping("/filter")
+    //    public List<Movie> findMoviesByFilter(@RequestParam(required = false) Integer startReleaseDate, @RequestParam(required = false) Integer endReleaseDate,
+    //                                          @RequestParam(required = false) Set<Genre> genres, @RequestParam(required = false) String title) {
+    //        return movieService.filterMovies(startReleaseDate, endReleaseDate, genres, title);
+    //    }
 
     @GetMapping("/unpaged")
-    public ResponseEntity<List<Movie>> findAllMoviesUnpaged() {
+    public ResponseEntity<List<Movie>> findAllMovies() {
         return new ResponseEntity<>(movieService.findAllMovies(), HttpStatus.OK);
     }
 
@@ -111,7 +107,7 @@ public class MovieController {
 
     @GetMapping("movie/allGenres/{movieId}")
     @Operation(summary = "Find all genres of a movie")
-    public ResponseEntity<List<Genre>> findAllGenresOfAMovie(@PathVariable("movieId") Long movieId) {
+    public ResponseEntity<List<Genre>> findGenresOfMovie(@PathVariable("movieId") Long movieId) {
         return new ResponseEntity<>(movieService.findAllGenresOfMovie(movieId), HttpStatus.OK);
     }
 

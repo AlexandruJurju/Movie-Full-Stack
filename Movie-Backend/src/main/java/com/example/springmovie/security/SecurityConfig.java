@@ -40,26 +40,26 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
-                //                .authorizeHttpRequests(req -> req
-                //                                .anyRequest().permitAll()
-                //                        //                        .requestMatchers(WHITE_LIST_URL).permitAll()
-                //                        // allow only requests if user has USER authority
-                //                        //                        .requestMatchers("api/v1/movie/**").hasAnyAuthority(Role.USER.name())
-                //                        // allow all requests if user has any authority
-                //                        //                        .anyRequest().authenticated()
-                //                )
-
                 .authorizeHttpRequests(req -> req
-                                .requestMatchers(HttpMethod.GET, "api/v1/movie/**").hasAnyAuthority(Role.USER.name(), Role.ADMIN.name())
-                                .requestMatchers(HttpMethod.POST, "api/v1/movie/**").hasAnyAuthority(Role.ADMIN.name())
-                                .requestMatchers(HttpMethod.PUT, "api/v1/movie/**").hasAnyAuthority(Role.ADMIN.name())
-                                .requestMatchers(HttpMethod.DELETE, "api/v1/movie/**").hasAnyAuthority(Role.ADMIN.name())
-                                .requestMatchers("api/v1/genre/**").hasAnyAuthority(Role.ADMIN.name())
-                                .requestMatchers(WHITE_LIST_URL).permitAll()
-
+                                .anyRequest().permitAll()
+                        //                        .requestMatchers(WHITE_LIST_URL).permitAll()
+                        // allow only requests if user has USER authority
+                        //                        .requestMatchers("api/v1/movie/**").hasAnyAuthority(Role.USER.name())
                         // allow all requests if user has any authority
                         //                        .anyRequest().authenticated()
                 )
+
+//                .authorizeHttpRequests(req -> req
+//                                .requestMatchers(HttpMethod.GET, "api/v1/movie/**").hasAnyAuthority(Role.USER.name(), Role.ADMIN.name())
+//                                .requestMatchers(HttpMethod.POST, "api/v1/movie/**").hasAnyAuthority(Role.ADMIN.name())
+//                                .requestMatchers(HttpMethod.PUT, "api/v1/movie/**").hasAnyAuthority(Role.ADMIN.name())
+//                                .requestMatchers(HttpMethod.DELETE, "api/v1/movie/**").hasAnyAuthority(Role.ADMIN.name())
+//                                .requestMatchers("api/v1/genre/**").hasAnyAuthority(Role.ADMIN.name())
+//                                .requestMatchers(WHITE_LIST_URL).permitAll()
+//
+//                        // allow all requests if user has any authority
+//                        //                        .anyRequest().authenticated()
+//                )
 
                 // SessionManagement configures session management
                 // stateless means that spring security will never create an httpsession and it will never use it to obtain the securitycontext
