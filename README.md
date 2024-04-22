@@ -64,13 +64,19 @@ npm start
 **Backend (Java Spring Boot):**
 The backend of this application is developed using Java Spring Boot. It provides several functionalities:
 
-- **CRUD Operations for Movies, Genres, and Actors:** The backend provides endpoints for creating, reading, updating, and deleting movie information. This includes managing movie genres and actors. Each movie can be associated with multiple genres and actors
+- **CRUD Operations for Movies, Genres, and Actors:** 
+  - The backend provides endpoints for creating, reading, updating, and deleting movie information. This includes managing movie genres and actors. Each movie can be associated with multiple genres and actors
 
-- **JWT Authentication and Authorization:** JWT (JSON Web Tokens) is used for user authentication and authorization. When a user logs in with their credentials, the server validates these credentials and generates a JWT. This token is then sent back to the client. The client stores this token and includes it in the header of all subsequent HTTP requests. This serves as proof of authentication for the client’s requests. When the server receives a request, it checks the token in the header. If the token is valid, the server processes the request. If the token is not valid or missing, the server rejects the request. This process allows the server to authenticate and authorize user requests without having to maintain session information. It’s a stateless, secure, and scalable method for handling user authentication and authorization.
+- **JWT Authentication and Authorization:** 
+  - JWT (JSON Web Tokens) is used for user authentication and authorization. When a user logs in with their credentials, the server validates these credentials and generates a JWT. This token is then sent back to the client. The client stores this token and includes it in the header of all subsequent HTTP requests.
 
-- **AWS S3 Integration:** Amazon S3 (Simple Storage Service) is used for storing and retrieving movie posters. When a new movie is added to the database, the corresponding movie poster image is uploaded to an S3 bucket. The URL of the poster in the S3 bucket is then stored in the database. When movie details are retrieved, the application fetches the poster URL from the database and the client uses this URL to display the poster.
+- **AWS S3 Integration:** 
+  - Amazon S3 (Simple Storage Service) is used for storing and retrieving movie posters. When a new movie is added to the database, the corresponding movie poster image is uploaded to an S3 bucket. The URL of the poster in the S3 bucket is then stored in the database. When movie details are retrieved, the application fetches the poster URL from the database and the client uses this URL to display the poster.
   
-- **API Documentation and Testing with Swagger:** Swagger was used for documenting the APIs. It provides a user-friendly interface for documenting APIs, making it easier to understand the structure and usage of the APIs. Swagger also provides functionality for testing the APIs. This feature was used as an alternative to Postman for testing the APIs during development. It allows for sending requests to the APIs and viewing the responses directly in the Swagger UI, making it a convenient tool for testing and debugging. Furthermore, the Swagger documentation can be used to generate clients in various languages using Swagger Codegen. This makes it possible to create multiple clients for the backend, each tailored to a specific platform or language.
+- **API Documentation and Frontend Code generation with Swagger:** 
+  - Swagger was used for documenting the APIs. It provides a user-friendly interface for documenting APIs, making it easier to understand the structure and usage of the APIs. 
+  - Swagger also provides functionality for testing the APIs. This feature was used as an alternative to Postman for testing the APIs during development. It allows for sending requests to the APIs and viewing the responses directly in the Swagger UI, making it a convenient tool for testing and debugging. 
+  - Furthermore, the swagger documentation generated in the backend application was used with the Swagger Editor to generate the models and service classes for the frontend application
 
 <br/><br/>
 
@@ -91,6 +97,20 @@ The frontend of this application is developed using Angular. It provides several
 - **User Authentication:** The frontend provides forms for user login and registration. When a user logs in, the frontend sends the user's credentials to the backend for validation. If the credentials are valid, the backend responds with a JWT, which the frontend stores for authenticating subsequent requests.
 
 - **Displaying Reviews and Ratings:** The frontend fetches reviews and ratings for a movie from the backend and displays them to the user. Users can also submit their own reviews and ratings, which are sent to the backend to be stored in the database.
+
+Some pages from the frontend:
+
+![MovieList](./docs/MoviesList.png)
+<br/><br/>
+
+![MovieDetails](./docs/MovieDetails.png)
+<br/><br/>
+
+![MovieDetails](./docs/MovieUpdate.png)
+<br/><br/>
+
+![GenresList](./docs/GenresList.png)
+<br/><br/>
 
 <br/><br/>
 
