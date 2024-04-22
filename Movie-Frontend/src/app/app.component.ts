@@ -14,6 +14,7 @@ import {ApiModule} from "./service/api.module";
     RouterOutlet,
     RouterLink,
     MenuComponent,
+    // NEED THIS FOR SWAGGER GENERATED SERVICES
     ApiModule
   ]
   ,

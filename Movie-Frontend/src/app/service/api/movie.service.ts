@@ -10,17 +10,18 @@
  * Do not edit the class manually.
  *//* tslint:disable:no-unused-variable member-ordering */
 
-import {Inject, Injectable, Optional} from '@angular/core';
-import {HttpClient, HttpEvent, HttpHeaders, HttpParams, HttpResponse} from '@angular/common/http';
-import {CustomHttpUrlEncodingCodec} from '../encoder';
+import { Inject, Injectable, Optional }                      from '@angular/core';
+import { HttpClient, HttpHeaders, HttpParams,
+  HttpResponse, HttpEvent }                           from '@angular/common/http';
+import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
-import {Observable} from 'rxjs';
+import { Observable }                                        from 'rxjs';
 
-import {Genre} from '../model/genre';
-import {Movie} from '../model/movie';
+import { Genre } from '../model/genre';
+import { Movie } from '../model/movie';
 
-import {BASE_PATH} from '../variables';
-import {Configuration} from '../configuration';
+import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
+import { Configuration }                                     from '../configuration';
 
 
 @Injectable()
@@ -30,7 +31,7 @@ export class MovieService {
   public defaultHeaders = new HttpHeaders();
   public configuration = new Configuration();
 
-  constructor(protected httpClient: HttpClient, @Optional() @Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
+  constructor(protected httpClient: HttpClient, @Optional()@Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
     if (basePath) {
       this.basePath = basePath;
     }
@@ -66,7 +67,7 @@ export class MovieService {
   public addGenreToMovie(movieId: number, genreId: number, observe?: 'body', reportProgress?: boolean): Observable<Movie>;
   public addGenreToMovie(movieId: number, genreId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Movie>>;
   public addGenreToMovie(movieId: number, genreId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Movie>>;
-  public addGenreToMovie(movieId: number, genreId: number, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
+  public addGenreToMovie(movieId: number, genreId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
     if (movieId === null || movieId === undefined) {
       throw new Error('Required parameter movieId was null or undefined when calling addGenreToMovie.');
@@ -88,9 +89,10 @@ export class MovieService {
     }
 
     // to determine the Content-Type header
-    const consumes: string[] = [];
+    const consumes: string[] = [
+    ];
 
-    return this.httpClient.request<Movie>('put', `${this.basePath}/api/v1/movie/movie/${encodeURIComponent(String(movieId))}/addGenre/${encodeURIComponent(String(genreId))}`,
+    return this.httpClient.request<Movie>('put',`${this.basePath}/api/v1/movie/movie/${encodeURIComponent(String(movieId))}/addGenre/${encodeURIComponent(String(genreId))}`,
       {
         withCredentials: this.configuration.withCredentials,
         headers: headers,
@@ -110,7 +112,7 @@ export class MovieService {
   public deleteMovieById(movieId: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
   public deleteMovieById(movieId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
   public deleteMovieById(movieId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-  public deleteMovieById(movieId: number, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
+  public deleteMovieById(movieId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
     if (movieId === null || movieId === undefined) {
       throw new Error('Required parameter movieId was null or undefined when calling deleteMovieById.');
@@ -128,9 +130,10 @@ export class MovieService {
     }
 
     // to determine the Content-Type header
-    const consumes: string[] = [];
+    const consumes: string[] = [
+    ];
 
-    return this.httpClient.request<any>('delete', `${this.basePath}/api/v1/movie/${encodeURIComponent(String(movieId))}`,
+    return this.httpClient.request<any>('delete',`${this.basePath}/api/v1/movie/${encodeURIComponent(String(movieId))}`,
       {
         withCredentials: this.configuration.withCredentials,
         headers: headers,
@@ -150,7 +153,7 @@ export class MovieService {
   public deletePoster(movieId: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
   public deletePoster(movieId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
   public deletePoster(movieId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-  public deletePoster(movieId: number, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
+  public deletePoster(movieId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
     if (movieId === null || movieId === undefined) {
       throw new Error('Required parameter movieId was null or undefined when calling deletePoster.');
@@ -168,49 +171,10 @@ export class MovieService {
     }
 
     // to determine the Content-Type header
-    const consumes: string[] = [];
-
-    return this.httpClient.request<any>('put', `${this.basePath}/api/v1/movie/${encodeURIComponent(String(movieId))}/poster/delete`,
-      {
-        withCredentials: this.configuration.withCredentials,
-        headers: headers,
-        observe: observe,
-        reportProgress: reportProgress
-      }
-    );
-  }
-
-  /**
-   * Find all genres of a movie
-   *
-   * @param movieId
-   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-   * @param reportProgress flag to report request and response progress.
-   */
-  public findAllGenresOfAMovie(movieId: number, observe?: 'body', reportProgress?: boolean): Observable<Array<Genre>>;
-  public findAllGenresOfAMovie(movieId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<Genre>>>;
-  public findAllGenresOfAMovie(movieId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<Genre>>>;
-  public findAllGenresOfAMovie(movieId: number, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
-
-    if (movieId === null || movieId === undefined) {
-      throw new Error('Required parameter movieId was null or undefined when calling findAllGenresOfAMovie.');
-    }
-
-    let headers = this.defaultHeaders;
-
-    // to determine the Accept header
-    let httpHeaderAccepts: string[] = [
-      '*/*'
+    const consumes: string[] = [
     ];
-    const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-    if (httpHeaderAcceptSelected != undefined) {
-      headers = headers.set('Accept', httpHeaderAcceptSelected);
-    }
 
-    // to determine the Content-Type header
-    const consumes: string[] = [];
-
-    return this.httpClient.request<Array<Genre>>('get', `${this.basePath}/api/v1/movie/movie/allGenres/${encodeURIComponent(String(movieId))}`,
+    return this.httpClient.request<any>('put',`${this.basePath}/api/v1/movie/${encodeURIComponent(String(movieId))}/poster/delete`,
       {
         withCredentials: this.configuration.withCredentials,
         headers: headers,
@@ -229,7 +193,7 @@ export class MovieService {
   public findAllMovies(observe?: 'body', reportProgress?: boolean): Observable<Array<Movie>>;
   public findAllMovies(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<Movie>>>;
   public findAllMovies(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<Movie>>>;
-  public findAllMovies(observe: any = 'body', reportProgress: boolean = false): Observable<any> {
+  public findAllMovies(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
     let headers = this.defaultHeaders;
 
@@ -243,9 +207,10 @@ export class MovieService {
     }
 
     // to determine the Content-Type header
-    const consumes: string[] = [];
+    const consumes: string[] = [
+    ];
 
-    return this.httpClient.request<Array<Movie>>('get', `${this.basePath}/api/v1/movie/unpaged`,
+    return this.httpClient.request<Array<Movie>>('get',`${this.basePath}/api/v1/movie/unpaged`,
       {
         withCredentials: this.configuration.withCredentials,
         headers: headers,
@@ -265,7 +230,7 @@ export class MovieService {
   public findAllMoviesContainingGenre(genreId: number, observe?: 'body', reportProgress?: boolean): Observable<Array<Movie>>;
   public findAllMoviesContainingGenre(genreId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<Movie>>>;
   public findAllMoviesContainingGenre(genreId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<Movie>>>;
-  public findAllMoviesContainingGenre(genreId: number, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
+  public findAllMoviesContainingGenre(genreId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
     if (genreId === null || genreId === undefined) {
       throw new Error('Required parameter genreId was null or undefined when calling findAllMoviesContainingGenre.');
@@ -283,9 +248,51 @@ export class MovieService {
     }
 
     // to determine the Content-Type header
-    const consumes: string[] = [];
+    const consumes: string[] = [
+    ];
 
-    return this.httpClient.request<Array<Movie>>('get', `${this.basePath}/api/v1/movie/movie/findByGenreId/${encodeURIComponent(String(genreId))}`,
+    return this.httpClient.request<Array<Movie>>('get',`${this.basePath}/api/v1/movie/movie/findByGenreId/${encodeURIComponent(String(genreId))}`,
+      {
+        withCredentials: this.configuration.withCredentials,
+        headers: headers,
+        observe: observe,
+        reportProgress: reportProgress
+      }
+    );
+  }
+
+  /**
+   * Find all genres of a movie
+   *
+   * @param movieId
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public findGenresOfMovie(movieId: number, observe?: 'body', reportProgress?: boolean): Observable<Array<Genre>>;
+  public findGenresOfMovie(movieId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<Genre>>>;
+  public findGenresOfMovie(movieId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<Genre>>>;
+  public findGenresOfMovie(movieId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+    if (movieId === null || movieId === undefined) {
+      throw new Error('Required parameter movieId was null or undefined when calling findGenresOfMovie.');
+    }
+
+    let headers = this.defaultHeaders;
+
+    // to determine the Accept header
+    let httpHeaderAccepts: string[] = [
+      '*/*'
+    ];
+    const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+    if (httpHeaderAcceptSelected != undefined) {
+      headers = headers.set('Accept', httpHeaderAcceptSelected);
+    }
+
+    // to determine the Content-Type header
+    const consumes: string[] = [
+    ];
+
+    return this.httpClient.request<Array<Genre>>('get',`${this.basePath}/api/v1/movie/movie/allGenres/${encodeURIComponent(String(movieId))}`,
       {
         withCredentials: this.configuration.withCredentials,
         headers: headers,
@@ -305,7 +312,7 @@ export class MovieService {
   public findMovieById(movieId: number, observe?: 'body', reportProgress?: boolean): Observable<Movie>;
   public findMovieById(movieId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Movie>>;
   public findMovieById(movieId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Movie>>;
-  public findMovieById(movieId: number, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
+  public findMovieById(movieId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
     if (movieId === null || movieId === undefined) {
       throw new Error('Required parameter movieId was null or undefined when calling findMovieById.');
@@ -323,9 +330,10 @@ export class MovieService {
     }
 
     // to determine the Content-Type header
-    const consumes: string[] = [];
+    const consumes: string[] = [
+    ];
 
-    return this.httpClient.request<Movie>('get', `${this.basePath}/api/v1/movie/${encodeURIComponent(String(movieId))}`,
+    return this.httpClient.request<Movie>('get',`${this.basePath}/api/v1/movie/${encodeURIComponent(String(movieId))}`,
       {
         withCredentials: this.configuration.withCredentials,
         headers: headers,
@@ -345,7 +353,7 @@ export class MovieService {
   public findMoviesByReleaseStatus(releaseStatus: string, observe?: 'body', reportProgress?: boolean): Observable<Array<Movie>>;
   public findMoviesByReleaseStatus(releaseStatus: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<Movie>>>;
   public findMoviesByReleaseStatus(releaseStatus: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<Movie>>>;
-  public findMoviesByReleaseStatus(releaseStatus: string, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
+  public findMoviesByReleaseStatus(releaseStatus: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
     if (releaseStatus === null || releaseStatus === undefined) {
       throw new Error('Required parameter releaseStatus was null or undefined when calling findMoviesByReleaseStatus.');
@@ -363,9 +371,10 @@ export class MovieService {
     }
 
     // to determine the Content-Type header
-    const consumes: string[] = [];
+    const consumes: string[] = [
+    ];
 
-    return this.httpClient.request<Array<Movie>>('get', `${this.basePath}/api/v1/movie/status/${encodeURIComponent(String(releaseStatus))}`,
+    return this.httpClient.request<Array<Movie>>('get',`${this.basePath}/api/v1/movie/status/${encodeURIComponent(String(releaseStatus))}`,
       {
         withCredentials: this.configuration.withCredentials,
         headers: headers,
@@ -385,7 +394,7 @@ export class MovieService {
   public findMoviesByReleaseYear(year: number, observe?: 'body', reportProgress?: boolean): Observable<Array<Movie>>;
   public findMoviesByReleaseYear(year: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<Movie>>>;
   public findMoviesByReleaseYear(year: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<Movie>>>;
-  public findMoviesByReleaseYear(year: number, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
+  public findMoviesByReleaseYear(year: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
     if (year === null || year === undefined) {
       throw new Error('Required parameter year was null or undefined when calling findMoviesByReleaseYear.');
@@ -403,9 +412,10 @@ export class MovieService {
     }
 
     // to determine the Content-Type header
-    const consumes: string[] = [];
+    const consumes: string[] = [
+    ];
 
-    return this.httpClient.request<Array<Movie>>('get', `${this.basePath}/api/v1/movie/year/${encodeURIComponent(String(year))}`,
+    return this.httpClient.request<Array<Movie>>('get',`${this.basePath}/api/v1/movie/year/${encodeURIComponent(String(year))}`,
       {
         withCredentials: this.configuration.withCredentials,
         headers: headers,
@@ -425,7 +435,7 @@ export class MovieService {
   public getMoviePoster(movieId: number, observe?: 'body', reportProgress?: boolean): Observable<Array<string>>;
   public getMoviePoster(movieId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<string>>>;
   public getMoviePoster(movieId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<string>>>;
-  public getMoviePoster(movieId: number, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
+  public getMoviePoster(movieId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
     if (movieId === null || movieId === undefined) {
       throw new Error('Required parameter movieId was null or undefined when calling getMoviePoster.');
@@ -443,9 +453,10 @@ export class MovieService {
     }
 
     // to determine the Content-Type header
-    const consumes: string[] = [];
+    const consumes: string[] = [
+    ];
 
-    return this.httpClient.request<Array<string>>('get', `${this.basePath}/api/v1/movie/${encodeURIComponent(String(movieId))}/poster`,
+    return this.httpClient.request<Array<string>>('get',`${this.basePath}/api/v1/movie/${encodeURIComponent(String(movieId))}/poster`,
       {
         withCredentials: this.configuration.withCredentials,
         headers: headers,
@@ -466,7 +477,7 @@ export class MovieService {
   public removeGenreFromMovie(movieId: number, genreId: number, observe?: 'body', reportProgress?: boolean): Observable<Movie>;
   public removeGenreFromMovie(movieId: number, genreId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Movie>>;
   public removeGenreFromMovie(movieId: number, genreId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Movie>>;
-  public removeGenreFromMovie(movieId: number, genreId: number, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
+  public removeGenreFromMovie(movieId: number, genreId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
     if (movieId === null || movieId === undefined) {
       throw new Error('Required parameter movieId was null or undefined when calling removeGenreFromMovie.');
@@ -488,9 +499,10 @@ export class MovieService {
     }
 
     // to determine the Content-Type header
-    const consumes: string[] = [];
+    const consumes: string[] = [
+    ];
 
-    return this.httpClient.request<Movie>('put', `${this.basePath}/api/v1/movie/movie/${encodeURIComponent(String(movieId))}/removeGenre/${encodeURIComponent(String(genreId))}`,
+    return this.httpClient.request<Movie>('put',`${this.basePath}/api/v1/movie/movie/${encodeURIComponent(String(movieId))}/removeGenre/${encodeURIComponent(String(genreId))}`,
       {
         withCredentials: this.configuration.withCredentials,
         headers: headers,
@@ -510,7 +522,7 @@ export class MovieService {
   public saveMovie(body: Movie, observe?: 'body', reportProgress?: boolean): Observable<Movie>;
   public saveMovie(body: Movie, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Movie>>;
   public saveMovie(body: Movie, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Movie>>;
-  public saveMovie(body: Movie, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
+  public saveMovie(body: Movie, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
     if (body === null || body === undefined) {
       throw new Error('Required parameter body was null or undefined when calling saveMovie.');
@@ -536,7 +548,7 @@ export class MovieService {
       headers = headers.set('Content-Type', httpContentTypeSelected);
     }
 
-    return this.httpClient.request<Movie>('post', `${this.basePath}/api/v1/movie`,
+    return this.httpClient.request<Movie>('post',`${this.basePath}/api/v1/movie`,
       {
         body: body,
         withCredentials: this.configuration.withCredentials,
@@ -558,7 +570,7 @@ export class MovieService {
   public saveMovieWithPosterForm(movie: Movie, file?: Blob, observe?: 'body', reportProgress?: boolean): Observable<Movie>;
   public saveMovieWithPosterForm(movie: Movie, file?: Blob, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Movie>>;
   public saveMovieWithPosterForm(movie: Movie, file?: Blob, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Movie>>;
-  public saveMovieWithPosterForm(movie: Movie, file?: Blob, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
+  public saveMovieWithPosterForm(movie: Movie, file?: Blob, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
     if (movie === null || movie === undefined) {
       throw new Error('Required parameter movie was null or undefined when calling saveMovieWithPoster.');
@@ -604,7 +616,7 @@ export class MovieService {
       formParams = formParams.append('file', <any>file) as any || formParams;
     }
 
-    return this.httpClient.request<Movie>('post', `${this.basePath}/api/v1/movie/saveWithPoster`,
+    return this.httpClient.request<Movie>('post',`${this.basePath}/api/v1/movie/saveWithPoster`,
       {
         body: convertFormParamsToString ? formParams.toString() : formParams,
         params: queryParameters,
@@ -626,7 +638,7 @@ export class MovieService {
   public updateMovie(body: Movie, observe?: 'body', reportProgress?: boolean): Observable<Movie>;
   public updateMovie(body: Movie, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Movie>>;
   public updateMovie(body: Movie, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Movie>>;
-  public updateMovie(body: Movie, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
+  public updateMovie(body: Movie, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
     if (body === null || body === undefined) {
       throw new Error('Required parameter body was null or undefined when calling updateMovie.');
@@ -652,7 +664,7 @@ export class MovieService {
       headers = headers.set('Content-Type', httpContentTypeSelected);
     }
 
-    return this.httpClient.request<Movie>('put', `${this.basePath}/api/v1/movie`,
+    return this.httpClient.request<Movie>('put',`${this.basePath}/api/v1/movie`,
       {
         body: body,
         withCredentials: this.configuration.withCredentials,
@@ -674,7 +686,7 @@ export class MovieService {
   public updateMoviePosterForm(movieId: number, file?: Blob, observe?: 'body', reportProgress?: boolean): Observable<Movie>;
   public updateMoviePosterForm(movieId: number, file?: Blob, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Movie>>;
   public updateMoviePosterForm(movieId: number, file?: Blob, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Movie>>;
-  public updateMoviePosterForm(movieId: number, file?: Blob, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
+  public updateMoviePosterForm(movieId: number, file?: Blob, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
     if (movieId === null || movieId === undefined) {
       throw new Error('Required parameter movieId was null or undefined when calling updateMoviePoster.');
@@ -720,7 +732,7 @@ export class MovieService {
       formParams = formParams.append('file', <any>file) as any || formParams;
     }
 
-    return this.httpClient.request<Movie>('post', `${this.basePath}/api/v1/movie/poster`,
+    return this.httpClient.request<Movie>('post',`${this.basePath}/api/v1/movie/poster`,
       {
         body: convertFormParamsToString ? formParams.toString() : formParams,
         params: queryParameters,
