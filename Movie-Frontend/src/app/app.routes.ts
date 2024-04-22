@@ -4,6 +4,7 @@ import {UserLoginComponent} from "./pages/user-login/user-login.component";
 import {MovieListComponent} from "./pages/movie-list/movie-list.component";
 import {HomeComponent} from "./pages/home/home.component";
 import {MovieDetailsComponent} from "./pages/movie-details/movie-details.component";
+import {MovieEditComponent} from "./pages/movie-edit/movie-edit.component";
 
 
 export const routes: Routes = [
@@ -12,6 +13,7 @@ export const routes: Routes = [
 
   {path: 'movie-list', component: MovieListComponent},
   {path: 'movie-details/:id', component: MovieDetailsComponent},
+  {path: 'movie-edit/:id', component: MovieEditComponent},
 
   {path: 'home', component: HomeComponent},
 
