@@ -9,10 +9,12 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "genre")
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+
 public class Genre {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,8 +24,4 @@ public class Genre {
     @Column(name = "name", nullable = false)
     @Schema(example = "Action")
     private String name;
-
-    public Genre(String name) {
-        this.name = name;
-    }
 }

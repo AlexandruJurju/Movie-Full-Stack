@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 public interface ActorRepository extends JpaRepository<Actor, Long> {
-    @Query("SELECT a FROM Actor a WHERE a.name LIKE CONCAT('%', :name, '%')")
+    @Query("SELECT a FROM Actor a WHERE a.firstName LIKE CONCAT('%', :name, '%')")
     List<Actor> findByNameContaining(@Param("name") String name);
 
 }

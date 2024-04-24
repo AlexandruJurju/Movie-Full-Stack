@@ -28,16 +28,8 @@ import java.util.List;
 
 public class MovieController {
 
-    // TODO: get movies filtered
 
     private final MovieService movieService;
-
-    // ========================== Find Movies ==========================
-    //    @GetMapping("")
-    //    @Operation(summary = "Get all movies", description = "Retrieve a paginated list of all movies")
-    //    public ResponseEntity<Page<Movie>> findAllMoviesPaged(Pageable pageable) {
-    //        return ResponseEntity.ok(movieService.findAllMovies(pageable));
-    //    }
 
     @GetMapping("/{movieId}")
     @Operation(summary = "Get a single movie using id", description = "Retrieve a single movie using an ID passed as a variable")

@@ -1,6 +1,7 @@
 package com.example.springmovie.service;
 
-import com.example.springmovie.exception.UserNotFoundException;
+import com.example.springmovie.dto.UserDisplayDto;
+import com.example.springmovie.mappers.UserMapper;
 import com.example.springmovie.model.User;
 import com.example.springmovie.repositories.UserRepository;
 import com.example.springmovie.service.interfaces.UserService;
@@ -8,69 +9,55 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-
     private final UserRepository userRepository;
-
-    // TODO: add upload image
+    private final UserMapper userMapper;
 
     @Override
-    public User findUserById(Long id) throws UserNotFoundException {
+    public Optional<UserDisplayDto> findUserById(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException("User with id " + id + " not found"));
-
+                .map(userMapper::toDto);
     }
 
     @Override
-    public List<User> findAllUsers() {
-        return userRepository.findAll();
+    public List<UserDisplayDto> findAllUsers() {
+        List<User> users = userRepository.findAll();
+        return userMapper.toDto(users);
     }
 
     @Override
-    public void deleteUserById(Long id) throws UserNotFoundException {
-        userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException("User with id " + id + " not found"));
+    public void deleteUserById(Long id) {
         userRepository.deleteById(id);
     }
 
-
     @Override
-    public User findUserByEmail(String email) throws UserNotFoundException {
+    public Optional<UserDisplayDto> findUserByEmail(String email) {
         return userRepository.findUserByEmailIgnoreCase(email)
-                .orElseThrow(() -> new UserNotFoundException("User with email " + email + " not found"));
+                .map(userMapper::toDto);
     }
 
     @Override
-    public User save(User user) {
-        return userRepository.save(user);
+    public UserDisplayDto save(User user) {
+        return userMapper.toDto(userRepository.save(user));
     }
 
+    // TODO use dto
     @Override
-    public User findUserByUsername(String username) throws UserNotFoundException {
-        return userRepository.findUserByUsernameIgnoreCase(username)
-                .orElseThrow(() -> new UserNotFoundException("User with email " + username + " not found"));
+    public Optional<User> findUserByUsername(String username) {
+        return userRepository.findUserByUsernameIgnoreCase(username);
     }
 
     @Override
     public boolean checkUserExistsUsingEmail(String email) {
-        try {
-            findUserByEmail(email);
-            return true;
-        } catch (UserNotFoundException e) {
-            return false;
-        }
+        return findUserByEmail(email).isPresent();
     }
 
     @Override
     public boolean checkUserExistsUsingUsername(String username) {
-        try {
-            findUserByUsername(username);
-            return true;
-        } catch (UserNotFoundException e) {
-            return false;
-        }
+        return findUserByUsername(username).isPresent();
     }
 }

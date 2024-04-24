@@ -60,7 +60,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 loginRequestDto.password())
         );
 
-        User user = userService.findUserByUsername(loginRequestDto.username());
+        User user = userService.findUserByUsername(loginRequestDto.username()).get();
 
         log.info("User authenticated successfully: " + loginRequestDto.username());
         String jwtToken = jwtService.generateToken(user);
