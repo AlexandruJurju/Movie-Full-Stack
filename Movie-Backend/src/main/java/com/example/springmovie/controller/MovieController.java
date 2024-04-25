@@ -11,8 +11,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -95,12 +97,6 @@ public class MovieController {
         return ResponseEntity.ok(movieService.findAllGenresOfMovie(movieId));
     }
 
-    //    @GetMapping("movie/findByGenreId/{genreId}")
-    //    @Operation(summary = "Find all movies that contain a genre using the genreId")
-    //    public ResponseEntity<List<MovieDto>> findAllMoviesContainingGenre(@PathVariable("genreId") Long genreId) {
-    //        return ResponseEntity.ok(movieService.findMoviesByGenreId(genreId));
-    //    }
-
     // ========================== Poster Operations ==========================
 
     //    @PostMapping(value = "/saveWithPoster", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -109,26 +105,24 @@ public class MovieController {
     //        return new ResponseEntity<>(movieService.saveMovieWithPoster(movie, file), HttpStatus.CREATED);
     //    }
     //
-    //    @PostMapping(value = "/poster", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    //    @Operation(summary = "Update the poster of a movie")
-    //    public ResponseEntity<MovieDto> updateMoviePoster(@RequestParam("movieId") Long movieId, @RequestParam(value = "file") MultipartFile file) throws
-    //    MovieNotFoundException {
-    //        movieService.deleteMoviePoster(movieId);
-    //        return ResponseEntity.ok(movieService.updateMoviePoster(movieId, file));
-    //    }
-    //
-    //    @PutMapping("/{movieId}/poster/delete")
-    //    @Operation(summary = "Delete a poster from a movie")
-    //    public ResponseEntity<Object> deletePoster(@PathVariable("movieId") Long movieId) throws MovieNotFoundException {
-    //        movieService.deleteMoviePoster(movieId);
-    //        return ResponseEntity.noContent().build();
-    //    }
-    //
-    //    @GetMapping("/{movieId}/poster")
-    //    @Operation(summary = "Get the poster image from a movie")
-    //    public ResponseEntity<byte[]> getMoviePoster(@PathVariable("movieId") Long movieId) throws MovieNotFoundException {
-    //        byte[] image = movieService.getMoviePoster(movieId);
-    //        return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.valueOf("image/png")).body(image);
-    //    }
+    @PostMapping(value = "/poster", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @Operation(summary = "Update the poster of a movie")
+    public ResponseEntity<MovieDto> updateMoviePoster(@RequestParam("movieId") Long movieId, @RequestParam(value = "file") MultipartFile file) throws MovieNotFoundException {
+        return ResponseEntity.ok(movieService.updateMoviePoster(movieId, file));
+    }
+
+    @PutMapping("/{movieId}/poster/delete")
+    @Operation(summary = "Delete a poster from a movie")
+    public ResponseEntity<Void> deletePoster(@PathVariable("movieId") Long movieId) throws MovieNotFoundException {
+        movieService.deleteMoviePoster(movieId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{movieId}/poster")
+    @Operation(summary = "Get the poster image from a movie")
+    public ResponseEntity<byte[]> getMoviePoster(@PathVariable("movieId") Long movieId) throws MovieNotFoundException {
+        byte[] image = movieService.getMoviePoster(movieId);
+        return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.valueOf("image/png")).body(image);
+    }
 
 }

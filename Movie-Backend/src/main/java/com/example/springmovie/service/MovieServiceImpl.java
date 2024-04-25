@@ -10,12 +10,14 @@ import com.example.springmovie.model.Genre;
 import com.example.springmovie.model.Movie;
 import com.example.springmovie.repositories.GenreRepository;
 import com.example.springmovie.repositories.MovieRepository;
+import com.example.springmovie.service.interfaces.FileService;
 import com.example.springmovie.service.interfaces.MovieService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +30,7 @@ public class MovieServiceImpl implements MovieService {
 
     private final MovieRepository movieRepository;
     private final GenreRepository genreRepository;
+    private final S3FileService fileService;
 
     private final MovieMapper movieMapper;
     private final GenreMapper genreMapper;
@@ -120,6 +123,43 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public List<GenreDto> findAllGenresOfMovie(Long movieId) {
         return genreMapper.toDto(movieRepository.findGenresByMovieId(movieId));
+    }
+
+    // TODO: check poster url before doing operations
+    @Override
+    public MovieDto updateMoviePoster(Long movieId, MultipartFile file) throws MovieNotFoundException {
+        Optional<Movie> movieOptional = movieRepository.findById(movieId);
+        if (movieOptional.isEmpty()) {
+            throw new MovieNotFoundException(" Movie not found");
+        }
+
+        Movie movie = movieOptional.get();
+        String imagePath = fileService.upload(file);
+        movie.setPosterUrl(imagePath);
+        return movieMapper.toDto(movieRepository.save(movie));
+    }
+
+    @Override
+    public byte[] getMoviePoster(Long movieId) throws MovieNotFoundException {
+        Optional<Movie> movieOptional = movieRepository.findById(movieId);
+        if (movieOptional.isEmpty()) {
+            throw new MovieNotFoundException("");
+        }
+
+        String posterUrl = movieOptional.get().getPosterUrl();
+        return fileService.download(posterUrl);
+    }
+
+    @Override
+    public void deleteMoviePoster(Long movieId) throws MovieNotFoundException {
+        Optional<Movie> movieOptional = movieRepository.findById(movieId);
+        if (movieOptional.isEmpty()) {
+            throw new MovieNotFoundException("");
+        }
+        Movie movie = movieOptional.get();
+
+        String moviePosterURL = movie.getPosterUrl();
+        fileService.delete(moviePosterURL);
     }
 
 }
