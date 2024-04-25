@@ -1,6 +1,6 @@
 package com.example.springmovie.service.interfaces;
 
-import com.example.springmovie.dto.UserDisplayDto;
+import com.example.springmovie.dto.UserDto;
 import com.example.springmovie.exception.UserNotFoundException;
 import com.example.springmovie.model.User;
 
@@ -9,15 +9,15 @@ import java.util.Optional;
 
 public interface UserService {
 
-    Optional<UserDisplayDto> findUserById(Long id);
+    Optional<UserDto> findUserById(Long id);
 
-    List<UserDisplayDto> findAllUsers();
+    List<UserDto> findAllUsers();
 
     void deleteUserById(Long id) throws UserNotFoundException;
 
-    Optional<UserDisplayDto> findUserByEmail(String email);
+    Optional<UserDto> findUserByEmail(String email);
 
-    UserDisplayDto save(User user);
+    UserDto save(User user);
 
     Optional<User> findUserByUsername(String username);
 

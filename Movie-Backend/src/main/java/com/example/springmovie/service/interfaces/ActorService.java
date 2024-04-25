@@ -1,17 +1,18 @@
 package com.example.springmovie.service.interfaces;
 
+import com.example.springmovie.dto.ActorDto;
 import com.example.springmovie.exception.ActorNotFoundException;
-import com.example.springmovie.model.Actor;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ActorService {
 
-    List<Actor> findAllActors();
+    List<ActorDto> findAllActors();
 
-    Actor findActorById(Long id) throws ActorNotFoundException;
+    Optional<ActorDto> findActorById(Long id) throws ActorNotFoundException;
 
-    Actor saveActor(Actor actor);
+    ActorDto saveActor(ActorDto actorDto);
 
     void deleteActorById(Long id) throws ActorNotFoundException;
 }

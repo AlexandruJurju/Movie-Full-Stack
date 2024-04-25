@@ -4,13 +4,16 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 /**
  * DTO for {@link com.example.springmovie.model.Actor}
  */
-public record ActorDisplayDto(
+public record ActorDto(
         Long id,
         @NotNull @NotEmpty String firstName,
         @NotNull @NotEmpty String lastName,
-        @NotNull @NotEmpty String profilePicUrl) implements Serializable {
+        LocalDate birthDate,
+        @NotNull @NotEmpty String profilePicUrl,
+        String biography) implements Serializable {
 }

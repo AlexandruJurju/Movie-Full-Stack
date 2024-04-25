@@ -1,7 +1,8 @@
 package com.example.springmovie.controller;
 
+import com.example.springmovie.dto.GenreDto;
+import com.example.springmovie.dto.MovieDto;
 import com.example.springmovie.exception.GenreNotFoundException;
-import com.example.springmovie.model.Genre;
 import com.example.springmovie.service.interfaces.GenreService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -11,10 +12,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 
-@Tag(name="Genre")
+@Tag(name = "Genre")
 
 @RestController
 @RequestMapping("/api/v1/genre")
@@ -24,33 +26,40 @@ public class GenreController {
 
     @GetMapping
     @Operation(summary = "Find all genres")
-    public ResponseEntity<List<Genre>> getAllGenres() {
-        return new ResponseEntity<>(genreService.findAllGenres(), HttpStatus.OK);
+    public ResponseEntity<List<GenreDto>> getAllGenres() {
+        return ResponseEntity.ok(genreService.findAllGenres());
     }
 
     @GetMapping("/{id}")
     @Operation(summary = "Find a genre using Id")
-    public ResponseEntity<Genre> findGenreById(@PathVariable("id") Long id) throws GenreNotFoundException {
-        return new ResponseEntity<>(genreService.findGenreById(id), HttpStatus.OK);
+    public ResponseEntity<GenreDto> findGenreById(@PathVariable("id") Long id) {
+        Optional<GenreDto> genreDtoOptional = genreService.findGenreById(id);
+        return genreDtoOptional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
     @Operation(summary = "Save genre to database")
-    public ResponseEntity<Genre> saveGenre(@RequestBody Genre genre) {
+    public ResponseEntity<GenreDto> saveGenre(@RequestBody GenreDto genre) {
         return new ResponseEntity<>(genreService.saveGenre(genre), HttpStatus.CREATED);
     }
 
     @PutMapping
     @Operation(summary = "Update genre")
-    public ResponseEntity<Genre> updateGenre(@RequestBody Genre genre) {
-        return new ResponseEntity<>(genreService.saveGenre(genre), HttpStatus.OK);
+    public ResponseEntity<GenreDto> updateGenre(@RequestBody GenreDto genre) {
+        return ResponseEntity.ok(genreService.saveGenre(genre));
     }
 
     @DeleteMapping("/{genreId}")
     @Operation(summary = "Delete genre using ID")
-    public ResponseEntity<?> deleteGenreById(@PathVariable("genreId") Long genreId) throws GenreNotFoundException {
+    public ResponseEntity<Void> deleteGenreById(@PathVariable("genreId") Long genreId) throws GenreNotFoundException {
         genreService.deleteGenre(genreId);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("{genreId}/movies")
+    @Operation(summary = "Find all movies with genre")
+    public ResponseEntity<List<MovieDto>> findAllMoviesWithGenre(@PathVariable("genreId") Long genreId) {
+        return ResponseEntity.ok(genreService.findAllMoviesWithGenre(genreId));
     }
 
 }

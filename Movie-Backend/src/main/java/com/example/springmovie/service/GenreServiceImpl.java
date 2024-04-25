@@ -1,6 +1,10 @@
 package com.example.springmovie.service;
 
+import com.example.springmovie.dto.GenreDto;
+import com.example.springmovie.dto.MovieDto;
 import com.example.springmovie.exception.GenreNotFoundException;
+import com.example.springmovie.mappers.GenreMapper;
+import com.example.springmovie.mappers.MovieMapper;
 import com.example.springmovie.model.Genre;
 import com.example.springmovie.repositories.GenreRepository;
 import com.example.springmovie.service.interfaces.GenreService;
@@ -8,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -15,20 +20,26 @@ public class GenreServiceImpl implements GenreService {
 
     private final GenreRepository genreRepository;
 
+
+    private final GenreMapper genreMapper;
+    private final MovieMapper movieMapper;
+
     @Override
-    public List<Genre> findAllGenres() {
-        return genreRepository.findAll();
+    public List<GenreDto> findAllGenres() {
+        List<Genre> genres = genreRepository.findAll();
+        return genreMapper.toDto(genres);
     }
 
     @Override
-    public Genre findGenreById(Long id) throws GenreNotFoundException {
-        return genreRepository.findById(id)
-                .orElseThrow(() -> new GenreNotFoundException("Genre with id " + id + " not found"));
+    public Optional<GenreDto> findGenreById(Long id) {
+        return genreRepository.findById(id).map(genreMapper::toDto);
     }
 
     @Override
-    public Genre saveGenre(Genre genre) {
-        return genreRepository.save(genre);
+    public GenreDto saveGenre(GenreDto genreDto) {
+        Genre genre = genreMapper.toEntity(genreDto);
+        Genre genreSaved = genreRepository.save(genre);
+        return genreMapper.toDto(genreSaved);
     }
 
     @Override
@@ -36,5 +47,10 @@ public class GenreServiceImpl implements GenreService {
         genreRepository.findById(id)
                 .orElseThrow(() -> new GenreNotFoundException("Genre with id " + id + " not found"));
         genreRepository.deleteById(id);
+    }
+
+    @Override
+    public List<MovieDto> findAllMoviesWithGenre(Long genreId) {
+        return movieMapper.toDto(genreRepository.findMoviesByGenreId(genreId));
     }
 }

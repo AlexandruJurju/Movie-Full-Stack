@@ -1,6 +1,6 @@
 package com.example.springmovie.service;
 
-import com.example.springmovie.dto.UserDisplayDto;
+import com.example.springmovie.dto.UserDto;
 import com.example.springmovie.mappers.UserMapper;
 import com.example.springmovie.model.User;
 import com.example.springmovie.repositories.UserRepository;
@@ -18,13 +18,13 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
 
     @Override
-    public Optional<UserDisplayDto> findUserById(Long id) {
+    public Optional<UserDto> findUserById(Long id) {
         return userRepository.findById(id)
                 .map(userMapper::toDto);
     }
 
     @Override
-    public List<UserDisplayDto> findAllUsers() {
+    public List<UserDto> findAllUsers() {
         List<User> users = userRepository.findAll();
         return userMapper.toDto(users);
     }
@@ -35,13 +35,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<UserDisplayDto> findUserByEmail(String email) {
+    public Optional<UserDto> findUserByEmail(String email) {
         return userRepository.findUserByEmailIgnoreCase(email)
                 .map(userMapper::toDto);
     }
 
     @Override
-    public UserDisplayDto save(User user) {
+    public UserDto save(User user) {
         return userMapper.toDto(userRepository.save(user));
     }
 

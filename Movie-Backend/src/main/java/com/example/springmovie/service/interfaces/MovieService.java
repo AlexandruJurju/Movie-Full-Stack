@@ -1,50 +1,35 @@
 package com.example.springmovie.service.interfaces;
 
+import com.example.springmovie.dto.GenreDto;
+import com.example.springmovie.dto.MovieDto;
 import com.example.springmovie.enums.ReleaseStatus;
-import com.example.springmovie.exception.GenreNotFoundException;
 import com.example.springmovie.exception.MovieNotFoundException;
-import com.example.springmovie.model.Genre;
 import com.example.springmovie.model.Movie;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.Set;
+import java.util.Optional;
 
 public interface MovieService {
 
-    Page<Movie> findAllMovies(Pageable pageable);
+    Page<Movie> findAllMoviesPaged(Pageable pageable);
 
-    List<Movie> findAllMovies();
+    List<MovieDto> findAllMoviesPaged();
 
-    List<Movie> filterMovies(Integer startReleaseYear, Integer endReleaseYear, Set<Genre> genres, String title);
+    Optional<MovieDto> findMovieById(Long id) throws MovieNotFoundException;
 
-    Movie findMovieById(Long id) throws MovieNotFoundException;
-
-    Movie saveMovie(Movie movie);
-
-    Movie updateMovie(Movie movie) throws MovieNotFoundException;
+    MovieDto saveMovie(MovieDto movieDto);
 
     void deleteMovieById(Long id) throws MovieNotFoundException;
 
-    List<Movie> findMoviesByGenreId(Long genreId);
+    List<MovieDto> findMoviesByReleaseStatus(ReleaseStatus status);
 
-    List<Movie> findMoviesByReleaseStatus(ReleaseStatus status);
+    List<MovieDto> findMoviesByYear(int year);
 
-    List<Movie> findMoviesByYear(int year);
+    Optional<MovieDto> addGenreToMovie(Long movieId, Long genreId);
 
-    List<Genre> findAllGenresOfMovie(Long movieId);
+    Optional<MovieDto> removeGenreFromMovie(Long movieId, Long genreId);
 
-    Movie saveMovieWithPoster(Movie movie, MultipartFile file);
-
-    Movie updateMoviePoster(Long movieId, MultipartFile file) throws MovieNotFoundException;
-
-    void deleteMoviePoster(Long movieId) throws MovieNotFoundException;
-
-    byte[] getMoviePoster(Long movieId) throws MovieNotFoundException;
-
-    Movie addGenreToMovie(Long movieId, Long genreId) throws MovieNotFoundException, GenreNotFoundException;
-
-    Movie removeGenreFromMovie(Long movieId, Long genreId) throws MovieNotFoundException, GenreNotFoundException;
+    List<GenreDto> findAllGenresOfMovie(Long movieId);
 }

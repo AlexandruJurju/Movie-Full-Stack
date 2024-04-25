@@ -5,5 +5,8 @@ import java.io.Serializable;
 /**
  * DTO for {@link com.example.springmovie.model.User}
  */
-public record UserDisplayDto(String username, String profilePictureUrl) implements Serializable {
+public record UserDto(
+        Long id,
+        String username,
+        String profilePictureUrl) implements Serializable {
 }
