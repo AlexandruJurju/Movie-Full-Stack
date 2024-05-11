@@ -35,7 +35,7 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     @Operation(summary = "Login to the site")
-    public ResponseEntity<LoginResponseDto> authentication(@RequestBody @Valid LoginRequestDto loginRequestDto) throws UserNotFoundException {
+    public ResponseEntity<LoginResponseDto> login(@RequestBody @Valid LoginRequestDto loginRequestDto) throws UserNotFoundException {
         return new ResponseEntity<>(authenticationService.login(loginRequestDto), HttpStatus.OK);
     }
 

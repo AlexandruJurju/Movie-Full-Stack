@@ -11,7 +11,7 @@ import java.time.LocalDate;
  * DTO for {@link com.example.springmovie.model.Movie}
  */
 public record MovieDto(
-        Long id,
+        @NotNull Long id,
         @NotNull @NotEmpty String title,
         @NotNull @NotEmpty String headline,
         @NotNull @NotEmpty String overview,

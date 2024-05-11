@@ -10,7 +10,7 @@ import java.time.LocalDate;
  * DTO for {@link com.example.springmovie.model.Actor}
  */
 public record ActorDto(
-        Long id,
+        @NotNull Long id,
         @NotNull @NotEmpty String firstName,
         @NotNull @NotEmpty String lastName,
         LocalDate birthDate,
