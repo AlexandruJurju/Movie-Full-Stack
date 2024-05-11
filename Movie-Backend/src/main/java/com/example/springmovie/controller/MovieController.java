@@ -10,6 +10,9 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -51,6 +54,12 @@ public class MovieController {
     @GetMapping("/unpaged")
     public ResponseEntity<List<MovieDto>> findAllMovies() {
         return ResponseEntity.ok(movieService.findAllMoviesPaged());
+    }
+
+    @GetMapping("list/paged/{page}/{size}")
+    public ResponseEntity<Page<MovieDto>> findMoviesPaged(@PathVariable int page, @PathVariable int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return ResponseEntity.ok(movieService.findMoviesPaged(pageable));
     }
 
     @PostMapping

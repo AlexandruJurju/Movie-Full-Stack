@@ -35,9 +35,9 @@ public class MovieServiceImpl implements MovieService {
     private final GenreMapper genreMapper;
 
     @Override
-    public Page<Movie> findAllMoviesPaged(Pageable pageable) {
+    public Page<MovieDto> findMoviesPaged(Pageable pageable) {
         log.debug("Find all movies with pagination");
-        return movieRepository.findAll(pageable);
+        return movieRepository.findAll(pageable).map(movieMapper::toDto);
     }
 
     @Override

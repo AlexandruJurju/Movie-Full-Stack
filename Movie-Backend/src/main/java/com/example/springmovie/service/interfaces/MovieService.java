@@ -14,7 +14,7 @@ import java.util.Optional;
 
 public interface MovieService {
 
-    Page<Movie> findAllMoviesPaged(Pageable pageable);
+    Page<MovieDto> findMoviesPaged(Pageable pageable);
 
     List<MovieDto> findAllMoviesPaged();
 
