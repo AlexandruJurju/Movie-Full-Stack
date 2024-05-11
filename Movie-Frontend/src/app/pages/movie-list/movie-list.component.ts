@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {Movie} from "../../service/model/movie";
 import {Router} from "@angular/router";
-import {MovieService} from "../../service/api/movie.service";
 import {NgForOf, NgIf} from "@angular/common";
+import {MovieService} from "../../service/swagger/api/movie.service";
+import {Movie} from "../../service/swagger/model/movie";
 
 @Component({
   selector: 'app-movie-list',

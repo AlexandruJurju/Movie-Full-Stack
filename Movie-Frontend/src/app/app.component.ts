@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {NgForOf, NgIf} from "@angular/common";
 import {RouterLink, RouterOutlet} from "@angular/router";
 import {MenuComponent} from "./components/menu/menu.component";
-import {ApiModule} from "./service/api.module";
+import {ApiModule} from "./service/swagger/api.module";
 
 
 @Component({

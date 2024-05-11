@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {Genre} from "../../service/model/genre";
-import {GenreService} from "../../service/api/genre.service";
+import {Genre} from "../../service/swagger/model/genre";
+import {GenreService} from "../../service/swagger/api/genre.service";
 import {Router} from "@angular/router";
 import {NgForOf} from "@angular/common";
 
