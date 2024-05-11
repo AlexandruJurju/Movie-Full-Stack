@@ -10,7 +10,7 @@
  * Do not edit the class manually.
  */
 
-export interface ActorDto {
+export interface ActorDto { 
     id: number;
     firstName: string;
     lastName: string;

@@ -16,19 +16,30 @@ import {MovieDto} from "../../service/swagger/model/movieDto";
 })
 export class MovieListComponent implements OnInit {
   movies: MovieDto[] = [];
+  page: number = 0;
+  size: number = 6;
+  pages: number[] = [];
 
   constructor(private movieService: MovieService, private router: Router) {
   }
 
   ngOnInit() {
-    this.getMovies();
+    this.findMoviesPaged();
   }
 
-  getMovies() {
-    this.movieService.findAllMovies()
-      .subscribe(movies => {
-        this.movies = movies;
-      })
+  private findMoviesPaged() {
+    this.movieService.findMoviesPaged(this.page, this.size)
+      .subscribe({
+        next: (pagedMovies) => {
+          this.movies = pagedMovies.content!;
+          this.pages = Array(pagedMovies.totalPages).fill(0).map((x, i) => i); // create an array for the pages
+        }
+      });
+  }
+
+  goToPage(page: number) {
+    this.page = page;
+    this.findMoviesPaged();
   }
 
   goToMovieDetails(id: number) {

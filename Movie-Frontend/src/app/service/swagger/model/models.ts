@@ -4,5 +4,8 @@ export * from './loginRequestDto';
 export * from './loginResponseDto';
 export * from './movieDto';
 export * from './moviePosterBody';
+export * from './pageMovieDto';
+export * from './pageableObject';
 export * from './registerRequestDto';
+export * from './sortObject';
 export * from './userDto';

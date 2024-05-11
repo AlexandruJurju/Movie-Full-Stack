@@ -9,9 +9,13 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { SortObject } from './sortObject';
 
-export interface UserDto { 
-    id: number;
-    username?: string;
-    profilePictureUrl?: string;
+export interface PageableObject { 
+    offset?: number;
+    sort?: SortObject;
+    pageSize?: number;
+    pageNumber?: number;
+    unpaged?: boolean;
+    paged?: boolean;
 }

@@ -10,8 +10,8 @@
  * Do not edit the class manually.
  */
 
-export interface UserDto { 
-    id: number;
-    username?: string;
-    profilePictureUrl?: string;
+export interface SortObject { 
+    empty?: boolean;
+    sorted?: boolean;
+    unsorted?: boolean;
 }

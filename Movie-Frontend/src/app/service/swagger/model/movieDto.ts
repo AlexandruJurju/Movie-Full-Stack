@@ -10,7 +10,7 @@
  * Do not edit the class manually.
  */
 
-export interface MovieDto {
+export interface MovieDto { 
     id: number;
     title: string;
     headline: string;
