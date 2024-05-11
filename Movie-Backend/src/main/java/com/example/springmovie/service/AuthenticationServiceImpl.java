@@ -34,7 +34,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         log.info("Registering new user: " + registerRequestDto.username());
 
         if (userService.checkUserExistsUsingEmail(registerRequestDto.email()) || userService.checkUserExistsUsingUsername(registerRequestDto.username())) {
-            throw new UserAlreadyExistsException();
+            throw new UserAlreadyExistsException("User with email " + registerRequestDto.email() + " already exists");
         }
 
         User user = User.builder()

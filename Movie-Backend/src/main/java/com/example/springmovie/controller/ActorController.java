@@ -31,7 +31,7 @@ public class ActorController {
 
     @GetMapping("/{actorId}")
     @Operation(summary = "Find an actor using Id")
-    public ResponseEntity<ActorDto> findActorById(@PathVariable("actorId") Long actorId) throws ActorNotFoundException {
+    public ResponseEntity<ActorDto> findActorById(@PathVariable("actorId") Long actorId) {
         Optional<ActorDto> actorDto = actorService.findActorById(actorId);
         return actorDto.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }

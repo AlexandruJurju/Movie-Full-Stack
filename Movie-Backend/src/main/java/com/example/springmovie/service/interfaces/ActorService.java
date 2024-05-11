@@ -10,7 +10,7 @@ public interface ActorService {
 
     List<ActorDto> findAllActors();
 
-    Optional<ActorDto> findActorById(Long id) throws ActorNotFoundException;
+    Optional<ActorDto> findActorById(Long id);
 
     ActorDto saveActor(ActorDto actorDto);
 
