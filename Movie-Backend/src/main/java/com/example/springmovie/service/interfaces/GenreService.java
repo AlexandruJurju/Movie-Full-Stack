@@ -3,7 +3,6 @@ package com.example.springmovie.service.interfaces;
 import com.example.springmovie.dto.GenreDto;
 import com.example.springmovie.dto.MovieDto;
 import com.example.springmovie.exception.GenreNotFoundException;
-import com.example.springmovie.model.Genre;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,6 +13,8 @@ public interface GenreService {
     Optional<GenreDto> findGenreById(Long id);
 
     GenreDto saveGenre(GenreDto genreDto);
+
+    GenreDto updateGenre(Long genreId, GenreDto genreDto) throws GenreNotFoundException;
 
     void deleteGenre(Long id) throws GenreNotFoundException;
 

@@ -43,10 +43,10 @@ public class GenreController {
         return new ResponseEntity<>(genreService.saveGenre(genre), HttpStatus.CREATED);
     }
 
-    @PutMapping
+    @PutMapping("/{genreId}")
     @Operation(summary = "Update genre")
-    public ResponseEntity<GenreDto> updateGenre(@RequestBody GenreDto genre) {
-        return ResponseEntity.ok(genreService.saveGenre(genre));
+    public ResponseEntity<GenreDto> updateGenre(@PathVariable Long genreId, @RequestBody GenreDto genre) throws GenreNotFoundException {
+        return ResponseEntity.ok(genreService.updateGenre(genreId, genre));
     }
 
     @DeleteMapping("/{genreId}")

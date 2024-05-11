@@ -10,7 +10,6 @@ import com.example.springmovie.model.Genre;
 import com.example.springmovie.model.Movie;
 import com.example.springmovie.repositories.GenreRepository;
 import com.example.springmovie.repositories.MovieRepository;
-import com.example.springmovie.service.interfaces.FileService;
 import com.example.springmovie.service.interfaces.MovieService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -160,6 +159,24 @@ public class MovieServiceImpl implements MovieService {
 
         String moviePosterURL = movie.getPosterUrl();
         fileService.delete(moviePosterURL);
+    }
+
+    @Override
+    public MovieDto updateMovie(Long movieId, MovieDto movieDto) throws MovieNotFoundException {
+        Optional<Movie> movieOptional = movieRepository.findById(movieId);
+
+        if (movieOptional.isEmpty()) throw new MovieNotFoundException("Movie with id " + movieId + " not found");
+
+        Movie movie = movieOptional.get();
+        movie.setTitle(movieDto.title());
+        movie.setHeadline(movieDto.headline());
+        movie.setOverview(movieDto.overview());
+        movie.setRuntimeInMinutes(movieDto.runtimeInMinutes());
+        movie.setPosterUrl(movieDto.posterUrl());
+        movie.setReleaseDate(movieDto.releaseDate());
+        movie.setReleaseStatus(movieDto.releaseStatus());
+
+        return movieMapper.toDto(movieRepository.save(movie));
     }
 
 }

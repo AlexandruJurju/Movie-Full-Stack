@@ -21,11 +21,6 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/v1/actor")
 public class ActorController {
-
-    // TODO: actor save with image
-    // TODO: upload, update actor image
-    // TODO: search actors by name
-
     private final ActorService actorService;
 
     @GetMapping("")

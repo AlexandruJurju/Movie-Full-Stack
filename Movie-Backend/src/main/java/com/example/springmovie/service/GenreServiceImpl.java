@@ -43,6 +43,18 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
+    public GenreDto updateGenre(Long genreId, GenreDto genreDto) throws GenreNotFoundException {
+
+        Optional<Genre> genreOptional = genreRepository.findById(genreId);
+
+        if (genreOptional.isEmpty()) throw new GenreNotFoundException("Genre with it " + genreId + " not found");
+
+        Genre genre = genreOptional.get();
+        genre.setName(genreDto.name());
+        return genreMapper.toDto(genreRepository.save(genre));
+    }
+
+    @Override
     public void deleteGenre(Long id) throws GenreNotFoundException {
         genreRepository.findById(id)
                 .orElseThrow(() -> new GenreNotFoundException("Genre with id " + id + " not found"));

@@ -27,8 +27,6 @@ import java.util.Optional;
 @RequestMapping("/api/v1/movie")
 
 public class MovieController {
-
-
     private final MovieService movieService;
 
     @GetMapping("/{movieId}")
@@ -61,10 +59,10 @@ public class MovieController {
         return ResponseEntity.status(HttpStatus.CREATED).body(movieService.saveMovie(movieDto));
     }
 
-    @PutMapping
+    @PutMapping("/{movieId}")
     @Operation(summary = "Update a Movie", description = "REST API to update a Movie based using RequestBody")
-    public ResponseEntity<MovieDto> updateMovie(@RequestBody MovieDto movieDto) {
-        return ResponseEntity.ok(movieService.saveMovie(movieDto));
+    public ResponseEntity<MovieDto> updateMovie(@PathVariable Long movieId, @RequestBody MovieDto movieDto) throws MovieNotFoundException {
+        return ResponseEntity.ok(movieService.updateMovie(movieId, movieDto));
     }
 
     @DeleteMapping("/{movieId}")

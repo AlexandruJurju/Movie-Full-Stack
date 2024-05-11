@@ -49,7 +49,6 @@ public class Movie {
     @Column(name = "release_date")
     private LocalDate releaseDate;
 
-    // TODO: remove, use releaseDate instead for search
     @Enumerated(EnumType.STRING)
     @Column(name = "release_status")
     private ReleaseStatus releaseStatus;

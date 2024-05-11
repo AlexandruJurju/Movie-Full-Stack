@@ -39,4 +39,6 @@ public interface MovieService {
     byte[] getMoviePoster(Long movieId) throws MovieNotFoundException;
 
     void deleteMoviePoster(Long movieId) throws MovieNotFoundException;
+
+    MovieDto updateMovie(Long movieId, MovieDto movieDto) throws MovieNotFoundException;
 }

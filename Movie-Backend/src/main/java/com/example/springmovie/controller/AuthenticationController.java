@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/auth")
 public class AuthenticationController {
 
-    // TODO: register give default image for user
     private final AuthenticationService authenticationService;
 
     @PostMapping("/register")
