@@ -54,7 +54,7 @@ export class UserRegisterComponent {
       },
       error: (error) => {
         console.error('Registration failed', error);
-        this.errorMessage = error.error.reasons[0].message;
+        this.errorMessage = error.error.message || "User already exists";
       }
     })
   }
