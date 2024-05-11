@@ -7,6 +7,7 @@ import {MovieDetailsComponent} from "./pages/movie-details/movie-details.compone
 import {MovieEditComponent} from "./pages/movie-edit/movie-edit.component";
 import {GenreListComponent} from "./pages/genre-list/genre-list.component";
 import {GenreEditComponent} from "./pages/genre-edit/genre-edit.component";
+import {ErrorComponent} from "./pages/error/error.component";
 
 
 export const routes: Routes = [
@@ -21,6 +22,8 @@ export const routes: Routes = [
   {path: 'genre-edit/:id', component: GenreEditComponent},
 
   {path: 'home', component: HomeComponent},
+
+  {path: 'error', component: ErrorComponent},
 
   {path: '', redirectTo: '/home', pathMatch: 'full'},
 ];
