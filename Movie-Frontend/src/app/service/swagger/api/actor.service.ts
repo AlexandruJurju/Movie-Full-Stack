@@ -17,7 +17,7 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
 import { Observable }                                        from 'rxjs';
 
-import { Actor } from '../model/actor';
+import { ActorDto } from '../model/actorDto';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
@@ -57,8 +57,8 @@ export class ActorService {
 
     /**
      * Delete actor given id
-     *
-     * @param actorId
+     * 
+     * @param actorId 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
@@ -73,9 +73,15 @@ export class ActorService {
 
         let headers = this.defaultHeaders;
 
+        // authentication (bearerAuth) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
-            '*/*'
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
@@ -98,14 +104,14 @@ export class ActorService {
 
     /**
      * Find an actor using Id
-     *
-     * @param actorId
+     * 
+     * @param actorId 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public findActorById(actorId: number, observe?: 'body', reportProgress?: boolean): Observable<Actor>;
-    public findActorById(actorId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Actor>>;
-    public findActorById(actorId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Actor>>;
+    public findActorById(actorId: number, observe?: 'body', reportProgress?: boolean): Observable<ActorDto>;
+    public findActorById(actorId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ActorDto>>;
+    public findActorById(actorId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ActorDto>>;
     public findActorById(actorId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (actorId === null || actorId === undefined) {
@@ -114,6 +120,13 @@ export class ActorService {
 
         let headers = this.defaultHeaders;
 
+        // authentication (bearerAuth) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
             '*/*'
@@ -127,7 +140,7 @@ export class ActorService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<Actor>('get',`${this.basePath}/api/v1/actor/${encodeURIComponent(String(actorId))}`,
+        return this.httpClient.request<ActorDto>('get',`${this.basePath}/api/v1/actor/${encodeURIComponent(String(actorId))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -139,17 +152,24 @@ export class ActorService {
 
     /**
      * Find all actors
-     *
+     * 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public findAllActors(observe?: 'body', reportProgress?: boolean): Observable<Array<Actor>>;
-    public findAllActors(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<Actor>>>;
-    public findAllActors(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<Actor>>>;
+    public findAllActors(observe?: 'body', reportProgress?: boolean): Observable<Array<ActorDto>>;
+    public findAllActors(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<ActorDto>>>;
+    public findAllActors(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<ActorDto>>>;
     public findAllActors(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let headers = this.defaultHeaders;
 
+        // authentication (bearerAuth) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
             '*/*'
@@ -163,7 +183,7 @@ export class ActorService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<Array<Actor>>('get',`${this.basePath}/api/v1/actor`,
+        return this.httpClient.request<Array<ActorDto>>('get',`${this.basePath}/api/v1/actor`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -175,15 +195,15 @@ export class ActorService {
 
     /**
      * Add an actor to database
-     *
-     * @param body
+     * 
+     * @param body 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public saveActor(body: Actor, observe?: 'body', reportProgress?: boolean): Observable<Actor>;
-    public saveActor(body: Actor, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Actor>>;
-    public saveActor(body: Actor, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Actor>>;
-    public saveActor(body: Actor, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public saveActor(body: ActorDto, observe?: 'body', reportProgress?: boolean): Observable<ActorDto>;
+    public saveActor(body: ActorDto, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ActorDto>>;
+    public saveActor(body: ActorDto, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ActorDto>>;
+    public saveActor(body: ActorDto, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (body === null || body === undefined) {
             throw new Error('Required parameter body was null or undefined when calling saveActor.');
@@ -191,6 +211,13 @@ export class ActorService {
 
         let headers = this.defaultHeaders;
 
+        // authentication (bearerAuth) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
             '*/*'
@@ -209,7 +236,7 @@ export class ActorService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.request<Actor>('post',`${this.basePath}/api/v1/actor`,
+        return this.httpClient.request<ActorDto>('post',`${this.basePath}/api/v1/actor`,
             {
                 body: body,
                 withCredentials: this.configuration.withCredentials,
@@ -222,15 +249,15 @@ export class ActorService {
 
     /**
      * Update an actor
-     *
-     * @param body
+     * 
+     * @param body 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateActor(body: Actor, observe?: 'body', reportProgress?: boolean): Observable<Actor>;
-    public updateActor(body: Actor, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Actor>>;
-    public updateActor(body: Actor, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Actor>>;
-    public updateActor(body: Actor, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public updateActor(body: ActorDto, observe?: 'body', reportProgress?: boolean): Observable<ActorDto>;
+    public updateActor(body: ActorDto, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ActorDto>>;
+    public updateActor(body: ActorDto, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ActorDto>>;
+    public updateActor(body: ActorDto, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (body === null || body === undefined) {
             throw new Error('Required parameter body was null or undefined when calling updateActor.');
@@ -238,6 +265,13 @@ export class ActorService {
 
         let headers = this.defaultHeaders;
 
+        // authentication (bearerAuth) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
             '*/*'
@@ -256,7 +290,7 @@ export class ActorService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.request<Actor>('put',`${this.basePath}/api/v1/actor`,
+        return this.httpClient.request<ActorDto>('put',`${this.basePath}/api/v1/actor`,
             {
                 body: body,
                 withCredentials: this.configuration.withCredentials,

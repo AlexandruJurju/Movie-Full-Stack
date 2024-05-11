@@ -13,7 +13,7 @@
         </p>
         <p>
           <label for="headline">Headline</label>
-          <input type="text" [(ngModel)]="movie.tagline" name="headline" id="headline" placeholder="Headline" required class="form-control my-2">
+          <input type="text" [(ngModel)]="movie.headline" name="headline" id="headline" placeholder="Headline" required class="form-control my-2">
         </p>
         <p>
           <label for="overview">Overview</label>
@@ -21,7 +21,7 @@
         </p>
 
         <button type="button" class="btn btn-primary my-2 mx-1" data-bs-toggle="modal" data-bs-target="#confirmUpdateModal">Update Movie</button>
-        <button type="button" class="btn btn-danger my-2 mx-1" (click)="deleteMovieById(movie.id)">Delete Movie</button>
+        <button type="button" class="btn btn-danger my-2 mx-1" (click)="deleteMovieById(movie.id!)">Delete Movie</button>
         <button type="button" class="btn btn-secondary my-2 mx-1" (click)="resetForm()">Reset</button>
       </div>
     </div>

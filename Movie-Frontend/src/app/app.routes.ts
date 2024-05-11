@@ -6,6 +6,7 @@ import {HomeComponent} from "./pages/home/home.component";
 import {MovieDetailsComponent} from "./pages/movie-details/movie-details.component";
 import {MovieEditComponent} from "./pages/movie-edit/movie-edit.component";
 import {GenreListComponent} from "./pages/genre-list/genre-list.component";
+import {GenreEditComponent} from "./pages/genre-edit/genre-edit.component";
 
 
 export const routes: Routes = [
@@ -17,6 +18,7 @@ export const routes: Routes = [
   {path: 'movie-edit/:id', component: MovieEditComponent},
 
   {path: 'genre-list', component: GenreListComponent},
+  {path: 'genre-edit/:id', component: GenreEditComponent},
 
   {path: 'home', component: HomeComponent},
 

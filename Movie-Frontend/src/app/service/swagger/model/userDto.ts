@@ -10,6 +10,8 @@
  * Do not edit the class manually.
  */
 
-export interface GrantedAuthority { 
-    authority?: string;
+export interface UserDto { 
+    id?: number;
+    username?: string;
+    profilePictureUrl?: string;
 }

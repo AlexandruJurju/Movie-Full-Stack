@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {FormsModule, NgForm} from "@angular/forms";
-import {Movie} from "../../service/swagger/model/movie";
-import {Genre} from "../../service/swagger/model/genre";
 import {MovieService} from "../../service/swagger/api/movie.service";
 import {ActivatedRoute, Router} from "@angular/router";
+import {MovieDto} from "../../service/swagger/model/movieDto";
+import {GenreDto} from "../../service/swagger/model/genreDto";
 
 @Component({
   selector: 'app-movie-edit',
@@ -15,9 +15,9 @@ import {ActivatedRoute, Router} from "@angular/router";
   styleUrl: './movie-edit.component.css'
 })
 export class MovieEditComponent implements OnInit {
-  movie: Movie = {} as Movie;
-  movieCopy: Movie = {} as Movie;
-  genres: Genre[] = [];
+  movie: MovieDto = {} as MovieDto;
+  movieCopy: MovieDto = {} as MovieDto;
+  genres: GenreDto[] = [];
 
   constructor(private movieService: MovieService,
               private router: Router,
@@ -64,7 +64,7 @@ export class MovieEditComponent implements OnInit {
 
   onSubmit(form: NgForm) {
     if (form.valid) {
-      this.movieService.updateMovie(this.movie).subscribe({
+      this.movieService.updateMovie(this.movie, this.movie.id!).subscribe({
         next: () => {
           this.router.navigate(["/movie-details", this.movie.id]).then(() => {
           });

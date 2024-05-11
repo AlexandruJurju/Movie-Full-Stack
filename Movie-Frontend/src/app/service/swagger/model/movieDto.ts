@@ -10,35 +10,17 @@
  * Do not edit the class manually.
  */
 
-/**
- * Schema to hold Movie information
- */
-export interface Movie {
+export interface MovieDto {
     id: number;
-    /**
-     * Title of the movie
-     */
-    title?: string;
-    /**
-     * Punch-line of the movie
-     */
-    tagline?: string;
-    /**
-     * Small description of the movie
-     */
-    overview?: string;
-    /**
-     * Runtime of` the movie in minutes
-     */
+    title: string;
+    headline: string;
+    overview: string;
     runtimeInMinutes?: number;
-    releaseStatus?: Movie.ReleaseStatusEnum;
     posterUrl?: string;
-    imdbUrl?: string;
-    imdbRating?: number;
-    trailerUrl?: string;
-    releaseDate?: string;
+    releaseDate: string;
+    releaseStatus?: MovieDto.ReleaseStatusEnum;
 }
-export namespace Movie {
+export namespace MovieDto {
     export type ReleaseStatusEnum = 'RELEASED' | 'UPCOMING' | 'OTHER';
     export const ReleaseStatusEnum = {
         RELEASED: 'RELEASED' as ReleaseStatusEnum,

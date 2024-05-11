@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {Movie} from "../../service/swagger/model/movie";
-import {Genre} from "../../service/swagger/model/genre";
 import {MovieService} from "../../service/swagger/api/movie.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {NgForOf} from "@angular/common";
+import {GenreDto} from "../../service/swagger/model/genreDto";
+import {MovieDto} from "../../service/swagger/model/movieDto";
 
 @Component({
   selector: 'app-movie-details',
@@ -16,8 +16,8 @@ import {NgForOf} from "@angular/common";
 })
 
 export class MovieDetailsComponent implements OnInit {
-  movie: Movie = {} as Movie;
-  genres: Genre[] = [];
+  movie: MovieDto = {} as MovieDto;
+  genres: GenreDto[] = [];
 
   constructor(private movieService: MovieService,
               private router: Router,

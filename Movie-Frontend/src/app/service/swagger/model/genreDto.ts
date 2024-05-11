@@ -10,10 +10,7 @@
  * Do not edit the class manually.
  */
 
-export interface ReviewDto { 
-    movieId: number;
-    userId: number;
-    text: string;
-    score: number;
-    postedDate: string;
+export interface GenreDto {
+    id: number;
+    name: string;
 }

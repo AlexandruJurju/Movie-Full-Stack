@@ -17,7 +17,7 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
 import { Observable }                                        from 'rxjs';
 
-import { User } from '../model/user';
+import { UserDto } from '../model/userDto';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
@@ -57,8 +57,8 @@ export class UserService {
 
     /**
      * Delete a user using Id
-     *
-     * @param userId
+     * 
+     * @param userId 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
@@ -73,9 +73,15 @@ export class UserService {
 
         let headers = this.defaultHeaders;
 
+        // authentication (bearerAuth) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
-            '*/*'
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
@@ -98,17 +104,24 @@ export class UserService {
 
     /**
      * Get all users
-     *
+     * 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getAllUsers(observe?: 'body', reportProgress?: boolean): Observable<Array<User>>;
-    public getAllUsers(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<User>>>;
-    public getAllUsers(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<User>>>;
+    public getAllUsers(observe?: 'body', reportProgress?: boolean): Observable<Array<UserDto>>;
+    public getAllUsers(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<UserDto>>>;
+    public getAllUsers(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<UserDto>>>;
     public getAllUsers(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let headers = this.defaultHeaders;
 
+        // authentication (bearerAuth) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
             '*/*'
@@ -122,7 +135,7 @@ export class UserService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<Array<User>>('get',`${this.basePath}/api/v1/user`,
+        return this.httpClient.request<Array<UserDto>>('get',`${this.basePath}/api/v1/user`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -134,14 +147,14 @@ export class UserService {
 
     /**
      * Get user using email
-     *
-     * @param email
+     * 
+     * @param email 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getUserByEmail(email: string, observe?: 'body', reportProgress?: boolean): Observable<User>;
-    public getUserByEmail(email: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<User>>;
-    public getUserByEmail(email: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<User>>;
+    public getUserByEmail(email: string, observe?: 'body', reportProgress?: boolean): Observable<UserDto>;
+    public getUserByEmail(email: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<UserDto>>;
+    public getUserByEmail(email: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<UserDto>>;
     public getUserByEmail(email: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (email === null || email === undefined) {
@@ -150,6 +163,13 @@ export class UserService {
 
         let headers = this.defaultHeaders;
 
+        // authentication (bearerAuth) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
             '*/*'
@@ -163,7 +183,7 @@ export class UserService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<User>('get',`${this.basePath}/api/v1/user/email/${encodeURIComponent(String(email))}`,
+        return this.httpClient.request<UserDto>('get',`${this.basePath}/api/v1/user/email/${encodeURIComponent(String(email))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -175,14 +195,14 @@ export class UserService {
 
     /**
      * Get user using ID
-     *
-     * @param id
+     * 
+     * @param id 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getUserById(id: number, observe?: 'body', reportProgress?: boolean): Observable<User>;
-    public getUserById(id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<User>>;
-    public getUserById(id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<User>>;
+    public getUserById(id: number, observe?: 'body', reportProgress?: boolean): Observable<UserDto>;
+    public getUserById(id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<UserDto>>;
+    public getUserById(id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<UserDto>>;
     public getUserById(id: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (id === null || id === undefined) {
@@ -191,6 +211,13 @@ export class UserService {
 
         let headers = this.defaultHeaders;
 
+        // authentication (bearerAuth) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
             '*/*'
@@ -204,7 +231,7 @@ export class UserService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<User>('get',`${this.basePath}/api/v1/user/id/${encodeURIComponent(String(id))}`,
+        return this.httpClient.request<UserDto>('get',`${this.basePath}/api/v1/user/id/${encodeURIComponent(String(id))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

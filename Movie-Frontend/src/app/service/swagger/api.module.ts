@@ -6,7 +6,6 @@ import { HttpClient } from '@angular/common/http';
 import { ActorService } from './api/actor.service';
 import { AuthenticationService } from './api/authentication.service';
 import { GenreService } from './api/genre.service';
-import { MovieActorService } from './api/movie-actor.service';
 import { MovieService } from './api/movie.service';
 import { UserService } from './api/user.service';
 
@@ -18,7 +17,6 @@ import { UserService } from './api/user.service';
     ActorService,
     AuthenticationService,
     GenreService,
-    MovieActorService,
     MovieService,
     UserService ]
 })
