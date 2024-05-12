@@ -25,8 +25,8 @@ export class UserLoginComponent {
   }
 
   form = this.formBuilder.nonNullable.group({
-    username: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(1)]],
+    username: ['', [Validators.required]],
+    password: ['', [Validators.required]],
   })
 
   onSubmit() {
@@ -47,7 +47,7 @@ export class UserLoginComponent {
         console.log("Login successful logged in", response);
 
         // save token to local storage
-        localStorage.setItem('token', response.token);
+        this.tokenService.token = response.token;
         console.log(response.token);
 
         this.router.navigate(["/home"]).then(() => {

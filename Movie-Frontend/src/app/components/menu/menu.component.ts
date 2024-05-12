@@ -1,16 +1,35 @@
-import { Component } from '@angular/core';
-import {RouterLink, RouterLinkActive} from "@angular/router";
+import {Component} from '@angular/core';
+import {Router, RouterLink, RouterLinkActive} from "@angular/router";
+import {TokenService} from "../../service/jwt-token/token.service";
+import {NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-menu',
   standalone: true,
   imports: [
     RouterLink,
-    RouterLinkActive
+    RouterLinkActive,
+    NgIf
   ],
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.css'
 })
+
 export class MenuComponent {
+  title = "Movie"
+
+  constructor(
+    private tokenService: TokenService,
+    private router: Router) {
+  }
+
+  logout() {
+    this.tokenService.removeToken();
+    this.router.navigate(["/home"])
+  }
+
+  isUserLoggedIn() {
+    return this.tokenService.isTokenValid();
+  }
 
 }

@@ -9,6 +9,7 @@ import {GenreListComponent} from "./pages/genre-list/genre-list.component";
 import {GenreEditComponent} from "./pages/genre-edit/genre-edit.component";
 import {ErrorComponent} from "./pages/error/error.component";
 import {GenreSaveComponent} from "./pages/genre-save/genre-save.component";
+import {authGuard} from "./service/guard/auth.guard";
 
 
 export const routes: Routes = [
@@ -31,7 +32,8 @@ export const routes: Routes = [
   },
   {
     path: 'movie-edit/:id',
-    component: MovieEditComponent
+    component: MovieEditComponent,
+    canActivate: [authGuard]
   },
 
   {
@@ -40,11 +42,13 @@ export const routes: Routes = [
   },
   {
     path: 'genre-edit/:id',
-    component: GenreEditComponent
+    component: GenreEditComponent,
+    canActivate: [authGuard]
   },
   {
     path: 'genre-save',
     component: GenreSaveComponent,
+    canActivate: [authGuard]
   },
 
   {path: 'home', component: HomeComponent},

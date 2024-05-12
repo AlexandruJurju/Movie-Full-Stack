@@ -1,9 +1,15 @@
 <header class="main-header bg-dark text-white p-3 mb-3 d-flex justify-content-between align-items-center">
-  <nav class="nav-container d-flex justify-content-center flex-grow-1 gap-2">
-    <a class="btn btn-light text-dark" routerLink="/user-register" routerLinkActive="btn-primary" ariaCurrentWhenActive="page">Register</a>
-    <a class="btn btn-light text-dark" routerLink="/user-login" routerLinkActive="btn-primary" ariaCurrentWhenActive="page">Login</a>
+  <div class="title-container">
+    <a routerLink="/home" class="text-white text-decoration-none display-6">{{ title }}</a>
+  </div>
 
-    <div class="dropdown">
+  <nav class="nav-container d-flex justify-content-center flex-grow-1 gap-2">
+    <!-- Show Register and Login links only if the user is not authenticated -->
+    <a *ngIf="!isUserLoggedIn()" class="btn btn-light text-dark" routerLink="/user-register" routerLinkActive="btn-primary" ariaCurrentWhenActive="page">Register</a>
+    <a *ngIf="!isUserLoggedIn()" class="btn btn-light text-dark" routerLink="/user-login" routerLinkActive="btn-primary" ariaCurrentWhenActive="page">Login</a>
+
+    <!-- Show Movies and Genre links only if the user is authenticated -->
+    <div *ngIf="isUserLoggedIn()" class="dropdown">
       <button class="btn btn-light text-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
         Movies
       </button>
@@ -13,6 +19,10 @@
       </ul>
     </div>
 
-    <a class="btn btn-light text-dark" routerLink="/genre-list" routerLinkActive="btn-primary" ariaCurrentWhenActive="page">Genre</a>
+    <a *ngIf="isUserLoggedIn()" class="btn btn-light text-dark" routerLink="/genre-list" routerLinkActive="btn-primary" ariaCurrentWhenActive="page">Genre</a>
+
+    <div *ngIf="isUserLoggedIn()" class="logout-container">
+      <button (click)="logout()" class="btn btn-light text-dark">Logout</button>
+    </div>
   </nav>
 </header>
