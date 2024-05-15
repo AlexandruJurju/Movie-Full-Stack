@@ -17,6 +17,7 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
 import { Observable }                                        from 'rxjs';
 
+import { DetailedMovieDto } from '../model/detailedMovieDto';
 import { GenreDto } from '../model/genreDto';
 import { MovieDto } from '../model/movieDto';
 import { PageMovieDto } from '../model/pageMovieDto';
@@ -302,9 +303,9 @@ export class MovieService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public findMovieById(movieId: number, observe?: 'body', reportProgress?: boolean): Observable<MovieDto>;
-    public findMovieById(movieId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<MovieDto>>;
-    public findMovieById(movieId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<MovieDto>>;
+    public findMovieById(movieId: number, observe?: 'body', reportProgress?: boolean): Observable<DetailedMovieDto>;
+    public findMovieById(movieId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<DetailedMovieDto>>;
+    public findMovieById(movieId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<DetailedMovieDto>>;
     public findMovieById(movieId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (movieId === null || movieId === undefined) {
@@ -333,7 +334,7 @@ export class MovieService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<MovieDto>('get',`${this.basePath}/api/v1/movie/${encodeURIComponent(String(movieId))}`,
+        return this.httpClient.request<DetailedMovieDto>('get',`${this.basePath}/api/v1/movie/${encodeURIComponent(String(movieId))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

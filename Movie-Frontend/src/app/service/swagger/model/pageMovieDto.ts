@@ -14,13 +14,13 @@ import { PageableObject } from './pageableObject';
 import { SortObject } from './sortObject';
 
 export interface PageMovieDto { 
-    totalElements?: number;
     totalPages?: number;
+    totalElements?: number;
+    numberOfElements?: number;
     size?: number;
     content?: Array<MovieDto>;
     number?: number;
     sort?: SortObject;
-    numberOfElements?: number;
     first?: boolean;
     last?: boolean;
     pageable?: PageableObject;

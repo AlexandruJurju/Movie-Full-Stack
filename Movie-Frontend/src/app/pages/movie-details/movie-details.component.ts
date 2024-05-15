@@ -1,9 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {MovieService} from "../../service/swagger/api/movie.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {NgForOf} from "@angular/common";
-import {GenreDto} from "../../service/swagger/model/genreDto";
-import {MovieDto} from "../../service/swagger/model/movieDto";
+import {DetailedMovieDto, GenreDto, MovieDto, MovieService} from "../../service/swagger";
+
 
 @Component({
   selector: 'app-movie-details',
@@ -16,8 +15,7 @@ import {MovieDto} from "../../service/swagger/model/movieDto";
 })
 
 export class MovieDetailsComponent implements OnInit {
-  movie: MovieDto = {} as MovieDto;
-  genres: GenreDto[] = [];
+  movie: DetailedMovieDto = {} as DetailedMovieDto;
 
   constructor(private movieService: MovieService,
               private router: Router,
@@ -44,16 +42,6 @@ export class MovieDetailsComponent implements OnInit {
       error: error => {
         console.error('Error fetching movie:', error);
         this.router.navigate(['/error']);
-      }
-    });
-
-    this.movieService.findGenresOfMovie(movieId).subscribe({
-      next: genres => {
-        console.log(genres);
-        this.genres = genres;
-      },
-      error: error => {
-        console.error('Error fetching genres:', error);
       }
     });
   }
