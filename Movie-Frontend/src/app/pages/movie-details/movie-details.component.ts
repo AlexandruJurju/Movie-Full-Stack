@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {NgForOf} from "@angular/common";
-import {DetailedMovieDto, GenreDto, MovieDto, MovieService} from "../../service/swagger";
+import {DetailedMovieDto, MovieService} from "../../service/swagger";
 
 
 @Component({
@@ -49,5 +49,9 @@ export class MovieDetailsComponent implements OnInit {
   // TODO: pass the movie object, not the id
   navigateToUpdateMovie() {
     this.router.navigate(['/movie-edit', this.movie.id]);
+  }
+
+  navigateToActorDetails(actorId: number) {
+    this.router.navigate(['/actor-details', actorId]);
   }
 }

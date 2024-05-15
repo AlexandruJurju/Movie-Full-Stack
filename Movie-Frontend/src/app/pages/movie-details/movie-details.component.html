@@ -8,7 +8,7 @@
     <p class="mb-2 lead">Genres: <span *ngFor="let genre of movie.genres; let isLast=last">{{ genre.name }}{{ isLast ? '' : ', ' }}</span></p>
     <button class="btn btn-primary mb-3" (click)="navigateToUpdateMovie()">Update Movie</button>
     <div class="d-flex flex-wrap justify-content-start">
-      <div *ngFor="let movieActor of movie.movieActors" class="text-center mr-4 mb-4">
+      <div *ngFor="let movieActor of movie.movieActors" class="text-center mr-4 mb-4 actor-link" (click)="navigateToActorDetails(movieActor.actor.id)">
         <img [src]="movieActor.actor.profilePicUrl" alt="{{ movieActor.actor.firstName }} {{ movieActor.actor.lastName }}" class="mb-2" style="width: 120px;">
         <div>{{ movieActor.actor.firstName }} {{ movieActor.actor.lastName }}</div>
         <div class="text-muted"><small>{{ movieActor.role }}</small></div>

@@ -11,6 +11,7 @@ import {ErrorComponent} from "./pages/error/error.component";
 import {GenreSaveComponent} from "./pages/genre-save/genre-save.component";
 import {authGuard} from "./service/guard/auth.guard";
 import {MovieSaveComponent} from "./pages/movie-save/movie-save.component";
+import {ActorDetailsComponent} from "./pages/actor-details/actor-details.component";
 
 
 export const routes: Routes = [
@@ -54,6 +55,12 @@ export const routes: Routes = [
   {
     path: 'genre-save',
     component: GenreSaveComponent,
+    canActivate: [authGuard]
+  },
+
+  {
+    path: 'actor-details/:id',
+    component: ActorDetailsComponent,
     canActivate: [authGuard]
   },
 
