@@ -1,9 +1,11 @@
 package com.example.springmovie.service;
 
+import com.example.springmovie.dto.DetailedMovieDto;
 import com.example.springmovie.dto.GenreDto;
 import com.example.springmovie.dto.MovieDto;
 import com.example.springmovie.enums.ReleaseStatus;
 import com.example.springmovie.exception.MovieNotFoundException;
+import com.example.springmovie.mappers.DetailedMovieMapper;
 import com.example.springmovie.mappers.GenreMapper;
 import com.example.springmovie.mappers.MovieMapper;
 import com.example.springmovie.model.Genre;
@@ -32,12 +34,25 @@ public class MovieServiceImpl implements MovieService {
     private final S3FileService fileService;
 
     private final MovieMapper movieMapper;
+    // TODO: remove genre mapper from normal movieMapper, use detailedMapper
     private final GenreMapper genreMapper;
+    private final DetailedMovieMapper detailedMovieMapper;
 
     @Override
     public Page<MovieDto> findMoviesPaged(Pageable pageable) {
         log.debug("Find all movies with pagination");
         return movieRepository.findAll(pageable).map(movieMapper::toDto);
+    }
+
+    @Override
+    public DetailedMovieDto findMovieByIdDetailed(Long movieId) throws MovieNotFoundException {
+        log.debug("Find movieByIdDetailed");
+        Optional<Movie> movieOptional = movieRepository.findById(movieId);
+
+        if (movieOptional.isEmpty()) throw new MovieNotFoundException(" Movie not found");
+
+        Movie movie = movieOptional.get();
+        return detailedMovieMapper.toDto(movie);
     }
 
     @Override

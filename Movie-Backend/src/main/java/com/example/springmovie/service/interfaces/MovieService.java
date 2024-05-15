@@ -1,5 +1,6 @@
 package com.example.springmovie.service.interfaces;
 
+import com.example.springmovie.dto.DetailedMovieDto;
 import com.example.springmovie.dto.GenreDto;
 import com.example.springmovie.dto.MovieDto;
 import com.example.springmovie.enums.ReleaseStatus;
@@ -15,6 +16,8 @@ import java.util.Optional;
 public interface MovieService {
 
     Page<MovieDto> findMoviesPaged(Pageable pageable);
+
+    DetailedMovieDto findMovieByIdDetailed(Long movieId) throws MovieNotFoundException;
 
     List<MovieDto> findAllMoviesPaged();
 

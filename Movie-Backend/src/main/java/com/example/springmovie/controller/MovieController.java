@@ -1,5 +1,6 @@
 package com.example.springmovie.controller;
 
+import com.example.springmovie.dto.DetailedMovieDto;
 import com.example.springmovie.dto.GenreDto;
 import com.example.springmovie.dto.MovieDto;
 import com.example.springmovie.enums.ReleaseStatus;
@@ -34,9 +35,9 @@ public class MovieController {
 
     @GetMapping("/{movieId}")
     @Operation(summary = "Find a single movie using id", description = "Retrieve a single movie using an ID passed as a variable")
-    public ResponseEntity<MovieDto> findMovieById(@PathVariable Long movieId) throws MovieNotFoundException {
-        Optional<MovieDto> movieDto = movieService.findMovieById(movieId);
-        return movieDto.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<DetailedMovieDto> findMovieById(@PathVariable Long movieId) throws MovieNotFoundException {
+        DetailedMovieDto movieDto = movieService.findMovieByIdDetailed(movieId);
+        return ResponseEntity.ok().body(movieDto);
     }
 
     @GetMapping("status/{releaseStatus}")

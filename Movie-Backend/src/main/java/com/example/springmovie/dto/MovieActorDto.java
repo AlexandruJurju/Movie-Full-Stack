@@ -11,8 +11,9 @@ import java.io.Serializable;
  * DTO for {@link com.example.springmovie.model.MovieActor}
  */
 public record MovieActorDto(
-        Long id,
-        @NotNull @NotEmpty @NotBlank String role,
+        @NotNull Long id,
+        @NotNull ActorDto actor,
+        @NotNull @NotEmpty String role,
         @NotNull @PositiveOrZero Integer displayOrder,
-        @NotNull @NotEmpty @NotBlank String characterImageUrl) implements Serializable {
+        @NotNull @NotEmpty String characterImageUrl) implements Serializable {
 }
