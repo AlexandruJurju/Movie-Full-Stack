@@ -10,6 +10,7 @@ import {GenreEditComponent} from "./pages/genre-edit/genre-edit.component";
 import {ErrorComponent} from "./pages/error/error.component";
 import {GenreSaveComponent} from "./pages/genre-save/genre-save.component";
 import {authGuard} from "./service/guard/auth.guard";
+import {MovieSaveComponent} from "./pages/movie-save/movie-save.component";
 
 
 export const routes: Routes = [
@@ -33,6 +34,11 @@ export const routes: Routes = [
   {
     path: 'movie-edit/:id',
     component: MovieEditComponent,
+    canActivate: [authGuard]
+  },
+  {
+    path: 'movie-save',
+    component: MovieSaveComponent,
     canActivate: [authGuard]
   },
 

@@ -1,0 +1,23 @@
+<form #movieForm="ngForm" (ngSubmit)="onSubmit(movieForm)" class="container mt-4">
+  <div class="mb-3">
+    <label for="title" class="form-label">Title:</label>
+    <input type="text" id="title" name="title" ngModel class="form-control">
+  </div>
+  <div class="mb-3">
+    <label for="headline" class="form-label">Headline:</label>
+    <input type="text" id="headline" name="headline" ngModel class="form-control">
+  </div>
+  <div class="mb-3">
+    <label for="overview" class="form-label">Overview:</label>
+    <input type="text" id="overview" name="overview" ngModel class="form-control">
+  </div>
+  <div class="mb-3">
+    <label for="releaseDate" class="form-label">Release Date:</label>
+    <input type="date" id="releaseDate" name="releaseDate" ngModel class="form-control">
+  </div>
+  <div class="mb-3">
+    <label for="posterUrl" class="form-label">Poster Image URL:</label>
+    <input type="text" id="posterUrl" name="posterUrl" ngModel class="form-control">
+  </div>
+  <button type="submit" class="btn btn-primary">Upload Movie</button>
+</form>
