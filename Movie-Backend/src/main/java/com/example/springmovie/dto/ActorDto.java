@@ -14,6 +14,6 @@ public record ActorDto(
         @NotNull @NotEmpty String firstName,
         @NotNull @NotEmpty String lastName,
         LocalDate birthDate,
-        @NotNull @NotEmpty String profilePicUrl,
+        @NotNull @NotEmpty String profilePictureUrl,
         String biography) implements Serializable {
 }

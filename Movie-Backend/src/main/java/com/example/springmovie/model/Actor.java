@@ -34,8 +34,8 @@ public class Actor {
     @Column(name = "birth_date")
     private LocalDate birthDate;
 
-    @Column(name = "profile_pic_url")
-    private String profilePicUrl;
+    @Column(name = "profile_picture_url")
+    private String profilePictureUrl;
 
     @Column(name = "biography", columnDefinition = "TEXT")
     private String biography;
